@@ -40,11 +40,6 @@
 #undef BUFINFO
 
 /*
- * Support EGD (Entropy Gathering Daemon)
- */
-#undef USE_EGD
-
-/*
  * Remove line trailing spaces in html buffer.
  */
 #undef ENABLE_REMOVE_TRAILINGSPACES

@@ -297,11 +297,6 @@
     <DD>カレントなバッファの URL を ~/.w3m/bufinfo ファイルに書き出すようにします。<BR>
         既定値は <B>#define</B> です。
     </DD>
-<DT>USE_EGD
-    <DD>EGD(Entropy Gathering Daemon)に対応し乱数のシードを得ます。<BR>
-        SSL を組み込んだ w3m の場合に有効です。<BR>
-        既定値は <B>#undef</B> です。
-    </DD>
 <DT>EMACS_LIKE_LINEEDIT
     <DD>最下行での入力時、Emacs ライクなキー割り当てになります。<BR>
         既定値は <B>#undef</B> です。
