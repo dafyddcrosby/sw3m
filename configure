@@ -8209,7 +8209,7 @@ if test "${ac_cv_lib_gc_GC_init+set}" = set; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lgc  $LIBS"
+LIBS="-lgc -pthread $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -8240,7 +8240,7 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_gc_GC_init" >&5
 $as_echo "$ac_cv_lib_gc_GC_init" >&6; }
 if test "x$ac_cv_lib_gc_GC_init" = x""yes; then :
-  LIBGC="-lgc"
+  LIBGC="-lgc -pthread"
 fi
 
  if test x"$ac_cv_lib_gc_GC_init" = xno; then
@@ -8261,7 +8261,7 @@ if test "${ac_cv_lib_gc_GC_init+set}" = set; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lgc  $LIBS"
+LIBS="-lgc -pthread $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -8292,7 +8292,7 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_gc_GC_init" >&5
 $as_echo "$ac_cv_lib_gc_GC_init" >&6; }
 if test "x$ac_cv_lib_gc_GC_init" = x""yes; then :
-  gclibdir="$dir/lib"; LIBGC="-L$dir/lib -lgc"; break
+  gclibdir="$dir/lib"; LIBGC="-L$dir/lib -lgc -pthread"; break
 fi
 
       LDFLAGS="$ldflags"
