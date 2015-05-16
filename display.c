@@ -19,15 +19,15 @@
 #define EFFECT_MARK_END           effect_mark_end()
 
 /*-
- * color: 
- *     0  black 
- *     1  red 
- *     2  green 
+ * color:
+ *     0  black
+ *     1  red
+ *     2  green
  *     3  yellow
- *     4  blue 
- *     5  magenta 
- *     6  cyan 
- *     7  white 
+ *     4  blue
+ *     5  magenta
+ *     6  cyan
+ *     7  white
  */
 
 #define EFFECT_ANCHOR_START_C       setfcolor(anchor_color)
@@ -85,11 +85,6 @@ EFFECT_ACTIVE_START
 {
     if (useColor) {
 	if (useActiveColor) {
-#ifdef __EMX__
-	    if(!getenv("WINDOWID"))
-		setfcolor(active_color);
-	    else
-#endif
 	    {
 		EFFECT_ACTIVE_START_C;
 	    }
@@ -177,7 +172,7 @@ fmTerm(void)
 }
 
 
-/* 
+/*
  * Initialize routine.
  */
 void
@@ -195,7 +190,7 @@ fmInit(void)
     fmInitialized = TRUE;
 }
 
-/* 
+/*
  * Display some lines.
  */
 static Line *cline = NULL;
@@ -1184,7 +1179,7 @@ record_err_message(char *s)
     }
 }
 
-/* 
+/*
  * List of error messages
  */
 Buffer *
@@ -1444,7 +1439,7 @@ cursorHome(Buffer *buf)
 }
 
 
-/* 
+/*
  * Arrange line,column and cursor position according to current line and
  * current position.
  */

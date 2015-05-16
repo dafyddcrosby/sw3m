@@ -160,17 +160,17 @@ static struct compression_decoder {
     char *encodings[4];
 } compression_decoders[] = {
     { CMP_COMPRESS, ".gz", "application/x-gzip",
-      0, GUNZIP_CMDNAME, GUNZIP_NAME, "gzip", 
-      {"gzip", "x-gzip", NULL} }, 
+      0, GUNZIP_CMDNAME, GUNZIP_NAME, "gzip",
+      {"gzip", "x-gzip", NULL} },
     { CMP_COMPRESS, ".Z", "application/x-compress",
       0, GUNZIP_CMDNAME, GUNZIP_NAME, "compress",
-      {"compress", "x-compress", NULL} }, 
+      {"compress", "x-compress", NULL} },
     { CMP_BZIP2, ".bz2", "application/x-bzip",
       0, BUNZIP2_CMDNAME, BUNZIP2_NAME, "bzip, bzip2",
-      {"x-bzip", "bzip", "bzip2", NULL} }, 
+      {"x-bzip", "bzip", "bzip2", NULL} },
     { CMP_DEFLATE, ".deflate", "application/x-deflate",
       1, INFLATE_CMDNAME, INFLATE_NAME, "deflate",
-      {"deflate", "x-deflate", NULL} }, 
+      {"deflate", "x-deflate", NULL} },
     { CMP_NOCOMPRESS, NULL, NULL, 0, NULL, NULL, NULL, {NULL}},
 };
 /* *INDENT-ON* */
@@ -460,7 +460,7 @@ acceptableEncoding()
     return encodings->ptr;
 }
 
-/* 
+/*
  * convert line
  */
 #ifdef USE_M17N
@@ -484,7 +484,7 @@ convertLine0(URLFile *uf, Str line, int mode)
     return line;
 }
 
-/* 
+/*
  * loadFile: load file to buffer
  */
 Buffer *
@@ -1193,7 +1193,7 @@ AuthBasicCred(struct http_auth *ha, Str uname, Str pw, ParsedURL *pu,
 #include <openssl/md5.h>
 
 /* RFC2617: 3.2.2 The Authorization Request Header
- * 
+ *
  * credentials      = "Digest" digest-response
  * digest-response  = 1#( username | realm | nonce | digest-uri
  *                    | response | [ algorithm ] | [cnonce] |
@@ -1430,7 +1430,7 @@ struct auth_param basic_auth_param[] = {
 #ifdef USE_DIGEST_AUTH
 /* RFC2617: 3.2.1 The WWW-Authenticate Response Header
  * challenge        =  "Digest" digest-challenge
- * 
+ *
  * digest-challenge  = 1#( realm | [ domain ] | nonce |
  *                       [ opaque ] |[ stale ] | [ algorithm ] |
  *                        [ qop-options ] | [auth-param] )
@@ -1544,7 +1544,7 @@ getAuthCookie(struct http_auth *hauth, char *auth_header,
 			 auth_header_len);
     if (a_found) {
 	/* This means that *-Authenticate: header is received after
-	 * Authorization: header is sent to the server. 
+	 * Authorization: header is sent to the server.
 	 */
 	if (fmInitialized) {
 	    message("Wrong username or password", 0, 0);
@@ -1560,7 +1560,7 @@ getAuthCookie(struct http_auth *hauth, char *auth_header,
     *uname = NULL;
     *pwd = NULL;
 
-    if (!a_found && find_auth_user_passwd(pu, realm, (Str*)uname, (Str*)pwd, 
+    if (!a_found && find_auth_user_passwd(pu, realm, (Str*)uname, (Str*)pwd,
 					  proxy)) {
 	/* found username & password in passwd file */ ;
     }
@@ -1599,7 +1599,7 @@ getAuthCookie(struct http_auth *hauth, char *auth_header,
 			realm);
 		exit(1);
 	    }
-	    
+
 	    /* FIXME: gettextize? */
 	    printf(proxy ? "Proxy Username for %s: " : "Username for %s: ",
 		   realm);
@@ -1694,7 +1694,7 @@ getLinkNumberStr(int correction)
     return Sprintf("[%d]", cur_hseq + correction);
 }
 
-/* 
+/*
  * loadGeneralFile: load file to buffer
  */
 Buffer *
@@ -1883,7 +1883,7 @@ loadGeneralFile(char *path, ParsedURL *volatile current, char *referer,
 	    t = "text/plain";
 	if (add_auth_cookie_flag && realm && uname && pwd) {
 	    /* If authorization is required and passed */
-	    add_auth_user_passwd(&pu, qstr_unquote(realm)->ptr, uname, pwd, 
+	    add_auth_user_passwd(&pu, qstr_unquote(realm)->ptr, uname, pwd,
 				  0);
 	    add_auth_cookie_flag = 0;
 	}
@@ -1916,7 +1916,7 @@ loadGeneralFile(char *path, ParsedURL *volatile current, char *referer,
 		&& (realm = get_auth_param(hauth.param, "realm")) != NULL) {
 		auth_pu = schemeToProxy(pu.scheme);
 		getAuthCookie(&hauth, "Proxy-Authorization:",
-			      extra_header, auth_pu, &hr, request, 
+			      extra_header, auth_pu, &hr, request,
 			      &uname, &pwd);
 		if (uname == NULL) {
 		    /* abort */
@@ -2074,7 +2074,7 @@ loadGeneralFile(char *path, ParsedURL *volatile current, char *referer,
     /* XXX: can we use guess_type to give the type to loadHTMLstream
      *      to support default utf8 encoding for XHTML here? */
     f.guess_type = t;
-    
+
   page_loaded:
     if (page) {
 	FILE *src;
@@ -3591,10 +3591,10 @@ process_input(struct parsed_tag *tag)
 	case FORM_INPUT_RESET:
 	    q = "RESET";
 	    break;
-	    /* if no VALUE attribute is specified in 
-	     * <INPUT TYPE=CHECKBOX> tag, then the value "on" is used 
-	     * as a default value. It is not a part of HTML4.0 
-	     * specification, but an imitation of Netscape behaviour. 
+	    /* if no VALUE attribute is specified in
+	     * <INPUT TYPE=CHECKBOX> tag, then the value "on" is used
+	     * as a default value. It is not a part of HTML4.0
+	     * specification, but an imitation of Netscape behaviour.
 	     */
 	case FORM_INPUT_CHECKBOX:
 	    q = "on";
@@ -4202,7 +4202,7 @@ process_idattr(struct readbuffer *obuf, int cmd, struct parsed_tag *tag)
     char *id = NULL, *framename = NULL;
     Str idtag = NULL;
 
-    /* 
+    /*
      * HTML_TABLE is handled by the other process.
      */
     if (cmd == HTML_TABLE)
@@ -4291,7 +4291,7 @@ getMetaRefreshParam(char *q, Str *refresh_uri)
 		r++;
 	    s_tmp = Strnew_charp_n(q, r - q);
 
-	    if (s_tmp->ptr[s_tmp->length - 1] == '\"') {	/* " 
+	    if (s_tmp->ptr[s_tmp->length - 1] == '\"') {	/* "
 								 */
 		s_tmp->length--;
 		s_tmp->ptr[s_tmp->length] = '\0';
@@ -5433,7 +5433,7 @@ HTMLlineproc2body(Buffer *buf, Str (*feed) (), int llimit)
 #endif
 	    }
 	    else if (*str == '&') {
-		/* 
+		/*
 		 * & escape processing
 		 */
 		p = getescapecmd(&str);
@@ -6160,7 +6160,7 @@ HTMLlineproc0(char *line, struct html_feed_environ *h_env, int internal)
 	    obuf->end_tag;
 
 	if (*line == '<' || obuf->status != R_ST_NORMAL) {
-	    /* 
+	    /*
 	     * Tag processing
 	     */
 	    if (obuf->status == R_ST_EOL)
@@ -6240,7 +6240,7 @@ HTMLlineproc0(char *line, struct html_feed_environ *h_env, int internal)
 
       proc_normal:
 	if (obuf->table_level >= 0) {
-	    /* 
+	    /*
 	     * within table: in <table>..</table>, all input tokens
 	     * are fed to the table renderer, and then the renderer
 	     * makes HTML output.
@@ -6582,7 +6582,7 @@ addnewline(Buffer *buf, char *line, Lineprop *prop, Linecolor *color, int pos,
     }
 }
 
-/* 
+/*
  * loadHTMLBuffer: read file and make new buffer
  */
 Buffer *
@@ -7086,7 +7086,7 @@ loadHTMLstream(URLFile *f, Buffer *newBuf, FILE * src, int internal)
     HTMLlineproc2(newBuf, htmlenv1.buf);
 }
 
-/* 
+/*
  * loadHTMLString: read string and make new buffer
  */
 Buffer *
@@ -7127,7 +7127,7 @@ loadHTMLString(Str page)
 
 #ifdef USE_GOPHER
 
-/* 
+/*
  * loadGopherDir: get gopher directory
  */
 Str
@@ -7219,7 +7219,7 @@ loadGopherDir(URLFile *uf, ParsedURL *pu, wc_ces * charset)
 }
 #endif				/* USE_GOPHER */
 
-/* 
+/*
  * loadBuffer: read file and make new buffer
  */
 Buffer *
@@ -7426,7 +7426,7 @@ conv_symbol(Line *l)
 	return Strnew_charp_n(l->lineBuf, l->len);
 }
 
-/* 
+/*
  * saveBuffer: write buffer to file
  */
 static void
@@ -7497,7 +7497,7 @@ loadcmdout(char *cmd,
     return buf;
 }
 
-/* 
+/*
  * getshell: execute shell command and get the result into a buffer
  */
 Buffer *
@@ -7514,7 +7514,7 @@ getshell(char *cmd)
     return buf;
 }
 
-/* 
+/*
  * getpipe: execute shell command and connect pipe to the buffer
  */
 Buffer *
@@ -7540,7 +7540,7 @@ getpipe(char *cmd)
     return buf;
 }
 
-/* 
+/*
  * Open pager buffer
  */
 Buffer *
@@ -7849,12 +7849,10 @@ doExternal(URLFile uf, char *path, char *type, Buffer **bufp,
     if (header)
 	header = conv_to_system(header);
     command = unquote_mailcap(mcap->viewer, type, tmpf->ptr, header, &mc_stat);
-#ifndef __EMX__
     if (!(mc_stat & MCSTAT_REPNAME)) {
 	Str tmp = Sprintf("(%s) < %s", command->ptr, shell_quote(tmpf->ptr));
 	command = tmp;
     }
-#endif
 
 #ifdef HAVE_SETPGRP
     if (!(mcap->flags & (MAILCAP_HTMLOUTPUT | MAILCAP_COPIOUSOUTPUT)) &&
@@ -8098,7 +8096,7 @@ doFileSave(URLFile uf, char *defstr)
     char *p, *q;
     pid_t pid;
     char *lock;
-    char *tmpf = NULL; 
+    char *tmpf = NULL;
 #if !(defined(HAVE_SYMLINK) && defined(HAVE_LSTAT))
     FILE *f;
 #endif

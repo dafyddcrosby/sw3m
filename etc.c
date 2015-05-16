@@ -230,7 +230,7 @@ parse_ansi_color(char **str, Lineprop *effect, Linecolor *color)
     return 1;
 }
 #endif
-/* 
+/*
  * Check character type
  */
 
@@ -943,7 +943,7 @@ add_auth_pass_entry(const struct auth_pass *ent, int netrc, int override)
 	if (override) {
 	    newent->next = passwords;
 	    passwords = newent;
-	} 
+	}
 	else {
 	    if (passwords == NULL)
 		passwords = newent;
@@ -960,7 +960,7 @@ add_auth_pass_entry(const struct auth_pass *ent, int netrc, int override)
 }
 
 static struct auth_pass *
-find_auth_pass_entry(char *host, int port, char *realm, char *uname, 
+find_auth_pass_entry(char *host, int port, char *realm, char *uname,
 		     int is_proxy)
 {
     struct auth_pass *ent;
@@ -998,7 +998,7 @@ find_auth_user_passwd(ParsedURL *pu, char *realm,
 }
 
 void
-add_auth_user_passwd(ParsedURL *pu, char *realm, Str uname, Str pwd, 
+add_auth_user_passwd(ParsedURL *pu, char *realm, Str uname, Str pwd,
 		     int is_proxy)
 {
     struct auth_pass ent;
@@ -1014,7 +1014,7 @@ add_auth_user_passwd(ParsedURL *pu, char *realm, Str uname, Str pwd,
 }
 
 void
-invalidate_auth_user_passwd(ParsedURL *pu, char *realm, Str uname, Str pwd, 
+invalidate_auth_user_passwd(ParsedURL *pu, char *realm, Str uname, Str pwd,
 			    int is_proxy)
 {
     struct auth_pass *ent;
@@ -1445,17 +1445,11 @@ mySystem(char *command, int background)
 {
 #ifndef __MINGW32_VERSION
     if (background) {
-#ifndef __EMX__
 	flush_tty();
 	if (!fork()) {
 	    setup_child(FALSE, 0, -1);
 	    myExec(command);
 	}
-#else
-	Str cmd = Strnew_charp("start /f ");
-	Strcat_charp(cmd, command);
-	system(cmd->ptr);
-#endif
     }
     else
 #endif /* __MINGW32_VERSION */

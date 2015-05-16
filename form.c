@@ -1,5 +1,5 @@
 /* $Id: form.c,v 1.35 2010/07/18 13:48:48 htrb Exp $ */
-/* 
+/*
  * HTML forms
  */
 #include "fm.h"
@@ -20,7 +20,7 @@ struct {
     char *action;
     void (*rout)(struct parsed_tagarg *);
 } internal_action[] = {
-    {"map", follow_map}, 
+    {"map", follow_map},
     {"option", panel_set_option},
 #ifdef USE_COOKIE
     {"cookie", set_cookie_flag},
@@ -82,7 +82,7 @@ newFormList(char *action, char *method, char *charset, char *enctype,
     return l;
 }
 
-/* 
+/*
  * add <input> element to form_list
  */
 struct form_item_list *
@@ -543,12 +543,12 @@ form_fputs_decode(Str s, FILE * f)
 
     for (p = s->ptr; *p;) {
 	switch (*p) {
-#if !defined( __CYGWIN__ ) && !defined( __EMX__ )
+#if !defined( __CYGWIN__ )
 	case '\r':
 	    if (*(p + 1) == '\n')
 		p++;
 	    /* continue to the next label */
-#endif				/* !defined( __CYGWIN__ ) && !defined( __EMX__ 
+#endif				/* !defined( __CYGWIN__ )
 				 * ) */
 	default:
 	    Strcat_char(z, *p);

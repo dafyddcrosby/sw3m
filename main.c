@@ -265,12 +265,6 @@ fusage(FILE * f, int err)
     exit(err);
 }
 
-#ifdef USE_M17N
-#ifdef __EMX__
-static char *getCodePage(void);
-#endif
-#endif
-
 static GC_warn_proc orig_GC_warn_proc = NULL;
 #define GC_WARN_KEEP_MAX (20)
 
@@ -393,9 +387,6 @@ main(int argc, char **argv, char **envp)
 #ifdef USE_M17N
     char *Locale = NULL;
     wc_uint8 auto_detect;
-#ifdef __EMX__
-    wc_ces CodePage;
-#endif
 #endif
     GC_INIT();
 #if defined(ENABLE_NLS) || (defined(USE_M17N) && defined(HAVE_LANGINFO_CODESET))
@@ -448,11 +439,6 @@ main(int argc, char **argv, char **envp)
 	DocumentCharset = wc_guess_locale_charset(Locale, DocumentCharset);
 	SystemCharset = wc_guess_locale_charset(Locale, SystemCharset);
     }
-#ifdef __EMX__
-    CodePage = wc_guess_charset(getCodePage(), 0);
-    if (CodePage)
-	DisplayCharset = DocumentCharset = SystemCharset = CodePage;
-#endif
 #endif
 
     /* initializations */
@@ -817,7 +803,7 @@ main(int argc, char **argv, char **envp)
 #ifdef USE_M17N
     wtf_init(DocumentCharset, DisplayCharset);
     /*  if (w3m_dump)
-     *    WcOption.pre_conv = WC_TRUE; 
+     *    WcOption.pre_conv = WC_TRUE;
      */
 #endif
 
@@ -1290,17 +1276,10 @@ DEFUN(nulcmd, NOTHING NULL @@@, "Do nothing")
 {				/* do nothing */
 }
 
-#ifdef __EMX__
-DEFUN(pcmap, PCMAP, "pcmap")
-{
-    w3mFuncList[(int)PcKeymap[(int)getch()]].func();
-}
-#else				/* not __EMX__ */
 void
 pcmap(void)
 {
 }
-#endif
 
 static void
 escKeyProc(int c, int esc, unsigned char *map)
@@ -1487,7 +1466,7 @@ SigPipe(SIGNAL_ARG)
 }
 #endif
 
-/* 
+/*
  * Command functions: These functions are called with a keystroke.
  */
 
@@ -2252,9 +2231,9 @@ DEFUN(movR1, MOVE_RIGHT1,
 }
 
 /* movLW, movRW */
-/* 
+/*
  * From: Takashi Nishimoto <g96p0935@mse.waseda.ac.jp> Date: Mon, 14 Jun
- * 1999 09:29:56 +0900 
+ * 1999 09:29:56 +0900
  */
 #if defined(USE_M17N) && defined(USE_UNICODE)
 #define nextChar(s, l)	do { (s)++; } while ((s) < (l)->len && (l)->propBuf[s] & PC_WCHAR2)
@@ -2271,7 +2250,7 @@ is_wordchar(wc_uint32 c)
 {
     return wc_is_ucs_alnum(c);
 }
-#else 
+#else
 #define nextChar(s, l)	(s)++
 #define prevChar(s, l)	(s)--
 #define getChar(p)	((int)*(p))
@@ -2942,7 +2921,7 @@ handleMailto(char *url)
 	return 1;
     }
 #endif
-	
+
     /* invoke external mailer */
     if (MailtoOptions == MAILTO_OPTIONS_USE_MAILTO_URL) {
 	to = Strnew_charp(html_unquote(url));
@@ -5721,20 +5700,6 @@ searchKeyNum(void)
 	n = atoi(d);
     return n * PREC_NUM;
 }
-
-#ifdef __EMX__
-#ifdef USE_M17N
-static char *
-getCodePage(void)
-{
-    unsigned long CpList[8], CpSize;
-
-    if (!getenv("WINDOWID") && !DosQueryCp(sizeof(CpList), CpList, &CpSize))
-	return Sprintf("CP%d", *CpList)->ptr;
-    return NULL;
-}
-#endif
-#endif
 
 void
 deleteFiles()

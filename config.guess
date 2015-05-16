@@ -1013,11 +1013,6 @@ EOF
         # Use sysv4.2uw... so that sysv4* matches it.
 	echo ${UNAME_MACHINE}-pc-sysv4.2uw${UNAME_VERSION}
 	exit 0 ;;
-    i*86:OS/2:*:*)
-	# If we were able to find `uname', then EMX Unix compatibility
-	# is probably installed.
-	echo ${UNAME_MACHINE}-pc-os2-emx
-	exit 0 ;;
     i*86:XTS-300:*:STOP)
 	echo ${UNAME_MACHINE}-unknown-stop
 	exit 0 ;;

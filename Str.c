@@ -1,11 +1,11 @@
 /* $Id: Str.c,v 1.8 2002/12/24 17:20:46 ukai Exp $ */
-/* 
+/*
  * String manipulation library for Boehm GC
  *
  * (C) Copyright 1998-1999 by Akinori Ito
  *
- * This software may be redistributed freely for this purpose, in full 
- * or in part, provided that this entire copyright notice is included 
+ * This software may be redistributed freely for this purpose, in full
+ * or in part, provided that this entire copyright notice is included
  * on any copies of this software and applications and derivations thereof.
  *
  * This software is provided on an "as is" basis, without warranty of any
@@ -18,9 +18,6 @@
 #include <gc.h>
 #include <stdarg.h>
 #include <string.h>
-#ifdef __EMX__			/* or include "fm.h" for HAVE_BCOPY? */
-#include <strings.h>
-#endif
 #include "Str.h"
 #include "myctype.h"
 

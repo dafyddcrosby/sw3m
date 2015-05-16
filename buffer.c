@@ -11,14 +11,10 @@ extern int do_getch();
 #endif				/* USE_GPM */
 #endif				/* USE_MOUSE */
 
-#ifdef __EMX__
-#include <sys/kbdscan.h>
-#include <strings.h>
-#endif
 char *NullLine = "";
 Lineprop NullProp[] = { 0 };
 
-/* 
+/*
  * Buffer creation
  */
 Buffer *
@@ -50,7 +46,7 @@ newBuffer(int width)
     return n;
 }
 
-/* 
+/*
  * Create null buffer
  */
 Buffer *
@@ -63,7 +59,7 @@ nullBuffer(void)
     return b;
 }
 
-/* 
+/*
  * clearBuffer: clear buffer content
  */
 void
@@ -73,7 +69,7 @@ clearBuffer(Buffer *buf)
     buf->allLine = 0;
 }
 
-/* 
+/*
  * discardBuffer: free buffer structure
  */
 
@@ -114,7 +110,7 @@ discardBuffer(Buffer *buf)
     }
 }
 
-/* 
+/*
  * namedBuffer: Select buffer which have specified name
  */
 Buffer *
@@ -133,7 +129,7 @@ namedBuffer(Buffer *first, char *name)
     return NULL;
 }
 
-/* 
+/*
  * deleteBuffer: delete buffer
  */
 Buffer *
@@ -154,7 +150,7 @@ deleteBuffer(Buffer *first, Buffer *delbuf)
     return first;
 }
 
-/* 
+/*
  * replaceBuffer: replace buffer
  */
 Buffer *
@@ -231,7 +227,7 @@ writeBufferName(Buffer *buf, int n)
 }
 
 
-/* 
+/*
  * gotoLine: go to line number
  */
 void
@@ -276,7 +272,7 @@ gotoLine(Buffer *buf, int n)
     }
 }
 
-/* 
+/*
  * gotoRealLine: go to real line number
  */
 void
@@ -364,7 +360,7 @@ listBuffer(Buffer *top, Buffer *current)
     message("Buffer selection mode: SPC for select / D for delete buffer", 0,
 	    0);
     standend();
-    /* 
+    /*
      * move(LASTLINE, COLS - 1); */
     move(c, 0);
     refresh();
@@ -372,7 +368,7 @@ listBuffer(Buffer *top, Buffer *current)
 }
 
 
-/* 
+/*
  * Select buffer visually
  */
 Buffer *
@@ -380,7 +376,7 @@ selectBuffer(Buffer *firstbuf, Buffer *currentbuf, char *selectchar)
 {
     int i, cpoint,		/* Current Buffer Number */
      spoint,			/* Current Line on Screen */
-     maxbuf, sclimit = LASTLINE;	/* Upper limit of line * number in 
+     maxbuf, sclimit = LASTLINE;	/* Upper limit of line * number in
 					 * the * screen */
     Buffer *buf, *topbuf;
     char c;
@@ -422,22 +418,6 @@ selectBuffer(Buffer *firstbuf, Buffer *currentbuf, char *selectchar)
 		}
 	    }
 	}
-#ifdef __EMX__
-	else if (!c)
-	    switch (getch()) {
-	    case K_UP:
-		c = 'k';
-		break;
-	    case K_DOWN:
-		c = 'j';
-		break;
-	    case K_RIGHT:
-		c = ' ';
-		break;
-	    case K_LEFT:
-		c = 'B';
-	    }
-#endif
 	switch (c) {
 	case CTRL_N:
 	case 'j':
@@ -489,7 +469,7 @@ selectBuffer(Buffer *firstbuf, Buffer *currentbuf, char *selectchar)
 	    *selectchar = c;
 	    return currentbuf;
 	}
-	/* 
+	/*
 	 * move(LASTLINE, COLS - 1);
 	 */
 	move(spoint, 0);
@@ -497,7 +477,7 @@ selectBuffer(Buffer *firstbuf, Buffer *currentbuf, char *selectchar)
     }
 }
 
-/* 
+/*
  * Reshape HTML buffer
  */
 void

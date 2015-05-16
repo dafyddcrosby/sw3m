@@ -1,9 +1,9 @@
 /* $Id: fm.h,v 1.149 2010/08/20 09:47:09 htrb Exp $ */
-/* 
+/*
  * w3m: WWW wo Miru utility
- * 
+ *
  * by A.ITO  Feb. 1995
- * 
+ *
  * You can use,copy,modify and distribute this program without any permission.
  */
 
@@ -81,9 +81,6 @@ typedef int wc_ces;	/* XXX: not used */
 void bcopy(const void *, void *, int);
 void bzero(void *, int);
 #endif				/* HAVE_BCOPY */
-#ifdef __EMX__
-#include <strings.h>		/* for bzero() and bcopy() */
-#endif
 
 #ifdef MAINPROGRAM
 #define global
@@ -95,7 +92,7 @@ void bzero(void *, int);
 
 #define DEFUN(funcname, macroname, docstring) void funcname(void)
 
-/* 
+/*
  * Constants.
  */
 #define LINELEN	256		/* Initial line length */
@@ -134,7 +131,7 @@ void bzero(void *, int);
 #define DICTBUFFERNAME "*dictionary*"
 #endif				/* USE_DICT */
 
-/* 
+/*
  * Line Property
  */
 
@@ -264,7 +261,7 @@ extern int REV_LB[];
 #define IMG_FLAG_ERROR		2
 #define IMG_FLAG_DONT_REMOVE	4
 
-/* 
+/*
  * Macros.
  */
 
@@ -277,13 +274,6 @@ extern int REV_LB[];
 #define inputChar(p)		inputLine(p,"",IN_CHAR)
 
 #define free(x)  GC_free(x)	/* let GC do it. */
-
-#ifdef __EMX__
-#define HAVE_STRCASECMP
-#define strcasecmp	stricmp
-#define strncasecmp	strnicmp
-#endif				/* __EMX__ */
-
 
 #define SKIP_BLANKS(p) {while(*(p)&&IS_SPACE(*(p)))(p)++;}
 #define SKIP_NON_BLANKS(p) {while(*(p)&&!IS_SPACE(*(p)))(p)++;}
@@ -299,7 +289,7 @@ extern int REV_LB[];
 #define EOL(l) (&(l)->ptr[(l)->length])
 #define IS_EOL(p,l) ((p)==&(l)->ptr[(l)->length])
 
-/* 
+/*
  * Types.
  */
 
@@ -778,7 +768,7 @@ typedef struct http_request {
 
 #define set_no_proxy(domains) (NO_proxy_domains=make_domain_list(domains))
 
-/* 
+/*
  * Globals.
  */
 
@@ -824,9 +814,6 @@ extern unsigned char GlobalKeymap[];
 extern unsigned char EscKeymap[];
 extern unsigned char EscBKeymap[];
 extern unsigned char EscDKeymap[];
-#ifdef __EMX__
-extern unsigned char PcKeymap[];
-#endif
 extern FuncList w3mFuncList[];
 
 global char *HTTP_proxy init(NULL);
@@ -1197,7 +1184,7 @@ typedef struct _AlarmEvent {
 } AlarmEvent;
 #endif
 
-/* 
+/*
  * Externals
  */
 

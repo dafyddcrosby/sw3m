@@ -1,5 +1,5 @@
 /* $Id: terms.c,v 1.63 2010/08/20 09:34:47 htrb Exp $ */
-/* 
+/*
  * An original curses library for EUC-kanji by Akinori ITO,     December 1989
  * revised by Akinori ITO, January 1995
  */
@@ -50,11 +50,6 @@ static int tty;
 #include "terms.h"
 #include "fm.h"
 #include "myctype.h"
-
-#ifdef __EMX__
-#define INCL_DOSNLS
-#include <os2.h>
-#endif				/* __EMX__ */
 
 #if defined(__CYGWIN__)
 #include <windows.h>
@@ -790,22 +785,7 @@ setlinescols(void)
 {
     char *p;
     int i;
-#ifdef __EMX__
-    {
-	int s[2];
-	_scrsize(s);
-	COLS = s[0];
-	LINES = s[1];
-
-	if (getenv("WINDOWID")) {
-	    FILE *fd = popen("scrsize", "rt");
-	    if (fd) {
-		fscanf(fd, "%i %i", &COLS, &LINES);
-		pclose(fd);
-	    }
-	}
-    }
-#elif defined(HAVE_TERMIOS_H) && defined(TIOCGWINSZ)
+#if defined(HAVE_TERMIOS_H) && defined(TIOCGWINSZ)
     struct winsize wins;
 
     i = ioctl(tty, TIOCGWINSZ, &wins);
@@ -866,7 +846,7 @@ setupscreen(void)
     clear();
 }
 
-/* 
+/*
  * Screen initialize
  */
 int
@@ -1337,7 +1317,7 @@ refresh(void)
 		if (pr[col] & S_EOL)
 		    break;
 
-		/* 
+		/*
 		 * some terminal emulators do linefeed when a
 		 * character is put on COLS-th column. this behavior
 		 * is different from one of vt100, but such terminal
@@ -1819,14 +1799,7 @@ void
 term_cooked(void)
 #ifndef HAVE_SGTTY_H
 {
-#ifdef __EMX__
-    /* On XFree86/OS2, some scrambled characters
-     * will appear when asserting IEXTEN flag.
-     */
-    ttymode_set((TTY_MODE) & ~IEXTEN, 0);
-#else
     ttymode_set(TTY_MODE, 0);
-#endif
 #ifdef HAVE_TERMIOS_H
     set_cc(VMIN, 4);
 #else				/* not HAVE_TERMIOS_H */
@@ -2218,11 +2191,11 @@ touch_cursor()
 #ifdef USE_M17N
     for (i = CurColumn; i >= 0; i--) {
 	touch_column(i);
-	if (CHMODE(ScreenImage[CurLine]->lineprop[i]) != C_WCHAR2) 
+	if (CHMODE(ScreenImage[CurLine]->lineprop[i]) != C_WCHAR2)
 	    break;
     }
     for (i = CurColumn + 1; i < COLS; i++) {
-	if (CHMODE(ScreenImage[CurLine]->lineprop[i]) != C_WCHAR2) 
+	if (CHMODE(ScreenImage[CurLine]->lineprop[i]) != C_WCHAR2)
 	    break;
 	touch_column(i);
     }
