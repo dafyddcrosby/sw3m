@@ -525,26 +525,6 @@ int main ()
           return 1;
       }
   }
-#if 0 /* This bug could be worked around by the caller.  */
-  /* Test against HP-UX 11.11 bug: Positive return value instead of 0.  */
-  {
-    iconv_t cd_88591_to_utf8 = iconv_open ("utf8", "iso88591");
-    if (cd_88591_to_utf8 != (iconv_t)(-1))
-      {
-        static const char input[] = "\304rger mit b\366sen B\374bchen ohne Augenma\337";
-        char buf[50];
-        const char *inptr = input;
-        size_t inbytesleft = strlen (input);
-        char *outptr = buf;
-        size_t outbytesleft = sizeof (buf);
-        size_t res = iconv (cd_88591_to_utf8,
-                            (char **) &inptr, &inbytesleft,
-                            &outptr, &outbytesleft);
-        if ((int)res > 0)
-          return 1;
-      }
-  }
-#endif
   /* Test against HP-UX 11.11 bug: No converter from EUC-JP to UTF-8 is
      provided.  */
   if (/* Try standardized names.  */

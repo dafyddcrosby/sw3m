@@ -201,9 +201,6 @@ extern char *tgetstr(char *, char **);
 extern char *tgoto(char *, int, int);
 extern int tputs(char *, int, int (*)(char));
 void clear(), wrap(), touch_line(), touch_column(int);
-#if 0
-void need_clrtoeol(void);
-#endif
 void clrtoeol(void);		/* conflicts with curs_clear(3)? */
 
 static int write1(char);
@@ -1272,24 +1269,6 @@ rscroll(int n)
 }
 #endif
 
-#if 0
-void
-need_clrtoeol(void)
-{
-    /* Clear to the end of line as the need arises */
-    l_prop *lprop = ScreenImage[CurLine]->lineprop;
-
-    if (lprop[CurColumn] & S_EOL)
-	return;
-
-    if (!(ScreenImage[CurLine]->isdirty & (L_NEED_CE | L_CLRTOEOL)) ||
-	ScreenImage[CurLine]->eol > CurColumn)
-	ScreenImage[CurLine]->eol = CurColumn;
-
-    ScreenImage[CurLine]->isdirty |= L_NEED_CE;
-}
-#endif				/* 0 */
-
 /* XXX: conflicts with curses's clrtoeol(3) ? */
 void
 clrtoeol(void)
@@ -1373,17 +1352,6 @@ clrtobotx(void)
 {
     clrtobot_eol(clrtoeolx);
 }
-
-#if 0
-void
-no_clrtoeol(void)
-{
-    int i;
-    l_prop *lprop = ScreenImage[CurLine]->lineprop;
-
-    ScreenImage[CurLine]->isdirty &= ~L_CLRTOEOL;
-}
-#endif				/* 0 */
 
 void
 addstr(char *s)

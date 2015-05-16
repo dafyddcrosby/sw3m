@@ -336,9 +336,6 @@ frame_download_source(struct frame_body *b, ParsedURL *currentURL,
     parseURL2(b->url, &url, currentURL);
     switch (url.scheme) {
     case SCM_LOCAL:
-#if 0
-	b->source = url.real_file;
-#endif
 	b->flags = 0;
     default:
 	is_redisplay = TRUE;
@@ -891,7 +888,7 @@ renderFrame(Buffer *Cbuf, int force_reload)
     f = fopen(tmp->ptr, "w");
     if (f == NULL)
 	return NULL;
-    /* 
+    /*
      * if (Cbuf->frameQ != NULL) fset = Cbuf->frameQ->frameset; else */
     fset = Cbuf->frameset;
     if (fset == NULL || createFrameFile(fset, f, Cbuf, 0, force_reload) < 0)

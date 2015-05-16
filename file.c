@@ -1836,15 +1836,6 @@ loadGeneralFile(char *path, ParsedURL *volatile current, char *referer,
 	}
 	if (t_buf == NULL)
 	    t_buf = newBuffer(INIT_BUFFER_WIDTH);
-#if 0				/* USE_SSL */
-	if (IStype(f.stream) == IST_SSL) {
-	    Str s = ssl_get_certificate(f.stream, pu.host);
-	    if (s == NULL)
-		return NULL;
-	    else
-		t_buf->ssl_certificate = s->ptr;
-	}
-#endif
 	readHeader(&f, t_buf, FALSE, &pu);
 	if (((http_response_code >= 301 && http_response_code <= 303)
 	     || http_response_code == 307)
@@ -1970,13 +1961,6 @@ loadGeneralFile(char *path, ParsedURL *volatile current, char *referer,
 	if (f.compression != CMP_NOCOMPRESS) {
 	    char *t1 = uncompressed_file_type(pu.file, NULL);
 	    real_type = f.guess_type;
-#if 0
-	    if (t1 && strncasecmp(t1, "application/", 12) == 0) {
-		f.compression = CMP_NOCOMPRESS;
-		t = real_type;
-	    }
-	    else
-#endif
 	    if (t1)
 		t = t1;
 	    else
@@ -1988,20 +1972,6 @@ loadGeneralFile(char *path, ParsedURL *volatile current, char *referer,
 		real_type = "text/plain";
 	    t = real_type;
 	}
-#if 0
-	if (!strncasecmp(t, "application/", 12)) {
-	    char *tmpf = tmpfname(TMPF_DFL, NULL)->ptr;
-	    current_content_length = 0;
-	    if (save2tmp(f, tmpf) < 0)
-		UFclose(&f);
-	    else {
-		UFclose(&f);
-		TRAP_OFF;
-		doFileMove(tmpf, guess_save_name(t_buf, pu.file));
-	    }
-	    return NO_BUFFER;
-	}
-#endif
     }
     else if (pu.scheme == SCM_DATA) {
 	t = f.guess_type;
@@ -2684,26 +2654,6 @@ passthrough(struct readbuffer *obuf, char *str, int back)
 	}
     }
 }
-
-#if 0
-int
-is_blank_line(char *line, int indent)
-{
-    int i, is_blank = 0;
-
-    for (i = 0; i < indent; i++) {
-	if (line[i] == '\0') {
-	    is_blank = 1;
-	}
-	else if (line[i] != ' ') {
-	    break;
-	}
-    }
-    if (i == indent && line[i] == '\0')
-	is_blank = 1;
-    return is_blank;
-}
-#endif
 
 void
 fillline(struct readbuffer *obuf, int indent)
@@ -6836,30 +6786,6 @@ print_internal_information(struct html_feed_environ *henv)
 			   html_quote(henv->title), "\">", NULL);
 	pushTextLine(tl, newTextLine(s, 0));
     }
-#if 0
-    if (form_max >= 0) {
-	FormList *fp;
-	for (i = 0; i <= form_max; i++) {
-	    fp = forms[i];
-	    s = Sprintf("<form_int fid=\"%d\" action=\"%s\" method=\"%s\"",
-			i, html_quote(fp->action->ptr),
-			(fp->method == FORM_METHOD_POST) ? "post"
-			: ((fp->method ==
-			    FORM_METHOD_INTERNAL) ? "internal" : "get"));
-	    if (fp->target)
-		Strcat(s, Sprintf(" target=\"%s\"", html_quote(fp->target)));
-	    if (fp->enctype == FORM_ENCTYPE_MULTIPART)
-		Strcat_charp(s, " enctype=\"multipart/form-data\"");
-#ifdef USE_M17N
-	    if (fp->charset)
-		Strcat(s, Sprintf(" accept-charset=\"%s\"",
-				  html_quote(fp->charset)));
-#endif
-	    Strcat_charp(s, ">");
-	    pushTextLine(tl, newTextLine(s, 0));
-	}
-    }
-#endif
 #ifdef MENU_SELECT
     if (n_select > 0) {
 	FormSelectOptionItem *ip;
@@ -8378,40 +8304,6 @@ lessopen_stream(char *path)
     }
     return fp;
 }
-
-#if 0
-void
-reloadBuffer(Buffer *buf)
-{
-    URLFile uf;
-
-    if (buf->sourcefile == NULL || buf->pagerSource != NULL)
-	return;
-    init_stream(&uf, SCM_UNKNOWN, NULL);
-    examineFile(buf->mailcap_source ? buf->mailcap_source : buf->sourcefile,
-		&uf);
-    if (uf.stream == NULL)
-	return;
-    is_redisplay = TRUE;
-    buf->allLine = 0;
-    buf->href = NULL;
-    buf->name = NULL;
-    buf->img = NULL;
-    buf->formitem = NULL;
-    buf->linklist = NULL;
-    buf->maplist = NULL;
-    if (buf->hmarklist)
-	buf->hmarklist->nmark = 0;
-    if (buf->imarklist)
-	buf->imarklist->nmark = 0;
-    if (is_html_type(buf->type))
-	loadHTMLBuffer(&uf, buf);
-    else
-	loadBuffer(&uf, buf);
-    UFclose(&uf);
-    is_redisplay = FALSE;
-}
-#endif
 
 static char *
 guess_filename(char *file)

@@ -1,8 +1,8 @@
 /*  $Id: matrix.c,v 1.8 2003/04/07 16:27:10 ukai Exp $ */
-/* 
+/*
  * matrix.h, matrix.c: Liner equation solver using LU decomposition.
  *
- * by K.Okabe  Aug. 1999 
+ * by K.Okabe  Aug. 1999
  *
  * LUfactor, LUsolve, Usolve and Lsolve, are based on the functions in
  * Meschach Library Version 1.2b.
@@ -13,19 +13,19 @@
 ** Copyright (C) 1993 David E. Steward & Zbigniew Leyk, all rights reserved.
 **
 **			     Meschach Library
-** 
-** This Meschach Library is provided "as is" without any express 
-** or implied warranty of any kind with respect to this software. 
-** In particular the authors shall not be liable for any direct, 
-** indirect, special, incidental or consequential damages arising 
+**
+** This Meschach Library is provided "as is" without any express
+** or implied warranty of any kind with respect to this software.
+** In particular the authors shall not be liable for any direct,
+** indirect, special, incidental or consequential damages arising
 ** in any way from use of the software.
-** 
+**
 ** Everyone is granted permission to copy, modify and redistribute this
 ** Meschach Library, provided:
 **  1.  All copies contain this copyright notice.
 **  2.  All modified copies shall carry a notice stating who
 **      made the last modification and the date of such modification.
-**  3.  No charge is made for this software or works derived from it.  
+**  3.  No charge is made for this software or works derived from it.
 **      This clause shall not be construed as constraining other software
 **      distributed on the same medium as this software, nor is a
 **      distribution fee considered a charge.
@@ -36,7 +36,7 @@
 #include "matrix.h"
 #include <gc.h>
 
-/* 
+/*
  * Macros from "fm.h".
  */
 
@@ -60,7 +60,7 @@ static double Tiny = 10.0 / FLT_MAX;
 static double Tiny = 1.0e-30;
 #endif				/* not defined(FLT_MAX */
 
-/* 
+/*
  * LUfactor -- gaussian elimination with scaled partial pivoting
  *          -- Note: returns LU matrix which is A.
  */
@@ -120,7 +120,7 @@ LUfactor(Matrix A, int *indexarray)
     return 0;
 }
 
-/* 
+/*
  * LUsolve -- given an LU factorisation in A, solve Ax=b.
  */
 
@@ -136,20 +136,6 @@ LUsolve(Matrix A, int *indexarray, Vector b, Vector x)
 	return -1;
     return 0;
 }
-
-/* m_inverse -- returns inverse of A, provided A is not too rank deficient
- *           -- uses LU factorisation */
-#if 0
-Matrix
-m_inverse(Matrix A, Matrix out)
-{
-    int *indexarray = NewAtom_N(int, A->dim);
-    Matrix A1 = new_matrix(A->dim);
-    m_copy(A, A1);
-    LUfactor(A1, indexarray);
-    return LUinverse(A1, indexarray, out);
-}
-#endif				/* 0 */
 
 Matrix
 LUinverse(Matrix A, int *indexarray, Matrix out)
@@ -173,7 +159,7 @@ LUinverse(Matrix A, int *indexarray, Matrix out)
     return out;
 }
 
-/* 
+/*
  * Usolve -- back substitution with optional over-riding diagonal
  *        -- can be in-situ but doesn't need to be.
  */
@@ -209,7 +195,7 @@ Usolve(Matrix mat, Vector b, Vector out, double diag)
     return 0;
 }
 
-/* 
+/*
  * Lsolve -- forward elimination with (optional) default diagonal value.
  */
 
@@ -244,7 +230,7 @@ Lsolve(Matrix mat, Vector b, Vector out, double diag)
     return 0;
 }
 
-/* 
+/*
  * new_matrix -- generate a nxn matrix.
  */
 
@@ -259,7 +245,7 @@ new_matrix(int n)
     return mat;
 }
 
-/* 
+/*
  * new_matrix -- generate a n-dimension vector.
  */
 
