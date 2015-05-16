@@ -468,7 +468,6 @@ AC_ARG_WITH(gc,
 # ----------------------------------------------------------------
 AC_DEFUN([AC_W3M_SSL_DIGEST_AUTH],
 [AC_SUBST(USE_SSL)
-AC_SUBST(USE_SSL_VERIFY)
 AC_MSG_CHECKING(if SSL is suported)
 AC_ARG_WITH(ssl,
  [  --with-ssl[=PREFIX]		support https protocol],,
@@ -501,12 +500,6 @@ if test x"$with_ssl" != xno; then
 
   if test x"$w3m_ssl" = xfound; then
     AC_DEFINE(USE_SSL)
-    AC_MSG_CHECKING(if SSL certificate verify is enabled)
-    AC_ARG_ENABLE(sslverify,
-      [   --disable-sslverify		verify SSL certificate],,
-      [enable_sslverify="yes"])
-    test x"$enable_sslverify" = xyes && AC_DEFINE(USE_SSL_VERIFY)
-    AC_MSG_RESULT($enable_sslverify)
   fi
 fi
 AC_SUBST(USE_DIGEST_AUTH)

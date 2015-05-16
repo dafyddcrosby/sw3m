@@ -38,7 +38,7 @@ static int RC_table_size;
 #define P_CHARINT  2
 #define P_CHAR     3
 #define P_STRING   4
-#if defined(USE_SSL) && defined(USE_SSL_VERIFY)
+#if defined(USE_SSL)
 #define P_SSLPATH  5
 #endif
 #ifdef USE_COLOR
@@ -181,13 +181,11 @@ static int OptionEncode = FALSE;
 #define CMT_IGNORE_CASE N_("Search case-insensitively")
 #define CMT_USE_LESSOPEN N_("Use LESSOPEN")
 #ifdef USE_SSL
-#ifdef USE_SSL_VERIFY
 #define CMT_SSL_VERIFY_SERVER N_("Perform SSL server verification")
 #define CMT_SSL_CERT_FILE N_("PEM encoded certificate file of client")
 #define CMT_SSL_KEY_FILE N_("PEM encoded private key file of client")
 #define CMT_SSL_CA_PATH N_("Path to directory for PEM encoded certificates of CAs")
 #define CMT_SSL_CA_FILE N_("File consisting of PEM encoded certificates of CAs")
-#endif				/* USE_SSL_VERIFY */
 #define CMT_SSL_FORBID_METHOD N_("List of forbidden SSL methods (2: SSLv2, 3: SSLv3, t:TLSv1)")
 #endif				/* USE_SSL */
 #ifdef USE_COOKIE
@@ -568,7 +566,6 @@ struct param_ptr params6[] = {
 struct param_ptr params7[] = {
     {"ssl_forbid_method", P_STRING, PI_TEXT, (void *)&ssl_forbid_method,
      CMT_SSL_FORBID_METHOD, NULL},
-#ifdef USE_SSL_VERIFY
     {"ssl_verify_server", P_INT, PI_ONOFF, (void *)&ssl_verify_server,
      CMT_SSL_VERIFY_SERVER, NULL},
     {"ssl_cert_file", P_SSLPATH, PI_TEXT, (void *)&ssl_cert_file,
@@ -579,8 +576,7 @@ struct param_ptr params7[] = {
      NULL},
     {"ssl_ca_file", P_SSLPATH, PI_TEXT, (void *)&ssl_ca_file, CMT_SSL_CA_FILE,
      NULL},
-#endif				/* USE_SSL_VERIFY */
-    {NULL, 0, 0, NULL, NULL, NULL},
+    {NULL, 1, 0, NULL, NULL, NULL},
 };
 #endif				/* USE_SSL */
 
@@ -861,7 +857,7 @@ show_params(FILE * fp)
 	    case P_STRING:
 		t = "string";
 		break;
-#if defined(USE_SSL) && defined(USE_SSL_VERIFY)
+#if defined(USE_SSL)
 	    case P_SSLPATH:
 		t = "path";
 		break;
@@ -1005,7 +1001,7 @@ set_param(char *name, char *value)
     case P_STRING:
 	*(char **)p->varptr = value;
 	break;
-#if defined(USE_SSL) && defined(USE_SSL_VERIFY)
+#if defined(USE_SSL)
     case P_SSLPATH:
 	if (value != NULL && value[0] != '\0')
 	    *(char **)p->varptr = rcFile(value);
@@ -1312,7 +1308,7 @@ to_str(struct param_ptr *p)
     case P_CHAR:
 	return Sprintf("%c", *(char *)p->varptr);
     case P_STRING:
-#if defined(USE_SSL) && defined(USE_SSL_VERIFY)
+#if defined(USE_SSL)
     case P_SSLPATH:
 #endif
 	/*  SystemCharset -> InnerCharset */

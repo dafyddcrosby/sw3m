@@ -1117,16 +1117,13 @@ global int view_unseenobject init(FALSE);
 global int view_unseenobject init(TRUE);
 #endif
 
-#if defined(USE_SSL) && defined(USE_SSL_VERIFY)
-global int ssl_verify_server init(FALSE);
+#if defined(USE_SSL)
+global int ssl_verify_server init(TRUE);
 global char *ssl_cert_file init(NULL);
 global char *ssl_key_file init(NULL);
 global char *ssl_ca_path init(NULL);
 global char *ssl_ca_file init(NULL);
 global int ssl_path_modified init(FALSE);
-#endif				/* defined(USE_SSL) &&
-				 * defined(USE_SSL_VERIFY) */
-#ifdef USE_SSL
 global char *ssl_forbid_method init(NULL);
 #endif
 

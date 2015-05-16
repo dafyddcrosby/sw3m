@@ -147,9 +147,6 @@ fversion(FILE * f)
 #endif
 #ifdef USE_SSL
 	    ",ssl"
-#ifdef USE_SSL_VERIFY
-	    ",ssl-verify"
-#endif
 #endif
 #ifdef USE_EXTERNAL_URI_LOADER
 	    ",external-uri-loader"
