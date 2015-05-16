@@ -69,7 +69,6 @@
 #undef USE_IMAGE
 #undef USE_W3MIMG_X11
 #undef USE_W3MIMG_FB
-#undef USE_W3MIMG_WIN
 #undef W3MIMGDISPLAY_SETUID
 #undef USE_IMLIB
 #undef USE_GDKPIXBUF
@@ -103,7 +102,6 @@
 /* for USE_MIGEMO */
 #define DEF_MIGEMO_COMMAND	"@DEF_MIGEMO_COMMAND@"
 
-#undef USE_BINMODE_STREAM
 #undef HAVE_TERMIOS_H
 #undef HAVE_TERMIO_H
 #undef HAVE_SGTTY_H
@@ -167,15 +165,9 @@ typedef RETSIGTYPE MySignalHandler;
 #define SIGNAL_RETURN @SIGNAL_RETURN@
 
 #ifdef HAVE_SIGSETJMP
-#ifdef __MINGW32_VERSION
-# define SETJMP(env) setjmp(env)
-# define LONGJMP(env,val) longjmp(env, val)
-# define JMP_BUF jmp_buf
-#else
 # define SETJMP(env) sigsetjmp(env,1)
 # define LONGJMP(env,val) siglongjmp(env,val)
 # define JMP_BUF sigjmp_buf
-#endif /* __MINGW32_VERSION */
 #else
 # define SETJMP(env) setjmp(env)
 # define LONGJMP(env,val) longjmp(env)
@@ -195,24 +187,7 @@ typedef RETSIGTYPE MySignalHandler;
 #define lstat stat
 #endif
 
-#if defined( __CYGWIN32__ ) && !defined( __CYGWIN__ )
-#define __CYGWIN__
-#endif
-
-#if defined( __CYGWIN__ )
-#define SUPPORT_DOS_DRIVE_PREFIX 1
-#endif
-
-#if defined( __CYGWIN__ )
-#define SUPPORT_NETBIOS_SHARE 1
-#define SUPPORT_WIN9X_CONSOLE_MBCS 1
-#endif
-
-#if defined(__DJGPP__)
-#define DEFAULT_TERM	"dosansi"
-#else
 #define DEFAULT_TERM	0	/* XXX */
-#endif
 
 #define GUNZIP_CMDNAME  "gunzip"
 #define BUNZIP2_CMDNAME "bunzip2"
@@ -227,13 +202,5 @@ typedef RETSIGTYPE MySignalHandler;
 #define GUNZIP_NAME  "gunzip"
 #define BUNZIP2_NAME "bunzip2"
 #define INFLATE_NAME "inflate"
-
-#ifdef __MINGW32_VERSION
-#define SIGKILL SIGTERM
-#define S_IXGRP 0
-#define S_IXOTH 0
-#define S_IRWXG 0
-#define S_IRWXO 0
-#endif /* __MINGW32_VERSION */
 
 #endif /* CONFIG_H_SEEN */

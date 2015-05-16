@@ -425,11 +425,6 @@ displayBuffer(Buffer *buf, int mode)
 		scroll(n);
 	    }
 	    else if (n < 0 && n > -buf->LINES) {
-#if 0 /* defined(__CYGWIN__) */
-		move(LASTLINE + n + 1, 0);
-		clrtoeolx();
-		refresh();
-#endif				/* defined(__CYGWIN__) */
 		rscroll(-n);
 	    }
 	    redrawNLine(buf, n);

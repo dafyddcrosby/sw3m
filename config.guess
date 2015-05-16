@@ -803,32 +803,14 @@ EOF
 	case ${LIBC} in gnu) kernel_only='k' ;; esac
 	echo ${UNAME_MACHINE}-unknown-${kernel_only}freebsd`echo ${UNAME_RELEASE}|sed -e 's/[-(].*//'`${LIBC:+-$LIBC}
 	exit 0 ;;
-    i*:CYGWIN*:*)
-	echo ${UNAME_MACHINE}-pc-cygwin
-	exit 0 ;;
-    i*:MINGW*:*)
-	echo ${UNAME_MACHINE}-pc-mingw32
-	exit 0 ;;
     i*:PW*:*)
 	echo ${UNAME_MACHINE}-pc-pw32
 	exit 0 ;;
     x86:Interix*:[34]*)
 	echo i586-pc-interix${UNAME_RELEASE}|sed -e 's/\..*//'
 	exit 0 ;;
-    [345]86:Windows_95:* | [345]86:Windows_98:* | [345]86:Windows_NT:*)
-	echo i${UNAME_MACHINE}-pc-mks
-	exit 0 ;;
-    i*:Windows_NT*:* | Pentium*:Windows_NT*:*)
-	# How do we know it's Interix rather than the generic POSIX subsystem?
-	# It also conflicts with pre-2.0 versions of AT&T UWIN. Should we
-	# UNAME_MACHINE based on the output of uname instead of i386?
-	echo i586-pc-interix
-	exit 0 ;;
     i*:UWIN*:*)
 	echo ${UNAME_MACHINE}-pc-uwin
-	exit 0 ;;
-    p*:CYGWIN*:*)
-	echo powerpcle-unknown-cygwin
 	exit 0 ;;
     prep*:SunOS:5.*:*)
 	echo powerpcle-unknown-solaris2`echo ${UNAME_RELEASE}|sed -e 's/[^.]*//'`
@@ -1025,9 +1007,6 @@ EOF
     i*86:LynxOS:2.*:* | i*86:LynxOS:3.[01]*:* | i*86:LynxOS:4.0*:*)
 	echo i386-unknown-lynxos${UNAME_RELEASE}
 	exit 0 ;;
-    i*86:*DOS:*:*)
-	echo ${UNAME_MACHINE}-pc-msdosdjgpp
-	exit 0 ;;
     i*86:*:4.*:* | i*86:SYSTEM_V:4.*:*)
 	UNAME_REL=`echo ${UNAME_RELEASE} | sed 's/\/MP$//'`
 	if grep Novell /usr/include/link.h >/dev/null 2>/dev/null; then
@@ -1062,12 +1041,6 @@ EOF
 		echo ${UNAME_MACHINE}-pc-sysv32
 	fi
 	exit 0 ;;
-    pc:*:*:*)
-	# Left here for compatibility:
-        # uname -m prints for DJGPP always 'pc', but it prints nothing about
-        # the processor, so we play safe by assuming i386.
-	echo i386-pc-msdosdjgpp
-        exit 0 ;;
     Intel:Mach:3*:*)
 	echo i386-pc-mach3
 	exit 0 ;;

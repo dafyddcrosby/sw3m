@@ -177,7 +177,6 @@ INSTALL_W3MIMGDISPLAY=$(INSTALL_PROGRAM)
 
 #define DEF_SAVE_FILE "index.html"
 
-#undef USE_BINMODE_STREAM
 #define HAVE_TERMIOS_H
 #define HAVE_DIRENT_H
 typedef long clen_t;
@@ -238,23 +237,7 @@ typedef void MySignalHandler;
 #define lstat stat
 #endif
 
-#if defined( __CYGWIN32__ ) && !defined( __CYGWIN__ )
-#define __CYGWIN__
-#endif
-
-#if defined( __CYGWIN__ )
-#define SUPPORT_DOS_DRIVE_PREFIX 1
-#endif
-
-#if defined( __CYGWIN__ )
-#define SUPPORT_NETBIOS_SHARE 1
-#endif
-
-#if defined(__DJGPP__)
-#define DEFAULT_TERM	"dosansi"
-#else
 #define DEFAULT_TERM	0	/* XXX */
-#endif
 
 #define GUNZIP_CMDNAME  "gunzip"
 #define BUNZIP2_CMDNAME "bunzip2"

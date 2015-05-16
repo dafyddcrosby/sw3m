@@ -1611,17 +1611,9 @@ getAuthCookie(struct http_auth *hauth, char *auth_header,
 				getpassphrase(proxy ? "Proxy Password: " :
 					      "Password: "));
 #else
-#ifndef __MINGW32_VERSION
 	    *pwd = Strnew_charp((char *)
 				getpass(proxy ? "Proxy Password: " :
 					"Password: "));
-#else
-	    term_raw();
-	    *pwd = Strnew_charp((char *)
-				inputLine(proxy ? "Proxy Password: " :
-					  "Password: ", NULL, IN_PASSWORD));
-	    term_cbreak();
-#endif /* __MINGW32_VERSION */
 #endif
 	}
     }
@@ -8262,7 +8254,6 @@ inputAnswer(char *prompt)
 static void
 uncompress_stream(URLFile *uf, char **src)
 {
-#ifndef __MINGW32_VERSION
     pid_t pid1;
     FILE *f1;
     char *expand_cmd = GUNZIP_CMDNAME;
@@ -8346,7 +8337,6 @@ uncompress_stream(URLFile *uf, char **src)
     }
     UFhalfclose(uf);
     uf->stream = newFileStream(f1, (void (*)())fclose);
-#endif /* __MINGW32_VERSION */
 }
 
 static FILE *

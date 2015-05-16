@@ -1,8 +1,6 @@
 /* $Id: etc.c,v 1.81 2007/05/23 15:06:05 inu Exp $ */
 #include "fm.h"
-#ifndef __MINGW32_VERSION
 #include <pwd.h>
-#endif
 #include "myctype.h"
 #include "html.h"
 #include "local.h"
@@ -15,11 +13,6 @@
 #include <sys/wait.h>
 #endif
 #include <signal.h>
-
-#ifdef	__WATT32__
-#define	read(a,b,c)	read_s(a,b,c)
-#define	close(x)	close_s(x)
-#endif				/* __WATT32__ */
 
 struct auth_pass {
     int bad;
@@ -1361,10 +1354,8 @@ setup_child(int child, int i, int f)
 {
     reset_signals();
     mySignal(SIGINT, SIG_IGN);
-#ifndef __MINGW32_VERSION
     if (!child)
 	SETPGRP();
-#endif /* __MINGW32_VERSION */
     close_tty();
     close_all_fds_except(i, f);
     QuietMessage = TRUE;
@@ -1372,7 +1363,6 @@ setup_child(int child, int i, int f)
     TrapSignal = FALSE;
 }
 
-#ifndef __MINGW32_VERSION
 pid_t
 open_pipe_rw(FILE ** fr, FILE ** fw)
 {
@@ -1430,7 +1420,6 @@ open_pipe_rw(FILE ** fr, FILE ** fw)
   err0:
     return (pid_t) - 1;
 }
-#endif /* __MINGW32_VERSION */
 
 void
 myExec(char *command)
@@ -1443,7 +1432,6 @@ myExec(char *command)
 void
 mySystem(char *command, int background)
 {
-#ifndef __MINGW32_VERSION
     if (background) {
 	flush_tty();
 	if (!fork()) {
@@ -1452,7 +1440,6 @@ mySystem(char *command, int background)
 	}
     }
     else
-#endif /* __MINGW32_VERSION */
 	system(command);
 }
 
@@ -1522,13 +1509,6 @@ myEditor(char *cmd, char *file, int line)
     return tmp;
 }
 
-#ifdef __MINGW32_VERSION
-char *
-expandName(char *name)
-{
-    return getenv("HOME");
-}
-#else
 char *
 expandName(char *name)
 {
@@ -1572,40 +1552,13 @@ expandName(char *name)
   rest:
     return name;
 }
-#endif
 
 char *
 file_to_url(char *file)
 {
     Str tmp;
-#ifdef SUPPORT_DOS_DRIVE_PREFIX
-    char *drive = NULL;
-#endif
-#ifdef SUPPORT_NETBIOS_SHARE
-    char *host = NULL;
-#endif
 
     file = expandPath(file);
-#ifdef SUPPORT_NETBIOS_SHARE
-    if (file[0] == '/' && file[1] == '/') {
-	char *p;
-	file += 2;
-	if (*file) {
-	    p = strchr(file, '/');
-	    if (p != NULL && p != file) {
-		host = allocStr(file, (p - file));
-		file = p;
-	    }
-	}
-    }
-#endif
-#ifdef SUPPORT_DOS_DRIVE_PREFIX
-    if (IS_ALPHA(file[0]) && file[1] == ':') {
-	drive = allocStr(file, 2);
-	file += 2;
-    }
-    else
-#endif
     if (file[0] != '/') {
 	tmp = Strnew_charp(CurrentDir);
 	if (Strlastchar(tmp) != '/')
@@ -1614,14 +1567,6 @@ file_to_url(char *file)
 	file = tmp->ptr;
     }
     tmp = Strnew_charp("file://");
-#ifdef SUPPORT_NETBIOS_SHARE
-    if (host)
-	Strcat_charp(tmp, host);
-#endif
-#ifdef SUPPORT_DOS_DRIVE_PREFIX
-    if (drive)
-	Strcat_charp(tmp, drive);
-#endif
     Strcat_charp(tmp, file_quote(cleanupName(file)));
     return tmp->ptr;
 }
@@ -1912,11 +1857,7 @@ mymktime(char *timestr)
 #ifdef INET6
 #include <sys/socket.h>
 #endif				/* INET6 */
-#ifndef __MINGW32_VERSION
 #include <netdb.h>
-#else
-#include <winsock.h>
-#endif
 char *
 FQDN(char *host)
 {

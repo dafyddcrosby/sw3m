@@ -569,7 +569,6 @@ AC_DEFUN([AC_W3M_IMAGE],
 [AC_SUBST(USE_IMAGE)
  AC_SUBST(USE_W3MIMG_X11)
  AC_SUBST(USE_W3MIMG_FB)
- AC_SUBST(USE_W3MIMG_WIN)
  AC_SUBST(IMGLINK)
  AC_SUBST(W3MIMGDISPLAY_SETUID)
  AC_SUBST(INSTALL_W3MIMGDISPLAY)
@@ -585,12 +584,10 @@ AC_DEFUN([AC_W3M_IMAGE],
  AC_SUBST(IMGX11LDFLAGS)
  AC_SUBST(IMGFBCFLAGS)
  AC_SUBST(IMGFBLDFLAGS)
- AC_SUBST(IMGWINCFLAGS)
- AC_SUBST(IMGWINLDFLAGS)
  AC_MSG_CHECKING(if image is enabled)
  AC_ARG_ENABLE(image,
  [  --enable-image[=DEVS]		enable inline image handler for DEVS
-				 DEVS may be comma separeted: x11,fb,fb+s,win
+				 DEVS may be comma separeted: x11,fb,fb+s
 				 default: autodetected.
 				 'no' means disable inline image],,
  [enable_image="yes"])
@@ -604,9 +601,6 @@ AC_DEFUN([AC_W3M_IMAGE],
 	if test -c /dev/fb0; then
 	  enable_image=x11,fb
         fi;;
-    CYGWIN*)
-	enable_image=x11,win;;
-    esac
   fi   
   save_ifs="$IFS"; IFS=",";
   set x $enable_image; shift
@@ -619,7 +613,6 @@ AC_DEFUN([AC_W3M_IMAGE],
            AC_DEFINE(W3MIMGDISPLAY_SETUID)
            INSTALL_W3MIMGDISPLAY='${INSTALL} -o root -m 4755 -s'
            AC_DEFINE(INSTALL_W3MIMGDISPLAY, $INSTALL_W3MIMGDISPLAY);;
-      win) win=yes;;
     esac
   done
   enable_image=yes
@@ -761,14 +754,6 @@ AC_DEFUN([AC_W3M_IMAGE],
      AC_MSG_WARN([unable to build w3mimgdisplay with FB support])
    fi
   fi
-  if test x"$win" = xyes; then
-    AC_DEFINE(USE_W3MIMG_WIN)
-    IMGOBJS="$IMGOBJS win/win_w3mimg.o"
-    IMGTARGETS="${IMGTARGETS} win"
-    IMGWINCFLAGS="-I/usr/include/w32api"
-    IMGWINLDFLAGS="-lgdiplus -lgdi32 -luser32"
-    IMGLINK='$(CXX)'
-  fi
   AC_DEFINE(IMGTARGETS, "$IMGTARGETS")
   AC_DEFINE(IMGOBJS, "$IMGOBJS")
   AC_DEFINE(IMGX11CFLAGS, "$IMGX11CFLAGS")
@@ -776,8 +761,6 @@ AC_DEFUN([AC_W3M_IMAGE],
   AC_DEFINE(IMGFBCFLAGS, "$IMGFBCFLAGS")
   AC_DEFINE(IMGFBLDFLAGS, "$IMGFBLDFLAGS")
   AC_DEFINE(IMGLINK, "$IMGLINK")
-  AC_DEFINE(IMGWINCFLAGS, "$IMGWINCFLAGS")
-  AC_DEFINE(IMGWINLDFLAGS, "$IMGWINLDFLAGS")
  fi])
 # ----------------------------------------------------------------
 # AC_W3M_XFACE

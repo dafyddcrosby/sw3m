@@ -3,23 +3,8 @@
 # Directory list CGI by Hironori Sakamoto (hsaka@mth.biglobe.ne.jp)
 #
 
-if ( $^O =~ /^(ms)?(dos|win(32|nt)?)/i ) {
-  $WIN32 = 1;
-  $CYGPATH = 1;
-}
-elsif ( $^O =~ /cygwin|os2/i ) {
-  $WIN32 = 1;
-  $CYGPATH = 0;
-}
-else {
-  $WIN32 = 0;
-  $CYGPATH = 0;
-}
 $RC_DIR = '@RC_DIR@';
 $RC_DIR =~ s@^~/@$ENV{'HOME'}/@;
-if ($CYGPATH) {
-  $RC_DIR = &cygwin_pathconv("$RC_DIR");
-}
 $CONFIG = "$RC_DIR/dirlist";
 $CGI = $ENV{'SCRIPT_NAME'} || $0;
 $CGI = "file://" . &file_encode("$CGI");
@@ -72,18 +57,7 @@ $local_cookie =  &html_quote($local_cookie);
 if ($dir !~ m@/$@) {
   $dir .= '/';
 }
-if ($dir =~ m@^/@ && $CYGPATH) {
-  $dir = &cygwin_pathconv("$dir");
-}
 $ROOT = '';
-if ($WIN32) {
-  if (($dir =~ s@^//[^/]+@@) || ($dir =~ s@^[a-z]:@@i)) {
-    $ROOT = $&;
-  }
-  if ($CYGPATH) {
-      $ROOT = &cygwin_pathconv("$ROOT");
-  }
-}
 $dir = &cleanup($dir);
 
 $TYPE   = $OPT[$OPT_TYPE];
@@ -520,17 +494,4 @@ sub utime {
   } else {
     return sprintf("%3s %2d %5d", $MON[$mon], $mday, 1900+$year);
   }
-}
-
-sub cygwin_pathconv {
-  local($_) = @_;
-  local(*CYGPATH);
-
-  open(CYGPATH, '-|') || exec('cygpath', '-w', $_);
-  $_ = <CYGPATH>;
-  close(CYGPATH);
-  s/\r?\n$//;
-  s!\\!/!g;
-  s!/$!!;
-  return $_;
 }

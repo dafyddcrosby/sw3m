@@ -114,13 +114,6 @@ AC_CHECK_TYPE([socklen_t],
 
 AC_DEFINE(AUXBIN_TARGETS, "$AUXBIN_TARGETS")
 
-AC_SUBST(USE_BINMODE_STREAM)
-case "$host_os" in
-  *cygwin*|*os2-emx*|*mingw*)
-    AC_DEFINE(USE_BINMODE_STREAM)
-    ;;
-esac
-
 AC_HEADER_DIRENT
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
@@ -154,13 +147,7 @@ AC_CHECK_FUNCS(strcasecmp strcasestr strchr memcpy strerror bcopy setpgrp chdir 
 AC_FUNC_STRFTIME
 AC_FUNC_WAIT3
 AC_FUNC_SETPGRP
-case "$host_os" in
-  *cygwin*)
-    ;;
-  *)
-    AM_LANGINFO_CODESET
-    ;;
-esac
+AM_LANGINFO_CODESET
 AC_W3M_SYS_ERRLIST
 AC_W3M_SIGSETJMP
 AC_W3M_SIGNAL

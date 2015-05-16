@@ -128,9 +128,6 @@ inputLineHistSearch(char *prompt, char *def_str, int flag, Hist *hist,
 	CLen = CPos = 0;
     }
 
-#ifdef SUPPORT_WIN9X_CONSOLE_MBCS
-    enable_win9x_console_input();
-#endif
     i_cont = TRUE;
     i_broken = FALSE;
     i_quote = FALSE;
@@ -247,10 +244,6 @@ inputLineHistSearch(char *prompt, char *def_str, int flag, Hist *hist,
 	if (need_redraw)
 	    displayBuffer(Currentbuf, B_FORCE_REDRAW);
     }
-
-#ifdef SUPPORT_WIN9X_CONSOLE_MBCS
-    disable_win9x_console_input();
-#endif
 
     if (i_broken)
 	return NULL;

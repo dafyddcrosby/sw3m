@@ -1,14 +1,10 @@
 /* $Id: url.c,v 1.100 2010/12/15 10:50:24 htrb Exp $ */
 #include "fm.h"
-#ifndef __MINGW32_VERSION
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
-#else
-#include <winsock.h>
-#endif /* __MINGW32_VERSION */
 
 #include <signal.h>
 #include <setjmp.h>
@@ -26,15 +22,6 @@
 #include <openssl/crypto.h>		/* SSLEAY_VERSION_NUMBER may be here */
 #endif
 #include <openssl/err.h>
-#endif
-
-#ifdef	__WATT32__
-#define	write(a,b,c)	write_s(a,b,c)
-#endif				/* __WATT32__ */
-
-#ifdef __MINGW32_VERSION
-#define	write(a,b,c)	send(a,b,c, 0)
-#define close(fd)	closesocket(fd)
 #endif
 
 #ifdef INET6
@@ -686,19 +673,6 @@ parseURL(char *url, ParsedURL *p_url, ParsedURL *current)
 	    copyParsedURL(p_url, current);
 	goto do_label;
     }
-#if defined( __CYGWIN__ )
-    if (!strncmp(url, "file://localhost/", 17)) {
-	p_url->scheme = SCM_LOCAL;
-	p += 17 - 1;
-	url += 17 - 1;
-    }
-#endif
-#ifdef SUPPORT_DOS_DRIVE_PREFIX
-    if (IS_ALPHA(*p) && (p[1] == ':' || p[1] == '|')) {
-	p_url->scheme = SCM_LOCAL;
-	goto analyze_file;
-    }
-#endif				/* SUPPORT_DOS_DRIVE_PREFIX */
     /* search for scheme */
     p_url->scheme = getURLScheme(&p);
     if (p_url->scheme == SCM_MISSING) {
@@ -761,10 +735,6 @@ parseURL(char *url, ParsedURL *p_url, ParsedURL *current)
     if (p_url->scheme == SCM_LOCAL) {	/* file://foo           */
 	if (p[2] == '/' || p[2] == '~'
 	    /* <A HREF="file:///foo">file:///foo</A>  or <A HREF="file://~user">file://~user</A> */
-#ifdef SUPPORT_DOS_DRIVE_PREFIX
-	    || (IS_ALPHA(p[2]) && (p[3] == ':' || p[3] == '|'))
-	    /* <A HREF="file://DRIVE/foo">file://DRIVE/foo</A> */
-#endif				/* SUPPORT_DOS_DRIVE_PREFIX */
 	    ) {
 	    p += 2;
 	    goto analyze_file;
@@ -822,43 +792,18 @@ parseURL(char *url, ParsedURL *p_url, ParsedURL *current)
 	break;
     }
   analyze_file:
-#ifndef SUPPORT_NETBIOS_SHARE
     if (p_url->scheme == SCM_LOCAL && p_url->user == NULL &&
 	p_url->host != NULL && *p_url->host != '\0' &&
 	strcmp(p_url->host, "localhost")) {
-	/*
-	 * In the environments other than CYGWIN, a URL like
-	 * file://host/file is regarded as ftp://host/file.
-	 * On the other hand, file://host/file on CYGWIN is
-	 * regarded as local access to the file //host/file.
-	 * `host' is a netbios-hostname, drive, or any other
-	 * name; It is CYGWIN system call who interprets that.
-	 */
 
 	p_url->scheme = SCM_FTP;	/* ftp://host/... */
 	if (p_url->port == 0)
 	    p_url->port = DefaultPort[SCM_FTP];
     }
-#endif
     if ((*p == '\0' || *p == '#' || *p == '?') && p_url->host == NULL) {
 	p_url->file = "";
 	goto do_query;
     }
-#ifdef SUPPORT_DOS_DRIVE_PREFIX
-    if (p_url->scheme == SCM_LOCAL) {
-	q = p;
-	if (*q == '/')
-	    q++;
-	if (IS_ALPHA(q[0]) && (q[1] == ':' || q[1] == '|')) {
-	    if (q[1] == '|') {
-		p = allocStr(q, -1);
-		p[1] = ':';
-	    }
-	    else
-		p = q;
-	}
-    }
-#endif
 
     q = p;
 #ifdef USE_GOPHER
@@ -1005,15 +950,6 @@ parseURL2(char *url, ParsedURL *pu, ParsedURL *current)
     }
     if (pu->scheme == SCM_LOCAL) {
 	char *q = expandName(file_unquote(pu->file));
-#ifdef SUPPORT_DOS_DRIVE_PREFIX
-	Str drive;
-	if (IS_ALPHA(q[0]) && q[1] == ':') {
-	    drive = Strnew_charp_n(q, 2);
-	    Strcat_charp(drive, file_quote(q+2));
-	    pu->file = drive->ptr;
-	}
-	else
-#endif
 	    pu->file = file_quote(q);
     }
 
@@ -1043,10 +979,6 @@ parseURL2(char *url, ParsedURL *pu, ParsedURL *current)
 		       pu->scheme != SCM_GOPHER &&
 #endif				/* USE_GOPHER */
 		       pu->file[0] != '/'
-#ifdef SUPPORT_DOS_DRIVE_PREFIX
-		       && !(pu->scheme == SCM_LOCAL && IS_ALPHA(pu->file[0])
-			    && pu->file[1] == ':')
-#endif
 		) {
 		/* file is relative [process 1] */
 		p = pu->file;
@@ -1079,9 +1011,6 @@ parseURL2(char *url, ParsedURL *pu, ParsedURL *current)
     }
     if (pu->file) {
 	if (pu->scheme == SCM_LOCAL && pu->file[0] != '/' &&
-#ifdef SUPPORT_DOS_DRIVE_PREFIX	/* for 'drive:' */
-	    !(IS_ALPHA(pu->file[0]) && pu->file[1] == ':') &&
-#endif
 	    strcmp(pu->file, "-")) {
 	    /* local file, relative path */
 	    tmp = Strnew_charp(CurrentDir);
@@ -1120,15 +1049,6 @@ parseURL2(char *url, ParsedURL *pu, ParsedURL *current)
 	    pu->file = cleanupName(pu->file);
 	}
 	if (pu->scheme == SCM_LOCAL) {
-#ifdef SUPPORT_NETBIOS_SHARE
-	    if (pu->host && strcmp(pu->host, "localhost") != 0) {
-		Str tmp = Strnew_charp("//");
-		Strcat_m_charp(tmp, pu->host,
-			       cleanupName(file_unquote(pu->file)), NULL);
-		pu->real_file = tmp->ptr;
-	    }
-	    else
-#endif
 		pu->real_file = cleanupName(file_unquote(pu->file));
 	}
     }
@@ -1206,11 +1126,6 @@ _parsedURL2Str(ParsedURL *pu, int pass)
 	   pu->scheme != SCM_NEWS && pu->scheme != SCM_NEWS_GROUP &&
 #endif				/* USE_NNTP */
 	   (pu->file == NULL || (pu->file[0] != '/'
-#ifdef SUPPORT_DOS_DRIVE_PREFIX
-				 && !(IS_ALPHA(pu->file[0])
-				      && pu->file[1] == ':'
-				      && pu->host == NULL)
-#endif
 	    )))
 	Strcat_char(tmp, '/');
     Strcat_charp(tmp, pu->file);
