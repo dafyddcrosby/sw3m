@@ -7886,7 +7886,6 @@ _MoveFile(char *path1, char *path2)
 int
 _doFileCopy(char *tmpf, char *defstr, int download)
 {
-#ifndef __MINGW32_VERSION
     Str msg;
     Str filen;
     char *p, *q = NULL;
@@ -7993,7 +7992,6 @@ _doFileCopy(char *tmpf, char *defstr, int download)
 	if (PreserveTimestamp && !is_pipe && !stat(tmpf, &st))
 	    setModtime(p, st.st_mtime);
     }
-#endif /* __MINGW32_VERSION */
     return 0;
 }
 
@@ -8008,7 +8006,6 @@ doFileMove(char *tmpf, char *defstr)
 int
 doFileSave(URLFile uf, char *defstr)
 {
-#ifndef __MINGW32_VERSION
     Str msg;
     Str filen;
     char *p, *q;
@@ -8109,7 +8106,6 @@ doFileSave(URLFile uf, char *defstr)
 	if (PreserveTimestamp && uf.modtime != -1)
 	    setModtime(p, uf.modtime);
     }
-#endif /* __MINGW32_VERSION */
     return 0;
 }
 
