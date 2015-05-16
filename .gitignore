@@ -44,3 +44,8 @@ scripts/w3mman/w3mman
 scripts/w3mman/w3mman2html.cgi
 scripts/w3mman/w3mman.1
 scripts/w3mman/Makefile
+*.o
+entity.h
+libindep.a
+libwc/libwc.a
+w3mimg/w3mimg.a
