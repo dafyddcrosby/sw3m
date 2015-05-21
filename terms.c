@@ -413,10 +413,7 @@ set_int(void)
     mySignal(SIGILL, error_dump);
     mySignal(SIGIOT, error_dump);
     mySignal(SIGFPE, error_dump);
-#ifdef	SIGBUS
     mySignal(SIGBUS, error_dump);
-#endif				/* SIGBUS */
-    /* mySignal(SIGSEGV, error_dump); */
 }
 
 

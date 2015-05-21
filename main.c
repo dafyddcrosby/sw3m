@@ -61,9 +61,7 @@ static MySignalHandler resize_hook(SIGNAL_ARG);
 static void resize_screen(void);
 #endif
 
-#ifdef SIGPIPE
 static MySignalHandler SigPipe(SIGNAL_ARG);
-#endif
 
 #ifdef USE_MARK
 static char *MarkString = NULL;
@@ -298,7 +296,6 @@ wrap_GC_warn_proc(char *msg, GC_word arg)
 	fprintf(stderr, msg, (unsigned long)arg);
 }
 
-#ifdef SIGCHLD
 static void
 sig_chld(int signo)
 {
@@ -327,7 +324,6 @@ sig_chld(int signo)
     mySignal(SIGCHLD, sig_chld);
     return;
 }
-#endif
 
 Str
 make_optional_header_string(char *s)
@@ -773,12 +769,8 @@ main(int argc, char **argv, char **envp)
 
     if (w3m_dump)
 	mySignal(SIGINT, SIG_IGN);
-#ifdef SIGCHLD
     mySignal(SIGCHLD, sig_chld);
-#endif
-#ifdef SIGPIPE
     mySignal(SIGPIPE, SigPipe);
-#endif
 
     orig_GC_warn_proc = GC_get_warn_proc();
     GC_set_warn_proc(wrap_GC_warn_proc);
@@ -1415,7 +1407,6 @@ resize_screen(void)
 }
 #endif				/* SIGWINCH */
 
-#ifdef SIGPIPE
 static MySignalHandler
 SigPipe(SIGNAL_ARG)
 {
@@ -1425,7 +1416,6 @@ SigPipe(SIGNAL_ARG)
     mySignal(SIGPIPE, SigPipe);
     SIGNAL_RETURN;
 }
-#endif
 
 /*
  * Command functions: These functions are called with a keystroke.
@@ -2441,21 +2431,11 @@ DEFUN(selBuf, SELECT, "Go to buffer selection panel")
 /* Suspend (on BSD), or run interactive shell (on SysV) */
 DEFUN(susp, INTERRUPT SUSPEND, "Stop loading document")
 {
-#ifndef SIGSTOP
-    char *shell;
-#endif				/* not SIGSTOP */
     move(LASTLINE, 0);
     clrtoeolx();
     refresh();
     fmTerm();
-#ifndef SIGSTOP
-    shell = getenv("SHELL");
-    if (shell == NULL)
-	shell = "/bin/sh";
-    system(shell);
-#else				/* SIGSTOP */
     kill((pid_t) 0, SIGSTOP);
-#endif				/* SIGSTOP */
     fmInit();
     displayBuffer(Currentbuf, B_FORCE_REDRAW);
 }

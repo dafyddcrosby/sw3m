@@ -1305,26 +1305,16 @@ romanAlphabet(int n)
 static void
 reset_signals(void)
 {
-#ifdef SIGHUP
     mySignal(SIGHUP, SIG_DFL);	/* terminate process */
-#endif
     mySignal(SIGINT, SIG_DFL);	/* terminate process */
-#ifdef SIGQUIT
     mySignal(SIGQUIT, SIG_DFL);	/* terminate process */
-#endif
     mySignal(SIGTERM, SIG_DFL);	/* terminate process */
     mySignal(SIGILL, SIG_DFL);	/* create core image */
     mySignal(SIGIOT, SIG_DFL);	/* create core image */
     mySignal(SIGFPE, SIG_DFL);	/* create core image */
-#ifdef SIGBUS
     mySignal(SIGBUS, SIG_DFL);	/* create core image */
-#endif				/* SIGBUS */
-#ifdef SIGCHLD
     mySignal(SIGCHLD, SIG_IGN);
-#endif
-#ifdef SIGPIPE
     mySignal(SIGPIPE, SIG_IGN);
-#endif
 }
 
 #ifndef FOPEN_MAX
