@@ -136,7 +136,6 @@ typedef long clen_t;
 #undef HAVE_PUTENV
 #undef HAVE_SRAND48
 #undef HAVE_SRANDOM
-#undef HAVE_GETPASSPHRASE
 #undef HAVE_CHDIR
 #undef HAVE_SETPGRP
 #undef HAVE_SETLOCALE

@@ -1606,15 +1606,9 @@ getAuthCookie(struct http_auth *hauth, char *auth_header,
 	    fflush(stdout);
 	    *uname = Strfgets(stdin);
 	    Strchop(*uname);
-#ifdef HAVE_GETPASSPHRASE
-	    *pwd = Strnew_charp((char *)
-				getpassphrase(proxy ? "Proxy Password: " :
-					      "Password: "));
-#else
 	    *pwd = Strnew_charp((char *)
 				getpass(proxy ? "Proxy Password: " :
 					"Password: "));
-#endif
 	}
     }
     ss = hauth->cred(hauth, *uname, *pwd, pu, hr, request);
