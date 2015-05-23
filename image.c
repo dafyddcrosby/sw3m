@@ -6,9 +6,6 @@
 #include <signal.h>
 #include <errno.h>
 #include <unistd.h>
-#ifdef HAVE_WAITPID
-#include <sys/wait.h>
-#endif
 
 #ifdef USE_IMAGE
 
@@ -331,7 +328,6 @@ loadImage(Buffer *buf, int flag)
     ImageCache *cache;
     struct stat st;
     int i, draw = FALSE;
-    /* int wait_st; */
 
     if (maxLoadImage > MAX_LOAD_IMAGE)
 	maxLoadImage = MAX_LOAD_IMAGE;
@@ -351,13 +347,6 @@ loadImage(Buffer *buf, int flag)
 	    continue;
 	if (cache->pid) {
 	    kill(cache->pid, SIGKILL);
-	    /*
-	     * #ifdef HAVE_WAITPID
-	     * waitpid(cache->pid, &wait_st, 0);
-	     * #else
-	     * wait(&wait_st);
-	     * #endif
-	     */
 	    cache->pid = 0;
 	}
 	if (!stat(cache->file, &st)) {
@@ -380,13 +369,6 @@ loadImage(Buffer *buf, int flag)
 	    continue;
 	if (cache->pid) {
 	    kill(cache->pid, SIGKILL);
-	    /*
-	     * #ifdef HAVE_WAITPID
-	     * waitpid(cache->pid, &wait_st, 0);
-	     * #else
-	     * wait(&wait_st);
-	     * #endif
-	     */
 	    cache->pid = 0;
 	}
 	unlink(cache->touch);
