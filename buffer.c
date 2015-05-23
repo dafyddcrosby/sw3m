@@ -25,7 +25,7 @@ newBuffer(int width)
     n = New(Buffer);
     if (n == NULL)
 	return NULL;
-    bzero((void *)n, sizeof(Buffer));
+    memset((void *)n, 0, sizeof(Buffer));
     n->width = width;
     n->COLS = COLS;
     n->LINES = LASTLINE;

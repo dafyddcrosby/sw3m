@@ -79,7 +79,6 @@ typedef int wc_ces;	/* XXX: not used */
 
 #ifndef HAVE_BCOPY
 void bcopy(const void *, void *, int);
-void bzero(void *, int);
 #endif				/* HAVE_BCOPY */
 
 #ifdef MAINPROGRAM

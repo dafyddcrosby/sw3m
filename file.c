@@ -12,7 +12,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <utime.h>
-/* foo */
+#include <string.h>
 
 #include "html.h"
 #include "parsetagx.h"
@@ -1475,7 +1475,7 @@ findAuthentication(struct http_auth *hauth, Buffer *buf, char *auth_field)
     TextListItem *i;
     char *p0, *p;
 
-    bzero(hauth, sizeof(struct http_auth));
+    explicit_bzero(hauth, sizeof(struct http_auth));
     for (i = buf->document_header->first; i != NULL; i = i->next) {
 	if (strncasecmp(i->ptr, auth_field, len) == 0) {
 	    for (p = i->ptr + len; p != NULL && *p != '\0';) {
@@ -3060,7 +3060,7 @@ close_anchor(struct html_feed_environ *h_env, struct readbuffer *obuf)
 		else {
 		    passthrough(obuf, p, 1);
 		}
-		bzero((void *)&obuf->anchor, sizeof(obuf->anchor));
+		memset((void *)&obuf->anchor, 0, sizeof(obuf->anchor));
 		return;
 	    }
 	    is_erased = 0;
@@ -3072,7 +3072,7 @@ close_anchor(struct html_feed_environ *h_env, struct readbuffer *obuf)
 
 	push_tag(obuf, "</a>", HTML_N_A);
     }
-    bzero((void *)&obuf->anchor, sizeof(obuf->anchor));
+    memset((void *)&obuf->anchor, 0, sizeof(obuf->anchor));
 }
 
 void
@@ -3092,7 +3092,7 @@ save_fonteffect(struct html_feed_environ *h_env, struct readbuffer *obuf)
 	push_tag(obuf, "</s>", HTML_N_S);
     if (obuf->in_ins)
 	push_tag(obuf, "</ins>", HTML_N_INS);
-    bzero(obuf->fontstat, FONTSTAT_SIZE);
+    memset(obuf->fontstat, 0, FONTSTAT_SIZE);
 }
 
 void
@@ -6696,7 +6696,7 @@ init_henv(struct html_feed_environ *h_env, struct readbuffer *obuf,
     obuf->status = R_ST_NORMAL;
     obuf->table_level = -1;
     obuf->nobr_level = 0;
-    bzero((void *)&obuf->anchor, sizeof(obuf->anchor));
+    memset((void *)&obuf->anchor, 0, sizeof(obuf->anchor));
     obuf->img_alt = 0;
     obuf->in_bold = 0;
     obuf->in_italic = 0;

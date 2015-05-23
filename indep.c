@@ -72,15 +72,6 @@ bcopy(const void *src, void *dest, int len)
 	    ((char *)dest)[i] = ((const char *)src)[i];
     }
 }
-
-void
-bzero(void *ptr, int len)
-{
-    int i;
-    char *p = ptr;
-    for (i = 0; i < len; i++)
-	*(p++) = 0;
-}
 #endif				/* not HAVE_BCOPY */
 
 char *
