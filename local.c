@@ -337,9 +337,7 @@ localcgi_post(char *uri, char *qstr, FormList *request, char *referer)
 	freopen(DEV_NULL_PATH, "r", stdin);
     }
 
-#ifdef HAVE_CHDIR
     chdir(mydirname(file));
-#endif
     execl(file, mybasename(file), NULL);
     fprintf(stderr, "execl(\"%s\", \"%s\", NULL): %s\n",
 	    file, mybasename(file), strerror(errno));

@@ -143,7 +143,7 @@ dnl AC_FUNC_MEMCMP
 dnl AC_FUNC_MMAP
 dnl AC_FUNC_SETVBUF_REVERSED
 dnl AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(strcasecmp strcasestr strchr memcpy bcopy setpgrp chdir getcwd getwd strtoll atoll srand48 srandom waitpid setlocale explicit_bzero)
+AC_CHECK_FUNCS(strcasecmp strcasestr strchr memcpy bcopy setpgrp getcwd getwd strtoll atoll srand48 srandom waitpid setlocale explicit_bzero)
 AC_FUNC_WAIT3
 AC_FUNC_SETPGRP
 AM_LANGINFO_CODESET

@@ -192,8 +192,6 @@ typedef long clen_t;
 #define HAVE_GETWD
 #define HAVE_SRAND48
 #define HAVE_SRANDOM
-#define HAVE_CHDIR
-
 
 #define SETJMP(env) sigsetjmp(env,1)
 #define LONGJMP(env,val) siglongjmp(env,val)
