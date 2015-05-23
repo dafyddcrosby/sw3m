@@ -23,12 +23,7 @@
 
 #define INITIAL_STR_SIZE 32
 
-#ifdef STR_DEBUG
-/* This is obsolete, because "Str" can handle a '\0' character now. */
-#define STR_LENGTH_CHECK(x) if (((x)->ptr==0&&(x)->length!=0)||(strlen((x)->ptr)!=(x)->length))abort();
-#else				/* not STR_DEBUG */
 #define STR_LENGTH_CHECK(x)
-#endif				/* not STR_DEBUG */
 
 Str
 Strnew()
