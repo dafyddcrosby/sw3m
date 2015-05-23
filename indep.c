@@ -234,19 +234,6 @@ expandPath(char *name)
     return name;
 }
 
-#ifndef HAVE_STRCHR
-char *
-strchr(const char *s, int c)
-{
-    while (*s) {
-	if ((unsigned char)*s == c)
-	    return (char *)s;
-	s++;
-    }
-    return NULL;
-}
-#endif				/* not HAVE_STRCHR */
-
 #ifndef HAVE_STRCASESTR
 /* string search using the simplest algorithm */
 char *
