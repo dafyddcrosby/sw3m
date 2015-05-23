@@ -7,9 +7,7 @@
 #include <sys/stat.h>
 #include <signal.h>
 #include <errno.h>
-#ifdef HAVE_READLINK
 #include <unistd.h>
-#endif				/* HAVE_READLINK */
 #include "local.h"
 #include "hash.h"
 
@@ -64,12 +62,8 @@ loadLocalDir(char *dname)
     char **flist;
     char *p, *qdir;
     Str fbuf = Strnew();
-#ifdef HAVE_LSTAT
     struct stat lst;
-#ifdef HAVE_READLINK
     char lbuf[1024];
-#endif				/* HAVE_READLINK */
-#endif				/* HAVE_LSTAT */
     int i, l, nrow = 0, n = 0, maxlen = 0;
     int nfile, nfile_max = 100;
     Str dirname;
@@ -120,10 +114,8 @@ loadLocalDir(char *dname)
 	if (Strlastchar(fbuf) != '/')
 	    Strcat_char(fbuf, '/');
 	Strcat_charp(fbuf, p);
-#ifdef HAVE_LSTAT
 	if (lstat(fbuf->ptr, &lst) < 0)
 	    continue;
-#endif				/* HAVE_LSTAT */
 	if (stat(fbuf->ptr, &st) < 0)
 	    continue;
 	if (multicolList) {
@@ -131,11 +123,9 @@ loadLocalDir(char *dname)
 		Strcat_charp(tmp, "<TD><NOBR>");
 	}
 	else {
-#ifdef HAVE_LSTAT
 	    if (S_ISLNK(lst.st_mode))
 		Strcat_charp(tmp, "[LINK] ");
 	    else
-#endif				/* HAVE_LSTAT */
 	    if (S_ISDIR(st.st_mode))
 		Strcat_charp(tmp, "[DIR]&nbsp; ");
 	    else
@@ -158,7 +148,6 @@ loadLocalDir(char *dname)
 	    }
 	}
 	else {
-#if defined(HAVE_LSTAT) && defined(HAVE_READLINK)
 	    if (S_ISLNK(lst.st_mode)) {
 		if ((l = readlink(fbuf->ptr, lbuf, sizeof(lbuf))) > 0) {
 		    lbuf[l] = '\0';
@@ -168,7 +157,6 @@ loadLocalDir(char *dname)
 			Strcat_char(tmp, '/');
 		}
 	    }
-#endif				/* HAVE_LSTAT && HAVE_READLINK */
 	    Strcat_charp(tmp, "<br>\n");
 	}
     }

@@ -8711,7 +8711,7 @@ _ACEOF
 
 
 
-for ac_func in strcasestr bcopy setpgrp chdir getcwd getwd readlink strtoll atoll symlink readlink lstat srand48 srandom waitpid setlocale explicit_bzero
+for ac_func in strcasestr bcopy setpgrp chdir getcwd getwd strtoll atoll srand48 srandom waitpid setlocale explicit_bzero
 do :
   as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
 ac_fn_c_check_func "$LINENO" "$ac_func" "$as_ac_var"

@@ -126,9 +126,6 @@ typedef long clen_t;
 #undef HAVE_STRFTIME
 #undef HAVE_GETCWD
 #undef HAVE_GETWD
-#undef HAVE_SYMLINK
-#undef HAVE_READLINK
-#undef HAVE_LSTAT
 #undef HAVE_SRAND48
 #undef HAVE_SRANDOM
 #undef HAVE_CHDIR
@@ -174,10 +171,6 @@ typedef RETSIGTYPE MySignalHandler;
 #else /* HAVE_SRANDOM */
 #define USE_INCLUDED_SRAND48
 #endif /* HAVE_SRANDOM */
-#endif
-
-#ifndef HAVE_LSTAT
-#define lstat stat
 #endif
 
 #define DEFAULT_TERM	0	/* XXX */
