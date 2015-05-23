@@ -14,8 +14,8 @@ AC_DEFINE(W3M, w3m)
 
 AC_SUBST(W3M_LANG)
 W3M_LANG=${LC_ALL:-$LANG}
-dnl AM_INIT_AUTOMAKE(w3m, 0.4)
 AC_CONFIG_HEADER(config.h)
+
 dnl Checks for programs.
 AC_PROG_CXX
 AC_PROG_AWK
@@ -29,9 +29,6 @@ AC_PATH_PROGS(PERL, perl, /usr/local/bin/perl)
 AC_PATH_PROGS(NKF, nkf, /usr/local/bin/nkf)
 AC_PATH_PROGS(MAN, man, /usr/bin/man)
 AC_CANONICAL_HOST
-
-AC_EXEEXT
-AC_SUBST(EXEEXT)
 
 AUXBIN_TARGETS=
 
@@ -143,7 +140,7 @@ dnl AC_FUNC_MEMCMP
 dnl AC_FUNC_MMAP
 dnl AC_FUNC_SETVBUF_REVERSED
 dnl AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(strcasecmp strcasestr strchr memcpy bcopy setpgrp getcwd getwd strtoll atoll srand48 srandom setlocale explicit_bzero)
+AC_CHECK_FUNCS(strcasestr memcpy bcopy setpgrp getcwd getwd strtoll atoll srand48 srandom setlocale explicit_bzero)
 AC_FUNC_SETPGRP
 AM_LANGINFO_CODESET
 AC_W3M_SYS_ERRLIST
@@ -169,7 +166,7 @@ scripts/multipart/Makefile scripts/multipart/multipart.cgi \
 scripts/w3mman/Makefile scripts/w3mman/w3mman scripts/w3mman/w3mman.1 \
 scripts/w3mman/w3mman2html.cgi \
 libwc/Makefile \
-w3mimg/Makefile w3mimg/fb/Makefile w3mimg/x11/Makefile w3mimg/win/Makefile \
+w3mimg/Makefile w3mimg/fb/Makefile w3mimg/x11/Makefile \
 w3mhelp-w3m_en.html w3mhelp-w3m_ja.html \
 w3mhelp-lynx_en.html w3mhelp-lynx_ja.html])
 
