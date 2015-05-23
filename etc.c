@@ -619,15 +619,6 @@ mydirname(char *s)
     return allocStr(s, strlen(s) - strlen(p) + 1);
 }
 
-#ifndef HAVE_STRERROR
-char *
-strerror(int errno)
-{
-    extern char *sys_errlist[];
-    return sys_errlist[errno];
-}
-#endif				/* not HAVE_STRERROR */
-
 #ifndef HAVE_SYS_ERRLIST
 char **sys_errlist;
 
