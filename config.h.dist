@@ -188,8 +188,6 @@ typedef long clen_t;
 #define HAVE_BCOPY
 #define HAVE_GETCWD
 #define HAVE_GETWD
-#define HAVE_SRAND48
-#define HAVE_SRANDOM
 
 #define SETJMP(env) sigsetjmp(env,1)
 #define LONGJMP(env,val) siglongjmp(env,val)
@@ -207,16 +205,6 @@ typedef void MySignalHandler;
    If you want to use IPv6, define this symbol.
  */
 #undef INET6
-
-/** dont edit below **/
-#ifndef HAVE_SRAND48
-#ifdef HAVE_SRANDOM
-#define srand48 srandom
-#define lrand48 random
-#else /* HAVE_SRANDOM */
-#define USE_INCLUDED_SRAND48
-#endif /* HAVE_SRANDOM */
-#endif
 
 #define DEFAULT_TERM	0	/* XXX */
 
