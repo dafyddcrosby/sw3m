@@ -118,7 +118,6 @@ typedef long clen_t;
 #undef HAVE_STROQ
 #undef HAVE_ATOLL
 #undef HAVE_ATOQ
-#undef HAVE_STRCASECMP
 #undef HAVE_STRCASESTR
 #undef HAVE_STRCHR
 #undef HAVE_STRERROR
