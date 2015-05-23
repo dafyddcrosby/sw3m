@@ -594,6 +594,7 @@ AC_DEFUN([AC_W3M_IMAGE],
 	if test -c /dev/fb0; then
 	  enable_image=x11,fb
         fi;;
+    esac
   fi   
   save_ifs="$IFS"; IFS=",";
   set x $enable_image; shift
