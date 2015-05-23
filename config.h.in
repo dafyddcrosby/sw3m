@@ -129,8 +129,6 @@ typedef long clen_t;
 #undef HAVE_SYMLINK
 #undef HAVE_READLINK
 #undef HAVE_LSTAT
-#undef HAVE_SETENV
-#undef HAVE_PUTENV
 #undef HAVE_SRAND48
 #undef HAVE_SRANDOM
 #undef HAVE_CHDIR

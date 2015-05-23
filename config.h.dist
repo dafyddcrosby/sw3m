@@ -194,8 +194,6 @@ typedef long clen_t;
 #define HAVE_SYMLINK
 #define HAVE_READLINK
 #define HAVE_LSTAT
-#define HAVE_SETENV
-#define HAVE_PUTENV
 #define HAVE_SRAND48
 #define HAVE_SRANDOM
 #define HAVE_CHDIR
