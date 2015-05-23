@@ -445,7 +445,7 @@ AC_ARG_WITH(gc,
    fi
  fi
  unset ac_cv_lib_gc_GC_init
- AC_CHECK_LIB(gc, GC_init, [LIBGC="-lgc"])
+ AC_CHECK_LIB(gc, GC_init, [LIBGC="-lgc -pthread"], [ ], -pthread)
  if test x"$ac_cv_lib_gc_GC_init" = xno; then
     AC_MSG_CHECKING(GC library location)
     AC_MSG_RESULT($with_gc)
@@ -455,7 +455,7 @@ AC_ARG_WITH(gc,
       LDFLAGS="$LDFLAGS -L$dir/lib"
       AC_MSG_CHECKING($dir)
       unset ac_cv_lib_gc_GC_init
-      AC_CHECK_LIB(gc, GC_init, [gclibdir="$dir/lib"; LIBGC="-L$dir/lib -lgc"; break])
+      AC_CHECK_LIB(gc, GC_init, [gclibdir="$dir/lib"; LIBGC="-L$dir/lib -lgc -pthread"; break], [ ], -pthread)
       LDFLAGS="$ldflags"
     done
     if test x"$gclibdir" = xno; then
