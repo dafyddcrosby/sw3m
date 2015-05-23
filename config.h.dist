@@ -201,7 +201,6 @@ typedef long clen_t;
 #define HAVE_PUTENV
 #define HAVE_SRAND48
 #define HAVE_SRANDOM
-#undef HAVE_GETPASSPHRASE
 #define HAVE_CHDIR
 
 
