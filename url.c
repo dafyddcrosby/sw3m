@@ -239,43 +239,12 @@ free_ssl_ctx()
     ssl_accept_this_site(NULL);
 }
 
-#include <openssl/rand.h>
-static void
-init_PRNG()
-{
-    char buffer[256];
-    const char *file;
-    long l;
-    if (RAND_status())
-	return;
-    if ((file = RAND_file_name(buffer, sizeof(buffer)))) {
-	RAND_load_file(file, -1);
-    }
-    if (RAND_status())
-	goto seeded;
-    srand48((long)time(NULL));
-    while (!RAND_status()) {
-	l = lrand48();
-	RAND_seed((unsigned char *)&l, sizeof(long));
-    }
-  seeded:
-    if (file)
-	RAND_write_file(file);
-}
-
 static SSL *
 openSSLHandle(int sock, char *hostname, char **p_cert)
 {
     SSL *handle = NULL;
-    static char *old_ssl_forbid_method = NULL;
     static int old_ssl_verify_server = -1;
 
-    if (old_ssl_forbid_method != ssl_forbid_method
-	&& (!old_ssl_forbid_method || !ssl_forbid_method ||
-	    strcmp(old_ssl_forbid_method, ssl_forbid_method))) {
-	old_ssl_forbid_method = ssl_forbid_method;
-	ssl_path_modified = 1;
-    }
     if (old_ssl_verify_server != ssl_verify_server) {
 	old_ssl_verify_server = ssl_verify_server;
 	ssl_path_modified = 1;
@@ -285,23 +254,10 @@ openSSLHandle(int sock, char *hostname, char **p_cert)
 	ssl_path_modified = 0;
     }
     if (ssl_ctx == NULL) {
-	int option;
 	SSL_library_init();
 	SSL_load_error_strings();
-	if (!(ssl_ctx = SSL_CTX_new(SSLv23_client_method())))
+	if (!(ssl_ctx = SSL_CTX_new(TLSv1_client_method())))
 	    goto eend;
-	option = SSL_OP_ALL;
-	if (ssl_forbid_method) {
-	    if (strchr(ssl_forbid_method, '2'))
-		option |= SSL_OP_NO_SSLv2;
-	    if (strchr(ssl_forbid_method, '3'))
-		option |= SSL_OP_NO_SSLv3;
-	    if (strchr(ssl_forbid_method, 't'))
-		option |= SSL_OP_NO_TLSv1;
-	    if (strchr(ssl_forbid_method, 'T'))
-		option |= SSL_OP_NO_TLSv1;
-	}
-	SSL_CTX_set_options(ssl_ctx, option);
 	/* derived from openssl-0.9.5/apps/s_{client,cb}.c */
 	SSL_CTX_set_verify(ssl_ctx, SSL_VERIFY_NONE, NULL);
 	if (ssl_cert_file != NULL && *ssl_cert_file != '\0') {
@@ -327,7 +283,6 @@ openSSLHandle(int sock, char *hostname, char **p_cert)
     }
     handle = SSL_new(ssl_ctx);
     SSL_set_fd(handle, sock);
-    init_PRNG();
     SSL_set_tlsext_host_name(handle,hostname);
     if (SSL_connect(handle) > 0) {
 	Str serv_cert = ssl_get_certificate(handle, hostname);

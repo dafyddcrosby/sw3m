@@ -186,7 +186,6 @@ static int OptionEncode = FALSE;
 #define CMT_SSL_KEY_FILE N_("PEM encoded private key file of client")
 #define CMT_SSL_CA_PATH N_("Path to directory for PEM encoded certificates of CAs")
 #define CMT_SSL_CA_FILE N_("File consisting of PEM encoded certificates of CAs")
-#define CMT_SSL_FORBID_METHOD N_("List of forbidden SSL methods (2: SSLv2, 3: SSLv3, t:TLSv1)")
 #endif				/* USE_SSL */
 #ifdef USE_COOKIE
 #define CMT_USECOOKIE   N_("Enable cookie processing")
@@ -551,8 +550,6 @@ struct param_ptr params6[] = {
 
 #ifdef USE_SSL
 struct param_ptr params7[] = {
-    {"ssl_forbid_method", P_STRING, PI_TEXT, (void *)&ssl_forbid_method,
-     CMT_SSL_FORBID_METHOD, NULL},
     {"ssl_verify_server", P_INT, PI_ONOFF, (void *)&ssl_verify_server,
      CMT_SSL_VERIFY_SERVER, NULL},
     {"ssl_cert_file", P_SSLPATH, PI_TEXT, (void *)&ssl_cert_file,
