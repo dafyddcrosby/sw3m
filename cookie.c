@@ -1,10 +1,10 @@
 /* $Id: cookie.c,v 1.11 2010/07/26 11:38:53 htrb Exp $ */
 
 /*
- * References for version 0 cookie:                                  
+ * References for version 0 cookie:
  *   [NETACAPE] http://www.netscape.com/newsref/std/cookie_spec.html
  *
- * References for version 1 cookie:                                  
+ * References for version 1 cookie:
  *   [RFC 2109] http://www.ics.uci.edu/pub/ietf/http/rfc2109.txt
  *   [DRAFT 12] http://www.ics.uci.edu/pub/ietf/http/draft-ietf-http-state-man-mec-12.txt
  */
@@ -263,7 +263,7 @@ check_avoid_wrong_number_of_dots_domain( Str domain )
    TextListItem *tl;
     int avoid_wrong_number_of_dots_domain = FALSE;
 
-    if (Cookie_avoid_wrong_number_of_dots_domains && 
+    if (Cookie_avoid_wrong_number_of_dots_domains &&
             Cookie_avoid_wrong_number_of_dots_domains->nitem > 0) {
         for (tl = Cookie_avoid_wrong_number_of_dots_domains->first;
                 tl != NULL; tl = tl->next) {
@@ -586,30 +586,8 @@ cookie_list_panel(void)
     for (p = First_cookie, i = 0; p; p = p->next, i++) {
 	tmp = html_quote(parsedURL2Str(&p->url)->ptr);
 	if (p->expires != (time_t) - 1) {
-#ifdef HAVE_STRFTIME
 	    strftime(tmp2, 80, "%a, %d %b %Y %H:%M:%S GMT",
 		     gmtime(&p->expires));
-#else				/* not HAVE_STRFTIME */
-	    struct tm *gmt;
-	    static char *dow[] = {
-		"Sun ", "Mon ", "Tue ", "Wed ", "Thu ", "Fri ", "Sat "
-	    };
-	    static char *month[] = {
-		"Jan ", "Feb ", "Mar ", "Apr ", "May ", "Jun ",
-		"Jul ", "Aug ", "Sep ", "Oct ", "Nov ", "Dec "
-	    };
-	    gmt = gmtime(&p->expires);
-	    strcpy(tmp2, dow[gmt->tm_wday]);
-	    sprintf(&tmp2[4], "%02d ", gmt->tm_mday);
-	    strcpy(&tmp2[7], month[gmt->tm_mon]);
-	    if (gmt->tm_year < 1900)
-		sprintf(&tmp2[11], "%04d %02d:%02d:%02d GMT",
-			(gmt->tm_year) + 1900, gmt->tm_hour, gmt->tm_min,
-			gmt->tm_sec);
-	    else
-		sprintf(&tmp2[11], "%04d %02d:%02d:%02d GMT",
-			gmt->tm_year, gmt->tm_hour, gmt->tm_min, gmt->tm_sec);
-#endif				/* not HAVE_STRFTIME */
 	}
 	else
 	    tmp2[0] = '\0';
