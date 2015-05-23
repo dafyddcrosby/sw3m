@@ -18,9 +18,7 @@
 #include "regex.h"
 
 #ifdef USE_SSL
-#ifndef SSLEAY_VERSION_NUMBER
-#include <openssl/crypto.h>		/* SSLEAY_VERSION_NUMBER may be here */
-#endif
+#include <openssl/crypto.h>
 #include <openssl/err.h>
 #endif
 
@@ -241,7 +239,6 @@ free_ssl_ctx()
     ssl_accept_this_site(NULL);
 }
 
-#if SSLEAY_VERSION_NUMBER >= 0x00905100
 #include <openssl/rand.h>
 static void
 init_PRNG()
@@ -265,7 +262,6 @@ init_PRNG()
     if (file)
 	RAND_write_file(file);
 }
-#endif				/* SSLEAY_VERSION_NUMBER >= 0x00905100 */
 
 static SSL *
 openSSLHandle(int sock, char *hostname, char **p_cert)
@@ -290,10 +286,6 @@ openSSLHandle(int sock, char *hostname, char **p_cert)
     }
     if (ssl_ctx == NULL) {
 	int option;
-#if SSLEAY_VERSION_NUMBER < 0x0800
-	ssl_ctx = SSL_CTX_new();
-	X509_set_default_verify_paths(ssl_ctx->cert);
-#else				/* SSLEAY_VERSION_NUMBER >= 0x0800 */
 	SSLeay_add_ssl_algorithms();
 	SSL_load_error_strings();
 	if (!(ssl_ctx = SSL_CTX_new(SSLv23_client_method())))
@@ -332,16 +324,11 @@ openSSLHandle(int sock, char *hostname, char **p_cert)
 	if ((!ssl_ca_file && !ssl_ca_path)
 	    || SSL_CTX_load_verify_locations(ssl_ctx, ssl_ca_file, ssl_ca_path))
 	    SSL_CTX_set_default_verify_paths(ssl_ctx);
-#endif				/* SSLEAY_VERSION_NUMBER >= 0x0800 */
     }
     handle = SSL_new(ssl_ctx);
     SSL_set_fd(handle, sock);
-#if SSLEAY_VERSION_NUMBER >= 0x00905100
     init_PRNG();
-#endif				/* SSLEAY_VERSION_NUMBER >= 0x00905100 */
-#if (SSLEAY_VERSION_NUMBER >= 0x00908070) && !defined(OPENSSL_NO_TLSEXT)
     SSL_set_tlsext_host_name(handle,hostname);
-#endif				/* (SSLEAY_VERSION_NUMBER >= 0x00908070) && !defined(OPENSSL_NO_TLSEXT) */
     if (SSL_connect(handle) > 0) {
 	Str serv_cert = ssl_get_certificate(handle, hostname);
 	if (serv_cert) {
