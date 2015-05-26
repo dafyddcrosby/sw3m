@@ -10,6 +10,7 @@
 #include <errno.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <stdbool.h>
 #include "config.h"
 #include <string.h>
 #ifdef HAVE_SYS_SELECT_H
@@ -36,7 +37,7 @@ static int xpix, ypix, nbs, obs = 0;
 static int is_xterm = 0;
 
 void mouse_init(), mouse_end();
-int mouseActive = 0;
+bool mouseActive = true;
 #endif				/* USE_MOUSE */
 
 static char *title_str = NULL;
@@ -1712,20 +1713,20 @@ mouse_init()
     if (is_xterm) {
 	XTERM_ON;
     }
-    mouseActive = 1;
+    mouseActive = true;
 }
 
 void
 mouse_end()
 {
-    if (mouseActive == 0)
+    if (!mouseActive)
 	return;
     if (is_xterm) {
 	XTERM_OFF;
     }
     else
 	Gpm_Close();
-    mouseActive = 0;
+    mouseActive = false;
 }
 
 #elif	defined(USE_SYSMOUSE)
@@ -1768,13 +1769,13 @@ mouse_init()
 	    sysm_handler = sysm_process_mouse;
 	}
     }
-    mouseActive = 1;
+    mouseActive = true;
 }
 
 void
 mouse_end()
 {
-    if (mouseActive == 0)
+    if (!mouseActive)
 	return;
     if (is_xterm) {
 	XTERM_OFF;
@@ -1786,7 +1787,7 @@ mouse_end()
 	mi.u.mode.signal = 0;
 	ioctl(tty, CONS_MOUSECTL, &mi);
     }
-    mouseActive = 0;
+    mouseActive = false;
 }
 
 #else
@@ -1800,18 +1801,18 @@ mouse_init()
     if (is_xterm & NEED_XTERM_ON) {
 	XTERM_ON;
     }
-    mouseActive = 1;
+    mouseActive = true;
 }
 
 void
 mouse_end()
 {
-    if (mouseActive == 0)
+    if (!mouseActive)
 	return;
     if (is_xterm & NEED_XTERM_OFF) {
 	XTERM_OFF;
     }
-    mouseActive = 0;
+    mouseActive = false;
 }
 
 #endif				/* not USE_GPM nor USE_SYSMOUSE */
