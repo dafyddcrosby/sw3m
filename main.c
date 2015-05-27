@@ -1203,11 +1203,6 @@ DEFUN(nulcmd, NOTHING NULL @@@, "Do nothing")
 {				/* do nothing */
 }
 
-void
-pcmap(void)
-{
-}
-
 static void
 escKeyProc(int c, int esc, unsigned char *map)
 {

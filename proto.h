@@ -339,7 +339,6 @@ extern char *conv_search_string(char *str, wc_ces f_ces);
 #endif
 extern int forwardSearch(Buffer *buf, char *str);
 extern int backwardSearch(Buffer *buf, char *str);
-extern void pcmap(void);
 extern void escmap(void);
 extern void escbmap(void);
 extern void escdmap(char c);
