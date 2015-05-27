@@ -5,7 +5,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
-
+#include <stdbool.h>
 #include <signal.h>
 #include <setjmp.h>
 #include <errno.h>
@@ -836,7 +836,7 @@ parseURL2(char *url, ParsedURL *pu, ParsedURL *current)
 {
     char *p;
     Str tmp;
-    int relative_uri = FALSE;
+    bool relative_uri = false;
 
     parseURL(url, pu, current);
 #ifndef USE_W3MMAILER
@@ -915,7 +915,7 @@ parseURL2(char *url, ParsedURL *pu, ParsedURL *current)
 		    }
 		    Strcat_charp(tmp, p);
 		    pu->file = tmp->ptr;
-		    relative_uri = TRUE;
+		    relative_uri = true;
 		}
 	    }
 #ifdef USE_GOPHER
