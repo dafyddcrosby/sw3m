@@ -243,7 +243,7 @@ checkType(Str s, Lineprop **oprop, Linecolor **ocolor)
     static int color_size = 0;
     char *es = NULL;
 #endif
-    int do_copy = FALSE;
+    bool do_copy = false;
     int i;
     int plen = 0, clen;
 
@@ -275,7 +275,7 @@ checkType(Str s, Lineprop **oprop, Linecolor **ocolor)
 	    ) {
 	    char *sp = str, *ep;
 	    s = Strnew_size(s->length);
-	    do_copy = TRUE;
+	    do_copy = true;
 	    ep = bs ? (bs - 2) : endp;
 #ifdef USE_ANSI_COLOR
 	    if (es && ep > es - 2)
@@ -1433,21 +1433,21 @@ myEditor(char *cmd, char *file, int line)
 {
     Str tmp = NULL;
     char *p;
-    int set_file = FALSE, set_line = FALSE;
+    bool set_file = false, set_line = false;
 
     for (p = cmd; *p; p++) {
 	if (*p == '%' && *(p + 1) == 's' && !set_file) {
 	    if (tmp == NULL)
 		tmp = Strnew_charp_n(cmd, (int)(p - cmd));
 	    Strcat_charp(tmp, file);
-	    set_file = TRUE;
+	    set_file = true;
 	    p++;
 	}
 	else if (*p == '%' && *(p + 1) == 'd' && !set_line && line > 0) {
 	    if (tmp == NULL)
 		tmp = Strnew_charp_n(cmd, (int)(p - cmd));
 	    Strcat(tmp, Sprintf("%d", line));
-	    set_line = TRUE;
+	    set_line = true;
 	    p++;
 	}
 	else {
