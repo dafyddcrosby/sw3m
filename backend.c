@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
+#include <stdbool.h>
 #include "fm.h"
 #include <gc.h>
 #include "terms.h"
@@ -331,7 +332,7 @@ readline(char *prompt)
 static TextList *
 split(char *p)
 {
-    int in_double_quote = FALSE, in_single_quote = FALSE;
+    bool in_double_quote = false, in_single_quote = false;
     Str s = Strnew();
     TextList *tp = newTextList();
 
