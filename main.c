@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <time.h>
+#include <stdbool.h>
 #include "terms.h"
 #include "myctype.h"
 #include "regex.h"
@@ -345,9 +346,9 @@ main(int argc, char **argv, char **envp)
     char **load_argv;
     FormList *request;
     int load_argc = 0;
-    int load_bookmark = FALSE;
-    int visual_start = FALSE;
-    int open_new_tab = FALSE;
+    bool load_bookmark = false;
+    bool visual_start = false;
+    bool open_new_tab = false;
     char search_header = FALSE;
     char *default_type = NULL;
     char *post_file = NULL;
@@ -523,15 +524,15 @@ main(int argc, char **argv, char **envp)
 	    else if (!strcmp("-m", argv[i]))
 		SearchHeader = search_header = TRUE;
 	    else if (!strcmp("-v", argv[i]))
-		visual_start = TRUE;
+		visual_start = true;
 	    else if (!strcmp("-N", argv[i]))
-		open_new_tab = TRUE;
+		open_new_tab = true;
 #ifdef USE_COLOR
 	    else if (!strcmp("-M", argv[i]))
 		useColor = FALSE;
 #endif				/* USE_COLOR */
 	    else if (!strcmp("-B", argv[i]))
-		load_bookmark = TRUE;
+		load_bookmark = true;
 	    else if (!strcmp("-bookmark", argv[i])) {
 		if (++i >= argc)
 		    usage();
