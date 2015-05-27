@@ -61,7 +61,6 @@
 #undef USE_HELP_CGI
 #undef USE_EXTERNAL_URI_LOADER
 #undef USE_W3MMAILER
-#undef USE_NNTP
 #undef USE_GOPHER
 #undef USE_ALARM
 #undef USE_IMAGE

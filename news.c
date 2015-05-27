@@ -7,8 +7,6 @@
 #include <signal.h>
 #include <setjmp.h>
 
-#ifdef USE_NNTP
-
 #define NEWS_ENDLINE(p) \
     ((*(p) == '.' && ((p)[1] == '\n' || (p)[1] == '\r' || (p)[1] == '\0')) || \
     *(p) == '\n' || *(p) == '\r' || *(p) == '\0')
@@ -514,5 +512,3 @@ disconnectNews(void)
 {
     news_quit(&current_news);
 }
-
-#endif				/* USE_NNTP */

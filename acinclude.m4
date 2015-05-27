@@ -80,18 +80,6 @@ AC_ARG_ENABLE(dict,
  [enable_dict="yes"])
  test x"$enable_dict" = xyes && AC_DEFINE(USE_DICT)
  AC_MSG_RESULT($enable_dict)])
-#
-# ----------------------------------------------------------------
-# AC_W3M_NNTP
-# ----------------------------------------------------------------
-AC_DEFUN([AC_W3M_NNTP],
-[AC_SUBST(USE_NNTP)
- AC_MSG_CHECKING(if nntp is enabled)
- AC_ARG_ENABLE(nntp,
-  [  --disable-nntp		disable NNTP],,
-  [enable_nntp="yes"])
- test x"$enable_nntp" = xyes && AC_DEFINE(USE_NNTP)
- AC_MSG_RESULT($enable_nntp)])
 # 
 # ----------------------------------------------------------------
 # AC_W3M_GOPHER

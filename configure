@@ -627,7 +627,6 @@ USE_EXTERNAL_URI_LOADER
 USE_HELP_CGI
 USE_DICT
 USE_GOPHER
-USE_NNTP
 USE_ALARM
 USE_MOUSE
 USE_MENU
@@ -783,7 +782,6 @@ enable_keymap
 enable_menu
 enable_mouse
 enable_alarm
-enable_nntp
 enable_gopher
 enable_dict
 enable_help_cgi
@@ -1449,7 +1447,6 @@ Optional Features:
   --disable-menu		disable popup menu
   --disable-mouse		disable mouse operation
   --disable-alarm		disable alarm
-  --disable-nntp		disable NNTP
   --enable-gopher		enable GOPHER
   --disable-dict		disable dictionary lookup (see README.dict)
   --disable-help-cgi		disable help cgi
@@ -7117,20 +7114,6 @@ rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
  fi
 
 
- { $as_echo "$as_me:${as_lineno-$LINENO}: checking if nntp is enabled" >&5
-$as_echo_n "checking if nntp is enabled... " >&6; }
- # Check whether --enable-nntp was given.
-if test "${enable_nntp+set}" = set; then :
-  enableval=$enable_nntp;
-else
-  enable_nntp="yes"
-fi
-
- test x"$enable_nntp" = xyes && $as_echo "#define USE_NNTP 1" >>confdefs.h
-
- { $as_echo "$as_me:${as_lineno-$LINENO}: result: $enable_nntp" >&5
-$as_echo "$enable_nntp" >&6; }
-
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking if gopher is enabled" >&5
 $as_echo_n "checking if gopher is enabled... " >&6; }
  # Check whether --enable-gopher was given.
@@ -8656,7 +8639,7 @@ _ACEOF
 
 
 
-for ac_func in strcasestr memcpy bcopy setpgrp strtoll atoll explicit_bzero
+for ac_func in strcasestr memcpy bcopy setpgrp explicit_bzero
 do :
   as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
 ac_fn_c_check_func "$LINENO" "$ac_func" "$as_ac_var"

@@ -191,7 +191,6 @@ searchURLLabel(Buffer *buf, char *url)
     return searchAnchor(buf->name, url);
 }
 
-#ifdef USE_NNTP
 static Anchor *
 _put_anchor_news(Buffer *buf, char *p1, char *p2, int line, int pos)
 {
@@ -208,7 +207,6 @@ _put_anchor_news(Buffer *buf, char *p1, char *p2, int line, int pos)
     return registerHref(buf, tmp->ptr, NULL, NO_REFERER, NULL, '\0', line,
 			pos);
 }
-#endif				/* USE_NNTP */
 
 static Anchor *
 _put_anchor_all(Buffer *buf, char *p1, char *p2, int line, int pos)
@@ -386,7 +384,6 @@ reAnchor(Buffer *buf, char *re)
     return reAnchorAny(buf, re, _put_anchor_all);
 }
 
-#ifdef USE_NNTP
 char *
 reAnchorNews(Buffer *buf, char *re)
 {
@@ -449,7 +446,6 @@ reAnchorNewsheader(Buffer *buf)
     reseq_anchor(buf);
     return NULL;
 }
-#endif				/* USE_NNTP */
 
 #define FIRST_MARKER_SIZE 30
 HmarkerList *
