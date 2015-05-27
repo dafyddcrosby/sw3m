@@ -1,7 +1,7 @@
 /* $Id: regex.c,v 1.23 2010/08/24 10:11:51 htrb Exp $ */
-/* 
+/*
  * regex: Regular expression pattern match library
- * 
+ *
  * by A.ITO, December 1989
  * Revised by A.ITO, January 2002
  */
@@ -108,13 +108,13 @@ static Regex DefaultRegex;
 #define CompiledRegex DefaultRegex.re
 #define Cstorage DefaultRegex.storage
 
-static int regmatch(regexchar *, char *, char *, int, char **);
+static bool regmatch(regexchar *, char *, char *, int, char **);
 static int regmatch1(regexchar *, longchar *);
 static int matchWhich(longchar *, longchar *, int);
 static int match_longchar(longchar *, longchar *, int);
 static int match_range_longchar(longchar *, longchar *, longchar *, int);
 
-/* 
+/*
  * regexCompile: compile regular expression
  */
 char *
@@ -287,7 +287,7 @@ newRegex(char *ex, int igncase, Regex *regex, char **msg)
     return newRegex0(&ex, igncase, regex, msg, 0);
 }
 
-/* 
+/*
  * regexMatch: match regular expression
  */
 int
@@ -333,7 +333,7 @@ RegexMatch(Regex *re, char *str, int len, int firstp)
     return 0;
 }
 
-/* 
+/*
  * matchedPosition: last matched position
  */
 void
@@ -350,7 +350,7 @@ matchedPosition(char **first, char **last)
     *last = DefaultRegex.lposition;
 }
 
-/* 
+/*
  * Intermal routines
  */
 
@@ -586,7 +586,7 @@ regmatch_iter(struct MatchingContext1 *c,
     return 0;
 }
 
-static int
+static bool
 regmatch(regexchar * re, char *str, char *end_p, int firstp, char **lastpos)
 {
     struct MatchingContext1 contx;
@@ -608,8 +608,8 @@ regmatch(regexchar * re, char *str, char *end_p, int firstp, char **lastpos)
 	    *lastpos = contx.lastpos;
     }
     if (*lastpos == NULL)
-	return 0;
-    return 1;
+	return false;
+    return true;
 }
 
 
