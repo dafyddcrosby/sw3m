@@ -13,6 +13,7 @@
 #include "html.h"
 
 #include <time.h>
+#include <stdbool.h>
 #include "local.h"
 #include "regex.h"
 #include "myctype.h"
@@ -256,28 +257,21 @@ char *special_domain[] = {
     ".com", ".edu", ".gov", ".mil", ".net", ".org", ".int", NULL
 };
 
-int
+bool
 check_avoid_wrong_number_of_dots_domain( Str domain )
 {
    TextListItem *tl;
-    int avoid_wrong_number_of_dots_domain = FALSE;
 
     if (Cookie_avoid_wrong_number_of_dots_domains &&
             Cookie_avoid_wrong_number_of_dots_domains->nitem > 0) {
         for (tl = Cookie_avoid_wrong_number_of_dots_domains->first;
                 tl != NULL; tl = tl->next) {
             if (domain_match(domain->ptr, tl->ptr)) {
-                avoid_wrong_number_of_dots_domain = TRUE;
-                break;
+                return true;
             }
         }
     }
-
-    if (avoid_wrong_number_of_dots_domain == TRUE) {
-        return TRUE;
-    } else {
-        return FALSE;
-    }
+    return false;
 }
 
 int
