@@ -28,9 +28,9 @@ static int n_terminal_image = 0;
 static int max_terminal_image = 0;
 static FILE *Imgdisplay_rf = NULL, *Imgdisplay_wf = NULL;
 static pid_t Imgdisplay_pid = 0;
-static int openImgdisplay();
+static bool openImgdisplay();
 static void closeImgdisplay();
-int getCharSize();
+static bool getCharSize();
 
 void
 initImage()
@@ -41,7 +41,7 @@ initImage()
 	activeImage = TRUE;
 }
 
-int
+static bool
 getCharSize()
 {
     FILE *f;
@@ -55,7 +55,7 @@ getCharSize()
     Strcat_m_charp(tmp, Imgdisplay, " -test 2>/dev/null", NULL);
     f = popen(tmp->ptr, "r");
     if (!f)
-	return FALSE;
+	return false;
     while (fscanf(f, "%d %d", &w, &h) < 0) {
 	if (feof(f))
 	    break;
@@ -63,12 +63,12 @@ getCharSize()
     pclose(f);
 
     if (!(w > 0 && h > 0))
-	return FALSE;
+	return false;
     if (!set_pixel_per_char)
 	pixel_per_char = (int)(1.0 * w / COLS + 0.5);
     if (!set_pixel_per_line)
 	pixel_per_line = (int)(1.0 * h / LINES + 0.5);
-    return TRUE;
+    return true;
 }
 
 void
@@ -84,7 +84,7 @@ termImage()
     closeImgdisplay();
 }
 
-static int
+static bool
 openImgdisplay()
 {
     Imgdisplay_pid = open_pipe_rw(&Imgdisplay_rf, &Imgdisplay_wf);
@@ -101,11 +101,11 @@ openImgdisplay()
 	myExec(cmd);
     }
     activeImage = TRUE;
-    return TRUE;
+    return true;
   err0:
     Imgdisplay_pid = 0;
     activeImage = FALSE;
-    return FALSE;
+    return false;
 }
 
 static void
@@ -170,7 +170,8 @@ void
 drawImage()
 {
     static char buf[64];
-    int j, draw = FALSE;
+    int j;
+    bool draw = false;
     TerminalImage *i;
 
     if (!activeImage)
@@ -200,7 +201,7 @@ drawImage()
 	fputs(buf, Imgdisplay_wf);
 	fputs(i->cache->file, Imgdisplay_wf);
 	fputs("\n", Imgdisplay_wf);
-	draw = TRUE;
+	draw = true;
     }
     if (!draw)
 	return;
@@ -327,7 +328,8 @@ loadImage(Buffer *buf, int flag)
 {
     ImageCache *cache;
     struct stat st;
-    int i, draw = FALSE;
+    int i;
+		bool draw = false;
 
     if (maxLoadImage > MAX_LOAD_IMAGE)
 	maxLoadImage = MAX_LOAD_IMAGE;
@@ -355,7 +357,7 @@ loadImage(Buffer *buf, int flag)
 		if (image_buffer)
 		    image_buffer->need_reshape = TRUE;
 	    }
-	    draw = TRUE;
+	    draw = true;
 	}
 	else
 	    cache->loaded = IMG_FLAG_ERROR;
@@ -492,7 +494,7 @@ getImage(Image * image, ParsedURL *current, int flag)
     return cache;
 }
 
-int
+bool
 getImageSize(ImageCache * cache)
 {
     Str tmp;
@@ -500,17 +502,17 @@ getImageSize(ImageCache * cache)
     int w = 0, h = 0;
 
     if (!activeImage)
-	return FALSE;
+	return false;
     if (!cache || !(cache->loaded & IMG_FLAG_LOADED) ||
 	(cache->width > 0 && cache->height > 0))
-	return FALSE;
+	return false;
     tmp = Strnew();
     if (!strchr(Imgdisplay, '/'))
 	Strcat_m_charp(tmp, w3m_auxbin_dir(), "/", NULL);
     Strcat_m_charp(tmp, Imgdisplay, " -size ", shell_quote(cache->file), NULL);
     f = popen(tmp->ptr, "r");
     if (!f)
-	return FALSE;
+	return false;
     while (fscanf(f, "%d %d", &w, &h) < 0) {
 	if (feof(f))
 	    break;
@@ -518,7 +520,7 @@ getImageSize(ImageCache * cache)
     pclose(f);
 
     if (!(w > 0 && h > 0))
-	return FALSE;
+	return false;
     w = (int)(w * image_scale / 100 + 0.5);
     if (w == 0)
 	w = 1;
@@ -543,6 +545,6 @@ getImageSize(ImageCache * cache)
 	cache->height = 1;
     tmp = Sprintf("%d;%d;%s", cache->width, cache->height, cache->url);
     putHash_sv(image_hash, tmp->ptr, (void *)cache);
-    return TRUE;
+    return true;
 }
 #endif

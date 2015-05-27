@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <time.h>
+#include <stdbool.h>
 #include "terms.h"
 #include "myctype.h"
 #include "regex.h"
@@ -101,7 +102,7 @@ static int check_target = TRUE;
 #define PREC_NUM (prec_num ? prec_num : 1)
 #define PREC_LIMIT 10000
 static int searchKeyNum(void);
-
+static bool checkDownloadList(void);
 #define help() fusage(stdout, 0)
 #define usage() fusage(stderr, 1)
 
@@ -345,9 +346,9 @@ main(int argc, char **argv, char **envp)
     char **load_argv;
     FormList *request;
     int load_argc = 0;
-    int load_bookmark = FALSE;
-    int visual_start = FALSE;
-    int open_new_tab = FALSE;
+    bool load_bookmark = false;
+    bool visual_start = false;
+    bool open_new_tab = false;
     char search_header = FALSE;
     char *default_type = NULL;
     char *post_file = NULL;
@@ -523,15 +524,15 @@ main(int argc, char **argv, char **envp)
 	    else if (!strcmp("-m", argv[i]))
 		SearchHeader = search_header = TRUE;
 	    else if (!strcmp("-v", argv[i]))
-		visual_start = TRUE;
+		visual_start = true;
 	    else if (!strcmp("-N", argv[i]))
-		open_new_tab = TRUE;
+		open_new_tab = true;
 #ifdef USE_COLOR
 	    else if (!strcmp("-M", argv[i]))
 		useColor = FALSE;
 #endif				/* USE_COLOR */
 	    else if (!strcmp("-B", argv[i]))
-		load_bookmark = TRUE;
+		load_bookmark = true;
 	    else if (!strcmp("-bookmark", argv[i])) {
 		if (++i >= argc)
 		    usage();
@@ -6201,19 +6202,19 @@ addDownloadList(pid_t pid, char *url, char *save, char *lock, clen_t size)
     add_download_list = TRUE;
 }
 
-int
+static bool
 checkDownloadList(void)
 {
     DownloadList *d;
     struct stat st;
 
     if (!FirstDL)
-	return FALSE;
+	return false;
     for (d = FirstDL; d != NULL; d = d->next) {
 	if (d->running && !lstat(d->lock, &st))
-	    return TRUE;
+	    return true;
     }
-    return FALSE;
+    return false;
 }
 
 static char *

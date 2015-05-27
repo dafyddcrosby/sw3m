@@ -191,7 +191,7 @@ static int tab_step = 8;
 static int CurLine, CurColumn;
 static Screen *ScreenElem = NULL, **ScreenImage = NULL;
 static l_prop CurrentMode = 0;
-static int graph_enabled = 0;
+static bool graph_enabled = false;
 
 static char gcmap[96];
 
@@ -1108,7 +1108,7 @@ refresh(void)
 			wc_putc_end(ttyf);
 #endif
 			if (!graph_enabled) {
-			    graph_enabled = 1;
+			    graph_enabled = true;
 			    writestr(T_eA);
 			}
 			writestr(T_as);

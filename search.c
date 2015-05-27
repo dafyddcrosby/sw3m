@@ -32,7 +32,7 @@ init_migemo()
     migemo_pid = 0;
 }
 
-static int
+static bool
 open_migemo(char *migemo_command)
 {
     migemo_pid = open_pipe_rw(&migemor, &migemow);
@@ -43,11 +43,11 @@ open_migemo(char *migemo_command)
 	setup_child(FALSE, 2, -1);
 	myExec(migemo_command);
     }
-    return 1;
+    return true;
   err0:
     migemo_pid = 0;
     migemo_active = migemo_running = 0;
-    return 0;
+    return false;
 }
 
 static char *
@@ -55,7 +55,7 @@ migemostr(char *str)
 {
     Str tmp = NULL;
     if (migemor == NULL || migemow == NULL)
-	if (open_migemo(migemo_command) == 0)
+	if (!open_migemo(migemo_command))
 	    return str;
     fprintf(migemow, "%s\n", conv_to_system(str));
   again:
@@ -97,7 +97,7 @@ forwardSearch(Buffer *buf, char *str)
 {
     char *p, *first, *last;
     Line *l, *begin;
-    int wrapped = FALSE;
+    bool wrapped = false;
     int pos;
 
 #ifdef USE_MIGEMO
@@ -150,7 +150,7 @@ forwardSearch(Buffer *buf, char *str)
 		if (l == NULL) {
 		    if (WrapSearch && !wrapped) {
 			l = buf->firstLine;
-			wrapped = TRUE;
+			wrapped = true;
 		    }
 		    else {
 			break;
@@ -159,7 +159,7 @@ forwardSearch(Buffer *buf, char *str)
 	    }
 	    else if (WrapSearch) {
 		l = buf->firstLine;
-		wrapped = TRUE;
+		wrapped = true;
 	    }
 	    else {
 		break;
@@ -192,7 +192,7 @@ backwardSearch(Buffer *buf, char *str)
 {
     char *p, *q, *found, *found_last, *first, *last;
     Line *l, *begin;
-    int wrapped = FALSE;
+    bool wrapped = false;
     int pos;
 
 #ifdef USE_MIGEMO
@@ -265,7 +265,7 @@ backwardSearch(Buffer *buf, char *str)
 	if (l == NULL) {
 	    if (WrapSearch) {
 		l = buf->lastLine;
-		wrapped = TRUE;
+		wrapped = true;
 	    }
 	    else {
 		break;

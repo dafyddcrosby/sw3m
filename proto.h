@@ -160,7 +160,7 @@ extern void chkExternalURIBuffer(Buffer *buf);
 extern ParsedURL *schemeToProxy(int scheme);
 extern void examineFile(char *path, URLFile *uf);
 extern char *acceptableEncoding();
-extern int dir_exist(char *path);
+extern bool dir_exist(char *path);
 extern int is_html_type(char *type);
 #ifdef USE_M17N
 extern char **get_symbol(wc_ces charset, int *width);
@@ -197,7 +197,7 @@ extern void deleteImage(Buffer *buf);
 extern void getAllImage(Buffer *buf);
 extern void loadImage(Buffer *buf, int flag);
 extern ImageCache *getImage(Image * image, ParsedURL *current, int flag);
-extern int getImageSize(ImageCache * cache);
+extern bool getImageSize(ImageCache * cache);
 #endif
 extern Str process_img(struct parsed_tag *tag, int width);
 extern Str process_anchor(struct parsed_tag *tag, char *tagbuf);
@@ -261,7 +261,6 @@ extern TabBuffer *deleteTab(TabBuffer * tab);
 extern void addDownloadList(pid_t pid, char *url, char *save, char *lock,
 			    clen_t size);
 extern void stopDownload(void);
-extern int checkDownloadList(void);
 extern void download_action(struct parsed_tagarg *arg);
 extern Buffer *newBuffer(int width);
 extern Buffer *nullBuffer(void);
@@ -637,7 +636,7 @@ extern void initCookie(void);
 extern void cooLst(void);
 extern Buffer *cookie_list_panel(void);
 extern void set_cookie_flag(struct parsed_tagarg *arg);
-extern int check_cookie_accept_domain(char *domain);
+extern bool check_cookie_accept_domain(char *domain);
 #ifdef USE_M17N
 extern void docCSet(void);
 extern void defCSet(void);

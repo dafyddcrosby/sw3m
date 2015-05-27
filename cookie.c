@@ -13,11 +13,12 @@
 #include "html.h"
 
 #include <time.h>
+#include <stdbool.h>
 #include "local.h"
 #include "regex.h"
 #include "myctype.h"
 
-static int is_saved = 1;
+static bool is_saved = true;
 
 #define contain_no_dots(p, ep) (total_dot_number((p),(ep),1)==0)
 
@@ -142,7 +143,7 @@ check_expired_cookies(void)
 
     if (First_cookie->expires != (time_t) - 1 && First_cookie->expires < now) {
 	if (!(First_cookie->flag & COO_DISCARD))
-	    is_saved = 0;
+	    is_saved = false;
 	First_cookie = First_cookie->next;
     }
 
@@ -150,7 +151,7 @@ check_expired_cookies(void)
 	p1 = p->next;
 	if (p1->expires != (time_t) - 1 && p1->expires < now) {
 	    if (!(p1->flag & COO_DISCARD))
-		is_saved = 0;
+		is_saved = false;
 	    p->next = p1->next;
 	    p1 = p;
 	}
@@ -256,28 +257,21 @@ char *special_domain[] = {
     ".com", ".edu", ".gov", ".mil", ".net", ".org", ".int", NULL
 };
 
-int
+bool
 check_avoid_wrong_number_of_dots_domain( Str domain )
 {
    TextListItem *tl;
-    int avoid_wrong_number_of_dots_domain = FALSE;
 
     if (Cookie_avoid_wrong_number_of_dots_domains &&
             Cookie_avoid_wrong_number_of_dots_domains->nitem > 0) {
         for (tl = Cookie_avoid_wrong_number_of_dots_domains->first;
                 tl != NULL; tl = tl->next) {
             if (domain_match(domain->ptr, tl->ptr)) {
-                avoid_wrong_number_of_dots_domain = TRUE;
-                break;
+                return true;
             }
         }
     }
-
-    if (avoid_wrong_number_of_dots_domain == TRUE) {
-        return TRUE;
-    } else {
-        return FALSE;
-    }
+    return false;
 }
 
 int
@@ -420,7 +414,7 @@ add_cookie(ParsedURL *pu, Str name, Str value,
     }
     else {
 	p->flag &= ~COO_DISCARD;
-	is_saved = 0;
+	is_saved = false;
     }
 
     check_expired_cookies();
@@ -676,7 +670,7 @@ set_cookie_flag(struct parsed_tagarg *arg)
 		else if (!v && p->flag & COO_USE)
 		    p->flag &= ~COO_USE;
 		if (!(p->flag & COO_DISCARD))
-		    is_saved = 0;
+		    is_saved = false;
 	    }
 	}
 	arg = arg->next;
@@ -684,25 +678,25 @@ set_cookie_flag(struct parsed_tagarg *arg)
     backBf();
 }
 
-int
+bool
 check_cookie_accept_domain(char *domain)
 {
     TextListItem *tl;
 
     if (domain == NULL)
-	return 0;
+	return false;
 
     if (Cookie_accept_domains && Cookie_accept_domains->nitem > 0) {
 	for (tl = Cookie_accept_domains->first; tl != NULL; tl = tl->next) {
 	    if (domain_match(domain, tl->ptr))
-		return 1;
+		return true;
 	}
     }
     if (Cookie_reject_domains && Cookie_reject_domains->nitem > 0) {
 	for (tl = Cookie_reject_domains->first; tl != NULL; tl = tl->next) {
 	    if (domain_match(domain, tl->ptr))
-		return 0;
+		return false;
 	}
     }
-    return 1;
+    return true;
 }

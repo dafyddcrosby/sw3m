@@ -323,7 +323,7 @@ getescapechar(char **str)
 {
     int dummy = -1;
     char *p = *str, *q;
-    int strict_entity = TRUE;
+    bool strict_entity = true;
 
     if (*p == '&')
 	p++;
@@ -371,7 +371,7 @@ getescapechar(char **str)
 	 * is "=", it must be a part of query in an URL. So &lt=, &gt=, etc.
 	 * are not regarded as character entities.
 	 */
-	strict_entity = FALSE;
+	strict_entity = false;
     }
     if (*p == ';')
 	p++;
