@@ -15,6 +15,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <gc.h>
 #include <stdarg.h>
 #include <string.h>
@@ -523,7 +524,7 @@ Strfgets(FILE * f)
 {
     Str s = Strnew();
     char c;
-    while (1) {
+    while (true) {
 	c = fgetc(f);
 	if (feof(f) || ferror(f))
 	    break;
@@ -539,7 +540,7 @@ Strfgetall(FILE * f)
 {
     Str s = Strnew();
     char c;
-    while (1) {
+    while (true) {
 	c = fgetc(f);
 	if (feof(f) || ferror(f))
 	    break;

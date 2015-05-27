@@ -1,6 +1,7 @@
 /* $Id: inflate.c,v 1.7 2002/01/31 18:28:24 ukai Exp $ */
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <zlib.h>
 
 #undef BUFSIZE
@@ -41,7 +42,7 @@ main(int argc, char **argv)
     s.next_out = (Bytef *) outbuf;
     s.avail_out = sizeof(outbuf);
     flush = Z_NO_FLUSH;
-    while (1) {
+    while (true) {
 	if (s.avail_in == 0) {
 	    s.next_in = (Bytef *) inbuf;
 	    len = s.avail_in = fread(inbuf, 1, sizeof(inbuf), f);

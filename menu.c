@@ -3,6 +3,7 @@
  * w3m menu.c
  */
 #include <stdio.h>
+#include <stdbool.h>
 
 #include "fm.h"
 #include "menu.h"
@@ -492,7 +493,7 @@ action_menu(Menu *menu)
     draw_all_menu(menu);
     select_menu(menu, menu->select);
 
-    while (1) {
+    while (true) {
 #ifdef USE_MOUSE
 	if (use_mouse)
 	    mouse_active();

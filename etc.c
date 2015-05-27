@@ -11,6 +11,7 @@
 #include <time.h>
 #include <signal.h>
 #include <string.h>
+#include <stdbool.h>
 
 struct auth_pass {
     int bad;
@@ -165,7 +166,7 @@ parse_ansi_color(char **str, Lineprop *effect, Linecolor *color)
     if (*q != 'm')
 	return 0;
     *str = q + 1;
-    while (1) {
+    while (true) {
 	if (*p == 'm') {
 	    e = PE_NORMAL;
 	    c = 0;
@@ -510,7 +511,7 @@ calcPosition(char *l, Lineprop *pr, int len, int pos, int bpos, int mode)
 	    j++;
     }
 #endif
-    while (1) {
+    while (true) {
 	realColumn[i] = j;
 	if (i == len)
 	    break;
@@ -1023,7 +1024,7 @@ parsePasswd(FILE * fp, int netrc)
     Str line = NULL;
 
     explicit_bzero(&ent, sizeof(struct auth_pass));
-    while (1) {
+    while (true) {
 	Str arg = NULL;
 	char *p;
 

@@ -394,7 +394,7 @@ loadNewsgroup0(ParsedURL *pu)
 		 &status);
     if (status == 224) {
 	f.scheme = SCM_NEWS;
-	while (1) {
+	while (true) {
 	    tmp = StrISgets(current_news.rf);
 	    if (NEWS_ENDLINE(tmp->ptr))
 		break;
@@ -472,7 +472,7 @@ loadNewsgroup0(ParsedURL *pu)
     news_command(&current_news, "LIST", tmp->ptr, &status);
     if (status != 215)
 	goto news_end;
-    while (1) {
+    while (true) {
 	tmp = StrISgets(current_news.rf);
 	if (NEWS_ENDLINE(tmp->ptr))
 	    break;

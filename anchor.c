@@ -313,7 +313,7 @@ reAnchorPos(Buffer *buf, Line *l, char *p1, char *p2,
 	epos -= l->len;
 	l = l->next;
     }
-    while (1) {
+    while (true) {
 	a = anchorproc(buf, p1, p2, l->linenumber, spos);
 	a->hseq = hseq;
 	if (hseq == -2) {

@@ -6467,7 +6467,7 @@ addnewline(Buffer *buf, char *line, Lineprop *prop, Linecolor *color, int pos,
 	return;
     bpos = 0;
     bwidth = 0;
-    while (1) {
+    while (true) {
 	l = buf->currentLine;
 	l->bpos = bpos;
 	l->bwidth = bwidth;
@@ -7043,7 +7043,7 @@ loadGopherDir(URLFile *uf, ParsedURL *pu, wc_ces * charset)
 	goto gopher_end;
     TRAP_ON;
 
-    while (1) {
+    while (true) {
 	if (lbuf = StrUFgets(uf), lbuf->length == 0)
 	    break;
 	if (lbuf->ptr[0] == '.' &&

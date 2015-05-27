@@ -2209,7 +2209,7 @@ DEFUN(movLW, PREV_WORD, "Move to previous word")
 	if (prev_nonnull_line(Currentbuf->currentLine) < 0)
 	    goto end;
 
-	while (1) {
+	while (true) {
 	    l = Currentbuf->currentLine;
 	    lb = l->lineBuf;
 	    while (Currentbuf->pos > 0) {
@@ -2283,7 +2283,7 @@ DEFUN(movRW, NEXT_WORD, "Move to next word")
 	       is_wordchar(getChar(&lb[Currentbuf->pos])))
 	    nextChar(Currentbuf->pos, l);
 
-	while (1) {
+	while (true) {
 	    while (Currentbuf->pos < l->len &&
 		   !is_wordchar(getChar(&lb[Currentbuf->pos])))
 		nextChar(Currentbuf->pos, l);
@@ -3660,7 +3660,7 @@ nextX(int d, int dy)
 	if (an)
 	    x = (d > 0) ? an->end.pos : an->start.pos - 1;
 	an = NULL;
-	while (1) {
+	while (true) {
 	    for (; x >= 0 && x < l->len; x += d) {
 		an = retrieveAnchor(Currentbuf->href, y, x);
 		if (!an)

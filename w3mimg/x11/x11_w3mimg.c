@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdbool.h>
 #include "config.h"
 
 #if defined(USE_IMLIB)
@@ -775,7 +776,7 @@ w3mimg_x11open()
     wop->width = attr.width;
     wop->height = attr.height;
 
-    while (1) {
+    while (true) {
 	Window p_window;
 
 	XQueryTree(xi->display, xi->window, &root, &xi->parent,

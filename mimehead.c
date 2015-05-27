@@ -1,9 +1,10 @@
 /* $Id: mimehead.c,v 1.10 2003/10/05 18:52:51 ukai Exp $ */
-/* 
+/*
  * MIME header support by Akinori ITO
  */
 
 #include <sys/types.h>
+#include <stdbool.h>
 #include "fm.h"
 #include "myctype.h"
 #include "Str.h"
@@ -71,7 +72,7 @@ decodeB(char **ww)
     Str ap = Strnew_size(strlen(wp));
 
     n_pad = 0;
-    while (1) {
+    while (true) {
 	for (i = 0; i < 4; i++) {
 	    c[i] = *(wp++);
 	    if (*wp == '\0' || *wp == '?') {
@@ -257,7 +258,7 @@ decodeWord0(char **ow)
     return Strnew();
 }
 
-/* 
+/*
  * convert MIME encoded string to the original one
  */
 #ifdef USE_M17N
@@ -330,7 +331,7 @@ encodeB(char *a)
     int i, n_pad;
     Str w = Strnew();
 
-    while (1) {
+    while (true) {
 	if (*a == '\0')
 	    break;
 	n_pad = 0;

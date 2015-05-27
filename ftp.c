@@ -80,7 +80,7 @@ ftp_command(FTP ftp, char *cmd, char *arg, int *status)
      * as Minus), followed by text.  The last line will begin
      * with the same code, followed immediately by Space <SP>,
      * optionally some text, and the Telnet end-of-line code. */
-    while (1) {
+    while (true) {
 	tmp = StrISgets(ftp->rf);
 	if (IS_DIGIT(tmp->ptr[0]) && IS_DIGIT(tmp->ptr[1]) &&
 	    IS_DIGIT(tmp->ptr[2]) && tmp->ptr[3] == ' ') {

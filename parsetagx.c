@@ -1,4 +1,5 @@
 /* $Id: parsetagx.c,v 1.18 2006/06/07 03:52:03 inu Exp $ */
+#include <stdbool.h>
 #include "fm.h"
 #include "myctype.h"
 #include "indep.h"
@@ -158,7 +159,7 @@ parse_tag(char **s, int internal)
 
     /* Parse tag arguments */
     SKIP_BLANKS(q);
-    while (1) {
+    while (true) {
        Str value = NULL, value_tmp = NULL;
 	if (*q == '>' || *q == '\0')
 	    goto done_parse_tag;

@@ -397,7 +397,7 @@ loadImage(Buffer *buf, int flag)
     for (i = 0; i < n_load_image; i++) {
 	if (image_cache[i])
 	    continue;
-	while (1) {
+	while (true) {
 	    cache = (ImageCache *) popValue(image_list);
 	    if (!cache) {
 		for (i = 0; i < n_load_image; i++) {

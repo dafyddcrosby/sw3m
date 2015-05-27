@@ -166,7 +166,7 @@ loadMimeTypes(char *filename)
 	type = strtok(d, " \t\n\r");
 	if (type == NULL)
 	    continue;
-	while (1) {
+	while (true) {
 	    d = strtok(NULL, " \t\n\r");
 	    if (d == NULL)
 		break;

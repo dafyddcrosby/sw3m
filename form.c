@@ -868,7 +868,7 @@ loadPreForm(void)
     fp = openSecretFile(pre_form_file);
     if (fp == NULL)
 	return;
-    while (1) {
+    while (true) {
 	char *p, *s, *arg;
 
 	line = Strfgets(fp);
