@@ -180,7 +180,6 @@ extern Buffer *loadFile(char *path);
 extern Buffer *loadGeneralFile(char *path, ParsedURL *current, char *referer,
 			       int flag, FormList *request);
 extern int is_boundary(unsigned char *, unsigned char *);
-extern int is_blank_line(char *line, int indent);
 extern void push_render_image(Str str, int width, int limit,
 			      struct html_feed_environ *h_env);
 extern void flushline(struct html_feed_environ *h_env, struct readbuffer *obuf,
@@ -244,12 +243,10 @@ extern Buffer *getpipe(char *cmd);
 extern Buffer *openPagerBuffer(InputStream stream, Buffer *buf);
 extern Buffer *openGeneralPagerBuffer(InputStream stream);
 extern Line *getNextPage(Buffer *buf, int plen);
-extern int save2tmp(URLFile uf, char *tmpf);
 extern int doExternal(URLFile uf, char *path, char *type, Buffer **bufp,
 		      Buffer *defaultbuf);
 extern int _doFileCopy(char *tmpf, char *defstr, int download);
 #define doFileCopy(tmpf, defstr) _doFileCopy(tmpf, defstr, FALSE);
-extern int doFileMove(char *tmpf, char *defstr);
 extern int doFileSave(URLFile uf, char *defstr);
 extern int checkCopyFile(char *path1, char *path2);
 extern int checkSaveFile(InputStream stream, char *path);

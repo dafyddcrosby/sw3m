@@ -38,6 +38,8 @@ static Buffer *loadcmdout(char *cmd,
 static void addnewline(Buffer *buf, char *line, Lineprop *prop,
 		       Linecolor *color, int pos, int width, int nlines);
 static void addLink(Buffer *buf, struct parsed_tag *tag);
+static int save2tmp(URLFile uf, char *tmpf);
+static int doFileMove(char *tmpf, char *defstr);
 
 static JMP_BUF AbortLoading;
 
@@ -7641,7 +7643,7 @@ getNextPage(Buffer *buf, int plen)
     return last;
 }
 
-int
+static int
 save2tmp(URLFile uf, char *tmpf)
 {
     FILE *ff;
@@ -7949,7 +7951,7 @@ _doFileCopy(char *tmpf, char *defstr, int download)
     return 0;
 }
 
-int
+static int
 doFileMove(char *tmpf, char *defstr)
 {
     int ret = doFileCopy(tmpf, defstr);
