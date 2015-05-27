@@ -3,6 +3,7 @@
 #include "myctype.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <time.h>
 #include <signal.h>
 #include <setjmp.h>
@@ -109,7 +110,8 @@ static char *
 name_from_address(char *str, int n)
 {
     char *s, *p;
-    int l, space = TRUE;
+    int l;
+		bool space = true;
 
     s = allocStr(str, -1);
     SKIP_BLANKS(s);
@@ -137,10 +139,10 @@ name_from_address(char *str, int n)
 	if (IS_SPACE(*p)) {
 	    if (space)
 		continue;
-	    space = TRUE;
+	    space = true;
 	}
 	else
-	    space = FALSE;
+	    space = false;
 	l += get_mcwidth(p);
 	if (l > n)
 	    break;
@@ -154,18 +156,18 @@ html_quote_s(char *str)
 {
     Str tmp = NULL;
     char *p, *q;
-    int space = TRUE;
+    bool space = true;
 
     for (p = str; *p; p++) {
 	if (IS_SPACE(*p)) {
 	    if (space)
 		continue;
 	    q = "&nbsp;";
-	    space = TRUE;
+	    space = true;
 	}
 	else {
 	    q = html_quote_char(*p);
-	    space = FALSE;
+	    space = false;
 	}
 	if (q) {
 	    if (tmp == NULL)

@@ -1715,19 +1715,19 @@ make_domain_list(char *domain_list)
     return domains;
 }
 
-static int
+static bool
 domain_match(char *pat, char *domain)
 {
     if (domain == NULL)
-	return 0;
+	return false;
     if (*pat == '.')
 	pat++;
     for (;;) {
 	if (!strcasecmp(pat, domain))
-	    return 1;
+	    return true;
 	domain = strchr(domain, '.');
 	if (domain == NULL)
-	    return 0;
+	    return false;
 	domain++;
     }
 }

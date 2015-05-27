@@ -102,7 +102,7 @@ static int check_target = TRUE;
 #define PREC_NUM (prec_num ? prec_num : 1)
 #define PREC_LIMIT 10000
 static int searchKeyNum(void);
-
+static bool checkDownloadList(void);
 #define help() fusage(stdout, 0)
 #define usage() fusage(stderr, 1)
 
@@ -6202,19 +6202,19 @@ addDownloadList(pid_t pid, char *url, char *save, char *lock, clen_t size)
     add_download_list = TRUE;
 }
 
-int
+static bool
 checkDownloadList(void)
 {
     DownloadList *d;
     struct stat st;
 
     if (!FirstDL)
-	return FALSE;
+	return false;
     for (d = FirstDL; d != NULL; d = d->next) {
 	if (d->running && !lstat(d->lock, &st))
-	    return TRUE;
+	    return true;
     }
-    return FALSE;
+    return false;
 }
 
 static char *

@@ -10,6 +10,7 @@
 #include <fcntl.h>
 #include <utime.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "html.h"
 #include "parsetagx.h"
@@ -228,15 +229,15 @@ loadSomething(URLFile *f,
     return buf;
 }
 
-int
+bool
 dir_exist(char *path)
 {
     struct stat stbuf;
 
     if (path == NULL || *path == '\0')
-	return 0;
+	return false;
     if (stat(path, &stbuf) == -1)
-	return 0;
+	return false;
     return IS_DIRECTORY(stbuf.st_mode);
 }
 
@@ -258,7 +259,7 @@ is_text_type(char *type)
 	    strncasecmp(type, "message/", sizeof("message/") - 1) == 0);
 }
 
-static int
+static bool
 is_plain_text_type(char *type)
 {
     return ((type && strcasecmp(type, "text/plain") == 0) ||
