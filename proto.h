@@ -198,7 +198,7 @@ extern void deleteImage(Buffer *buf);
 extern void getAllImage(Buffer *buf);
 extern void loadImage(Buffer *buf, int flag);
 extern ImageCache *getImage(Image * image, ParsedURL *current, int flag);
-extern int getImageSize(ImageCache * cache);
+extern bool getImageSize(ImageCache * cache);
 #endif
 extern Str process_img(struct parsed_tag *tag, int width);
 extern Str process_anchor(struct parsed_tag *tag, char *tagbuf);
