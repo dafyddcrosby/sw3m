@@ -641,7 +641,6 @@ extern char *expandName(char *name);
 extern Str tmpfname(int type, char *ext);
 extern time_t mymktime(char *timestr);
 extern void (*mySignal(int signal_number, void (*action) (int))) (int);
-#ifdef USE_COOKIE
 extern char *FQDN(char *host);
 extern Str find_cookie(ParsedURL *pu);
 extern int add_cookie(ParsedURL *pu, Str name, Str value, time_t expires,
@@ -654,9 +653,6 @@ extern void cooLst(void);
 extern Buffer *cookie_list_panel(void);
 extern void set_cookie_flag(struct parsed_tagarg *arg);
 extern int check_cookie_accept_domain(char *domain);
-#else				/* not USE_COOKIE */
-#define cooLst nulcmd
-#endif				/* not USE_COOKIE */
 #ifdef USE_M17N
 extern void docCSet(void);
 extern void defCSet(void);

@@ -683,7 +683,6 @@ struct html_feed_environ {
     int blank_lines;
 };
 
-#ifdef USE_COOKIE
 struct portlist {
     unsigned short port;
     struct portlist *next;
@@ -724,7 +723,6 @@ struct cookie {
 #define COO_EBADHOST	(8 | COO_OVERRIDE_OK)	/* dot in matched host name in FQDN (version 1 case 4) */
 #define COO_EPORT	(9)	/* Port match failed (version 1' case 5) */
 #define COO_EMAX	COO_EPORT
-#endif				/* USE_COOKIE */
 
 /* modes for align() */
 
@@ -997,9 +995,7 @@ global char *migemo_command init(DEF_MIGEMO_COMMAND);
 #endif				/* USE_MIGEMO */
 
 global struct auth_cookie *Auth_cookie init(NULL);
-#ifdef USE_COOKIE
 global struct cookie *First_cookie init(NULL);
-#endif				/* USE_COOKIE */
 
 global char *mailcap_files init(USER_MAILCAP ", " SYS_MAILCAP);
 global char *mimetypes_files init(USER_MIMETYPES ", " SYS_MIMETYPES);
@@ -1094,8 +1090,7 @@ global MouseAction mouse_action;
 #define LIMIT_MOUSE_MENU 100
 #endif				/* USE_MOUSE */
 
-#ifdef USE_COOKIE
-global int default_use_cookie init(TRUE);
+global int default_use_cookie init(FALSE);
 global int use_cookie init(FALSE);
 global int show_cookie init(TRUE);
 global int accept_cookie init(FALSE);
@@ -1109,7 +1104,6 @@ global char *cookie_avoid_wrong_number_of_dots init(NULL);
 global TextList *Cookie_reject_domains;
 global TextList *Cookie_accept_domains;
 global TextList *Cookie_avoid_wrong_number_of_dots_domains;
-#endif				/* USE_COOKIE */
 
 #ifdef USE_IMAGE
 global int view_unseenobject init(FALSE);

@@ -129,7 +129,6 @@ static int cur_iseq;
 #define IMG_SYMBOL		UL_SYMBOL(12)
 #define HR_SYMBOL	26
 
-#ifdef USE_COOKIE
 /* This array should be somewhere else */
 /* FIXME: gettextize? */
 char *violations[COO_EMAX] = {
@@ -143,7 +142,6 @@ char *violations[COO_EMAX] = {
     "RFC 2109 4.3.2 rule 4",
     "RFC XXXX 4.3.2 rule 5"
 };
-#endif
 
 /* *INDENT-OFF* */
 static struct compression_decoder {
@@ -581,9 +579,7 @@ void
 readHeader(URLFile *uf, Buffer *newBuf, int thru, ParsedURL *pu)
 {
     char *p, *q;
-#ifdef USE_COOKIE
     char *emsg;
-#endif
     char c;
     Str lineBuf2 = NULL;
     Str tmp;
@@ -754,7 +750,6 @@ readHeader(URLFile *uf, Buffer *newBuf, int thru, ParsedURL *pu)
 	    }
 	    uf->content_encoding = uf->compression;
 	}
-#ifdef USE_COOKIE
 	else if (use_cookie && accept_cookie &&
 		 pu && check_cookie_accept_domain(pu->host) &&
 		 (!strncasecmp(lineBuf2->ptr, "Set-Cookie:", 11) ||
@@ -893,7 +888,6 @@ readHeader(URLFile *uf, Buffer *newBuf, int thru, ParsedURL *pu)
 		}
 	    }
 	}
-#endif				/* USE_COOKIE */
 	else if (!strncasecmp(lineBuf2->ptr, "w3m-control:", 12) &&
 		 uf->scheme == SCM_LOCAL_CGI) {
 	    Str funcname = Strnew();

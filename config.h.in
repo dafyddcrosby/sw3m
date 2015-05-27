@@ -56,7 +56,6 @@
 #undef USE_GPM
 #undef USE_SYSMOUSE
 #undef USE_MENU
-#undef USE_COOKIE
 #undef USE_DIGEST_AUTH
 #undef USE_SSL
 #undef USE_HELP_CGI

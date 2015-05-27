@@ -187,7 +187,6 @@ static int OptionEncode = FALSE;
 #define CMT_SSL_CA_PATH N_("Path to directory for PEM encoded certificates of CAs")
 #define CMT_SSL_CA_FILE N_("File consisting of PEM encoded certificates of CAs")
 #endif				/* USE_SSL */
-#ifdef USE_COOKIE
 #define CMT_USECOOKIE   N_("Enable cookie processing")
 #define CMT_SHOWCOOKIE  N_("Print a message when receiving a cookie")
 #define CMT_ACCEPTCOOKIE N_("Accept cookies")
@@ -195,7 +194,6 @@ static int OptionEncode = FALSE;
 #define CMT_COOKIE_REJECT_DOMAINS N_("Domains to reject cookies from")
 #define CMT_COOKIE_ACCEPT_DOMAINS N_("Domains to accept cookies from")
 #define CMT_COOKIE_AVOID_WONG_NUMBER_OF_DOTS N_("Domains to avoid [wrong number of dots]")
-#endif
 #define CMT_FOLLOW_REDIRECTION N_("Number of redirections to follow")
 #define CMT_META_REFRESH N_("Enable processing of meta-refresh tag")
 
@@ -296,13 +294,11 @@ static struct sel_c dnsorders[] = {
 };
 #endif				/* INET6 */
 
-#ifdef USE_COOKIE
 static struct sel_c badcookiestr[] = {
     {N_S(ACCEPT_BAD_COOKIE_DISCARD), N_("discard")},
     {N_S(ACCEPT_BAD_COOKIE_ASK), N_("ask")},
     {0, NULL, NULL}
 };
-#endif				/* USE_COOKIE */
 
 static struct sel_c mailtooptionsstr[] = {
 #ifdef USE_W3MMAILER
@@ -564,7 +560,6 @@ struct param_ptr params7[] = {
 };
 #endif				/* USE_SSL */
 
-#ifdef USE_COOKIE
 struct param_ptr params8[] = {
     {"use_cookie", P_INT, PI_ONOFF, (void *)&use_cookie, CMT_USECOOKIE, NULL},
     {"show_cookie", P_INT, PI_ONOFF, (void *)&show_cookie,
@@ -582,7 +577,6 @@ struct param_ptr params8[] = {
      CMT_COOKIE_AVOID_WONG_NUMBER_OF_DOTS, NULL},
     {NULL, 0, 0, NULL, NULL, NULL},
 };
-#endif
 
 struct param_ptr params9[] = {
     {"passwd_file", P_STRING, PI_TEXT, (void *)&passwd_file, CMT_PASSWDFILE,
@@ -699,9 +693,7 @@ struct param_section sections[] = {
 #ifdef USE_SSL
     {N_("SSL Settings"), params7},
 #endif
-#ifdef USE_COOKIE
     {N_("Cookie Settings"), params8},
-#endif
 #ifdef USE_M17N
     {N_("Charset Settings"), params10},
 #endif
@@ -1110,7 +1102,6 @@ parse_proxy()
 	set_no_proxy(NO_proxy);
 }
 
-#ifdef USE_COOKIE
 void
 parse_cookie()
 {
@@ -1122,7 +1113,6 @@ parse_cookie()
 	Cookie_avoid_wrong_number_of_dots_domains
 	       	= make_domain_list(cookie_avoid_wrong_number_of_dots);
 }
-#endif
 
 #define do_mkdir(dir,mode) mkdir(dir,mode)
 
@@ -1133,9 +1123,7 @@ sync_with_option(void)
 	PagerMax = LINES;
     WrapSearch = WrapDefault;
     parse_proxy();
-#ifdef USE_COOKIE
     parse_cookie();
-#endif
     initMailcap();
     initMimeTypes();
 #ifdef USE_EXTERNAL_URI_LOADER

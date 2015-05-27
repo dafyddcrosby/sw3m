@@ -70,18 +70,6 @@ test x"$enable_mouse" = xyes && AC_DEFINE(USE_MOUSE)
 AC_MSG_RESULT($enable_mouse)])
 #
 # ----------------------------------------------------------------
-# AC_W3M_COOKIE
-# ----------------------------------------------------------------
-AC_DEFUN([AC_W3M_COOKIE],
-[AC_SUBST(USE_COOKIE)
-AC_MSG_CHECKING(if cookie is enabled)
-AC_ARG_ENABLE(cookie,
- [  --disable-cookie		disable cookie],,
- [enable_cookie="yes"])
-test x"$enable_cookie" = xyes && AC_DEFINE(USE_COOKIE)
-AC_MSG_RESULT($enable_cookie)])
-#
-# ----------------------------------------------------------------
 # AC_W3M_DICT
 # ----------------------------------------------------------------
 AC_DEFUN([AC_W3M_DICT],

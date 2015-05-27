@@ -628,7 +628,6 @@ USE_HELP_CGI
 USE_DICT
 USE_GOPHER
 USE_NNTP
-USE_COOKIE
 USE_ALARM
 USE_HISTORY
 USE_MOUSE
@@ -786,7 +785,6 @@ enable_menu
 enable_mouse
 enable_history
 enable_alarm
-enable_cookie
 enable_nntp
 enable_gopher
 enable_dict
@@ -1454,7 +1452,6 @@ Optional Features:
   --disable-mouse		disable mouse operation
   --disable-history		disable URL history
   --disable-alarm		disable alarm
-  --disable-cookie		disable cookie
   --disable-nntp		disable NNTP
   --enable-gopher		enable GOPHER
   --disable-dict		disable dictionary lookup (see README.dict)
@@ -7136,20 +7133,6 @@ fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
  fi
 
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking if cookie is enabled" >&5
-$as_echo_n "checking if cookie is enabled... " >&6; }
-# Check whether --enable-cookie was given.
-if test "${enable_cookie+set}" = set; then :
-  enableval=$enable_cookie;
-else
-  enable_cookie="yes"
-fi
-
-test x"$enable_cookie" = xyes && $as_echo "#define USE_COOKIE 1" >>confdefs.h
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $enable_cookie" >&5
-$as_echo "$enable_cookie" >&6; }
 
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking if nntp is enabled" >&5
 $as_echo_n "checking if nntp is enabled... " >&6; }
