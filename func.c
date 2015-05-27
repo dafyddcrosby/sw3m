@@ -212,7 +212,8 @@ static int
 getKey2(char **str)
 {
     char *s = *str;
-    int c, esc = 0, ctrl = 0;
+    int c, esc = 0;
+		bool ctrl = false;
 
     if (s == NULL || *s == '\0')
 	return -1;
@@ -248,15 +249,15 @@ getKey2(char **str)
     }
     if (strncasecmp(s, "C-", 2) == 0) {	/* ^, ^[^ */
 	s += 2;
-	ctrl = 1;
+	ctrl = true;
     }
     else if (*s == '^' && *(s + 1)) {	/* ^, ^[^ */
 	s++;
-	ctrl = 1;
+	ctrl = true;
     }
     if (!esc && ctrl && *s == '[') {	/* ^[ */
 	s++;
-	ctrl = 0;
+	ctrl = false;
 	esc = K_ESC;
     }
     if (esc && !ctrl) {
@@ -266,11 +267,11 @@ getKey2(char **str)
 	}
 	if (strncasecmp(s, "C-", 2) == 0) {	/* ^[^, ^[[^ */
 	    s += 2;
-	    ctrl = 1;
+	    ctrl = true;
 	}
 	else if (*s == '^' && *(s + 1)) {	/* ^[^, ^[[^ */
 	    s++;
-	    ctrl = 1;
+	    ctrl = true;
 	}
     }
 
@@ -380,7 +381,7 @@ getQWord(char **str)
 {
     Str tmp = Strnew();
     char *p;
-    int in_q = 0, in_dq = 0, esc = 0;
+    bool in_q = false, in_dq = false, esc = false;
 
     p = *str;
     SKIP_BLANKS(p);
@@ -400,28 +401,28 @@ getQWord(char **str)
 		    Strcat_char(tmp, '\\');
 	    }
 	    Strcat_char(tmp, *p);
-	    esc = 0;
+	    esc = false;
 	}
 	else if (*p == '\\') {
-	    esc = 1;
+	    esc = true;
 	}
 	else if (in_q) {
 	    if (*p == '\'')
-		in_q = 0;
+		in_q = false;
 	    else
 		Strcat_char(tmp, *p);
 	}
 	else if (in_dq) {
 	    if (*p == '"')
-		in_dq = 0;
+		in_dq = false;
 	    else
 		Strcat_char(tmp, *p);
 	}
 	else if (*p == '\'') {
-	    in_q = 1;
+	    in_q = true;
 	}
 	else if (*p == '"') {
-	    in_dq = 1;
+	    in_dq = true;
 	}
 	else if (IS_SPACE(*p) || *p == ';') {
 	    break;
