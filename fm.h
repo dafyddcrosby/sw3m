@@ -110,16 +110,8 @@ void bcopy(const void *, void *, int);
 #define MINIMUM_PIXEL_PER_CHAR  4.0
 #define MAXIMUM_PIXEL_PER_CHAR  32.0
 
-#ifdef FALSE
-#undef FALSE
-#endif
-
-#ifdef TRUE
-#undef TRUE
-#endif
-
-#define FALSE 0
-#define TRUE   1
+#define FALSE false
+#define TRUE  true
 
 #define SHELLBUFFERNAME	"*Shellout*"
 #define PIPEBUFFERNAME	"*stream*"
