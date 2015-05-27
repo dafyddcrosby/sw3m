@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdbool.h>
 #include <fcntl.h>
 #include <limits.h>
 #include <errno.h>
@@ -33,8 +34,8 @@
 #define GREEN_SHIFT_8BIT  3
 #define BLUE_SHIFT_8BIT   6
 
-#define FALSE 0
-#define TRUE  1
+#define FALSE false
+#define TRUE  true
 
 #define IMAGE_SIZE_MAX 10000
 
@@ -497,7 +498,7 @@ fb_cmap_init(void)
 
 /*
  * (struct fb_cmap) Device independent colormap information.
- * 
+ *
  * fb_cmap_create()     create colormap information
  * fb_cmap_destroy()    destroy colormap information
  * fb_cmap_get()        get information
@@ -607,7 +608,7 @@ fb_cmap_set(int fbfp, struct fb_cmap *cmap)
 
 /*
  * access to framebuffer
- * 
+ *
  * fb_mmap()            map from framebuffer into memory
  * fb_munmap()          deletes the mappings
  */
@@ -634,7 +635,7 @@ fb_munmap(void *buf, struct fb_fix_screeninfo *scinfo)
 
 /*
  * (struct fb_fix_screeninfo) device independent fixed information
- * 
+ *
  * fb_fscrn_get()               get information
  */
 static int
@@ -649,7 +650,7 @@ fb_fscrn_get(int fbfp, struct fb_fix_screeninfo *scinfo)
 
 /*
  * (struct fb_var_screeninfo) device independent variable information
- * 
+ *
  * fb_vscrn_get()               get information
  */
 static int
