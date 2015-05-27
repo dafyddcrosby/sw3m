@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 #include "config.h"
 #include "Str.h"
 #include "indep.h"
@@ -126,7 +127,7 @@ editMailcap(char *mailcap, struct parsed_tagarg *args)
     Str tmp;
     char *type, *viewer;
     struct parsed_tagarg *a;
-    int delete_it;
+    bool delete_it;
 
     if ((f = fopen(mailcap, "rt")) == NULL)
 	bye("Can't open", mailcap);
@@ -136,10 +137,10 @@ editMailcap(char *mailcap, struct parsed_tagarg *args)
 	    continue;
 	Strchop(tmp);
 	extractMailcapEntry(tmp->ptr, &type, &viewer);
-	delete_it = 0;
+	delete_it = false;
 	for (a = args; a != NULL; a = a->next) {
 	    if (!strcmp(a->arg, "delete") && !strcmp(a->value, type)) {
-		delete_it = 1;
+		delete_it = true;
 		break;
 	    }
 	}
