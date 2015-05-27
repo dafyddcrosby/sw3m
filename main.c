@@ -736,10 +736,8 @@ main(int argc, char **argv, char **envp)
 
     sync_with_option();
     initCookie();
-#ifdef USE_HISTORY
     if (UseHistory)
 	loadHistory(URLHist);
-#endif				/* not USE_HISTORY */
 
 #ifdef USE_M17N
     wtf_init(DocumentCharset, DisplayCharset);
@@ -2339,10 +2337,8 @@ _quitfm(int confirm)
 #endif
     fmTerm();
     save_cookies();
-#ifdef USE_HISTORY
     if (UseHistory && SaveURLHist)
 	saveHistory(URLHist, URLHistSize);
-#endif				/* USE_HISTORY */
     w3m_exit(0);
 }
 
@@ -4250,13 +4246,11 @@ DEFUN(cooLst, COOKIE, "View cookie list")
 	cmd_loadBuffer(buf, BP_NO_URL, LB_NOLINK);
 }
 
-#ifdef USE_HISTORY
 /* History page */
 DEFUN(ldHist, HISTORY, "View history of URL")
 {
     cmd_loadBuffer(historyBuffer(URLHist), BP_NO_URL, LB_NOLINK);
 }
-#endif				/* USE_HISTORY */
 
 /* download HREF link */
 DEFUN(svA, SAVE_LINK, "Save link to file")

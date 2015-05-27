@@ -15,11 +15,6 @@
 #define DICT
 
 /*
-   If you want to load and save URL history.
- */
-#define USE_HISTORY
-
-/*
    USE_BG_COLOR enables w3m to set background color.
  */
 #define USE_BG_COLOR

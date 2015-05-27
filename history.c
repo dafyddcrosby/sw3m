@@ -1,7 +1,6 @@
 /* $Id: history.c,v 1.11 2003/09/26 17:59:51 ukai Exp $ */
 #include "fm.h"
 
-#ifdef USE_HISTORY
 Buffer *
 historyBuffer(Hist *hist)
 {
@@ -81,7 +80,6 @@ saveHistory(Hist *hist, size_t size)
     }
     rename(tmpf, rcFile(HISTORY_FILE));
 }
-#endif				/* USE_HISTORY */
 
 Hist *
 newHist()

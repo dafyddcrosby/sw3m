@@ -1010,11 +1010,9 @@ extern Hist *SaveHist;
 extern Hist *URLHist;
 extern Hist *ShellHist;
 extern Hist *TextHist;
-#ifdef USE_HISTORY
-global int UseHistory init(TRUE);
+global int UseHistory init(FALSE);
 global int URLHistSize init(100);
-global int SaveURLHist init(TRUE);
-#endif				/* USE_HISTORY */
+global int SaveURLHist init(FALSE);
 global int multicolList init(FALSE);
 
 #ifdef USE_M17N

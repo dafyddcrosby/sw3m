@@ -82,18 +82,6 @@ AC_ARG_ENABLE(dict,
  AC_MSG_RESULT($enable_dict)])
 #
 # ----------------------------------------------------------------
-# AC_W3M_HISTORY
-# ----------------------------------------------------------------
-AC_DEFUN([AC_W3M_HISTORY],
-[AC_SUBST(USE_HISTORY)
-AC_MSG_CHECKING(if URL history is enabled)
-AC_ARG_ENABLE(history,
- [  --disable-history		disable URL history],,
- [enable_history="yes"])
- test x"$enable_history" = xyes && AC_DEFINE(USE_HISTORY)
- AC_MSG_RESULT($enable_history)])
-#
-# ----------------------------------------------------------------
 # AC_W3M_NNTP
 # ----------------------------------------------------------------
 AC_DEFUN([AC_W3M_NNTP],

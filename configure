@@ -629,7 +629,6 @@ USE_DICT
 USE_GOPHER
 USE_NNTP
 USE_ALARM
-USE_HISTORY
 USE_MOUSE
 USE_MENU
 KEYBIND
@@ -783,7 +782,6 @@ enable_xface
 enable_keymap
 enable_menu
 enable_mouse
-enable_history
 enable_alarm
 enable_nntp
 enable_gopher
@@ -1450,7 +1448,6 @@ Optional Features:
   --enable-keymap=w3m|lynx	default keybind style(w3m or lynx)
   --disable-menu		disable popup menu
   --disable-mouse		disable mouse operation
-  --disable-history		disable URL history
   --disable-alarm		disable alarm
   --disable-nntp		disable NNTP
   --enable-gopher		enable GOPHER
@@ -7086,20 +7083,6 @@ test x"$enable_mouse" = xyes && $as_echo "#define USE_MOUSE 1" >>confdefs.h
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $enable_mouse" >&5
 $as_echo "$enable_mouse" >&6; }
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking if URL history is enabled" >&5
-$as_echo_n "checking if URL history is enabled... " >&6; }
-# Check whether --enable-history was given.
-if test "${enable_history+set}" = set; then :
-  enableval=$enable_history;
-else
-  enable_history="yes"
-fi
-
- test x"$enable_history" = xyes && $as_echo "#define USE_HISTORY 1" >>confdefs.h
-
- { $as_echo "$as_me:${as_lineno-$LINENO}: result: $enable_history" >&5
-$as_echo "$enable_history" >&6; }
 
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking if alarm is enabled" >&5
 $as_echo_n "checking if alarm is enabled... " >&6; }
