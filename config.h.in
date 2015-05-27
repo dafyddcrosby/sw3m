@@ -112,15 +112,10 @@ typedef long long clen_t;
 #else
 typedef long clen_t;
 #endif
-#undef HAVE_STRTOLL
-#undef HAVE_STROQ
-#undef HAVE_ATOLL
-#undef HAVE_ATOQ
 #undef HAVE_STRCASESTR
 #undef HAVE_SYS_ERRLIST
 #undef HAVE_BCOPY
 #undef HAVE_SETPGRP
-#undef HAVE_SETLOCALE
 #undef HAVE_LANGINFO_CODESET
 
 #undef SETPGRP_VOID

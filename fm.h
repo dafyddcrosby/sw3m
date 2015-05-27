@@ -50,9 +50,6 @@ typedef int wc_ces;	/* XXX: not used */
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
 #endif
-#if !HAVE_SETLOCALE
-#define setlocale(category, locale)	/* empty */
-#endif
 
 #ifdef ENABLE_NLS
 #include <libintl.h>
