@@ -180,8 +180,6 @@ typedef long clen_t;
 #define HAVE_STRCASESTR
 #define HAVE_SYS_ERRLIST
 #define HAVE_BCOPY
-#define HAVE_GETCWD
-#define HAVE_GETWD
 
 #define SETJMP(env) sigsetjmp(env,1)
 #define LONGJMP(env,val) siglongjmp(env,val)

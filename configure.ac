@@ -138,7 +138,7 @@ dnl AC_FUNC_MEMCMP
 dnl AC_FUNC_MMAP
 dnl AC_FUNC_SETVBUF_REVERSED
 dnl AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(strcasestr memcpy bcopy setpgrp getcwd getwd strtoll atoll setlocale explicit_bzero)
+AC_CHECK_FUNCS(strcasestr memcpy bcopy setpgrp strtoll atoll setlocale explicit_bzero)
 AC_FUNC_SETPGRP
 AM_LANGINFO_CODESET
 AC_W3M_SYS_ERRLIST

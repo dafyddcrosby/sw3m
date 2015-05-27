@@ -8656,7 +8656,7 @@ _ACEOF
 
 
 
-for ac_func in strcasestr memcpy bcopy setpgrp getcwd getwd strtoll atoll setlocale explicit_bzero
+for ac_func in strcasestr memcpy bcopy setpgrp strtoll atoll setlocale explicit_bzero
 do :
   as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
 ac_fn_c_check_func "$LINENO" "$ac_func" "$as_ac_var"
