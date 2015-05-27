@@ -1,6 +1,7 @@
 /* $Id: w3mbookmark.c,v 1.12 2007/05/31 01:19:50 inu Exp $ */
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include "config.h"
 #include "Str.h"
 #include "indep.h"
@@ -41,11 +42,6 @@ static char *bkmark_src2 =
 </body>\n\
 </html>\n";
 
-#undef FALSE
-#define FALSE 0
-#undef TRUE
-#define TRUE 1
-
 static char end_section[] =
     "<!--End of section (do not delete this comment)-->\n";
 
@@ -84,7 +80,7 @@ print_bookmark_panel(char *bmark, char *url, char *title, char *charset)
 }
 
 /* create new bookmark */
-static int
+static bool
 create_new_bookmark(char *bmark, char *section, char *title, char *url,
 		    char *mode)
 {
@@ -92,7 +88,7 @@ create_new_bookmark(char *bmark, char *section, char *title, char *url,
     f = fopen(bmark, mode);
     if (f == NULL) {
 	printf("\nCan't open bookmark %s\n", bmark);
-	return FALSE;
+	return false;
     }
     else {
 	fprintf(f, "<html><head><title>Bookmarks</title></head>\n");
@@ -103,10 +99,10 @@ create_new_bookmark(char *bmark, char *section, char *title, char *url,
 	fprintf(f, "</ul>\n</body>\n</html>\n");
 	fclose(f);
     }
-    return TRUE;
+    return false;
 }
 
-int
+bool
 insert_bookmark(char *bmark, struct parsed_tagarg *data)
 {
     char *url, *title, *section;
@@ -126,7 +122,7 @@ insert_bookmark(char *bmark, struct parsed_tagarg *data)
 
     if (url == NULL || *url == '\0' || title == NULL || *title == '\0') {
 	/* Bookmark not added */
-	return FALSE;
+	return false;
     }
     url = html_quote(url);
     title = html_quote(title);
@@ -173,7 +169,7 @@ insert_bookmark(char *bmark, struct parsed_tagarg *data)
 	fputs(popText(tl), f);
     }
     fclose(f);
-    return TRUE;
+    return true;
 }
 
 int
