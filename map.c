@@ -4,6 +4,7 @@
  */
 #include "fm.h"
 #include <math.h>
+#include <stdbool.h>
 
 MapList *
 searchMapList(Buffer *buf, char *name)
@@ -20,25 +21,25 @@ searchMapList(Buffer *buf, char *name)
 }
 
 #ifdef USE_IMAGE
-static int
+static bool
 inMapArea(MapArea * a, int x, int y)
 {
     int i;
     double r1, r2, s, c, t;
 
     if (!a)
-	return FALSE;
+	return false;
     switch (a->shape) {
     case SHAPE_RECT:
 	if (x >= a->coords[0] && y >= a->coords[1] &&
 	    x <= a->coords[2] && y <= a->coords[3])
-	    return TRUE;
+	    return true;
 	break;
     case SHAPE_CIRCLE:
 	if ((x - a->coords[0]) * (x - a->coords[0])
 	    + (y - a->coords[1]) * (y - a->coords[1])
 	    <= a->coords[2] * a->coords[2])
-	    return TRUE;
+	    return true;
 	break;
     case SHAPE_POLY:
 	for (t = 0, i = 0; i < a->ncoords; i += 2) {
@@ -49,7 +50,7 @@ inMapArea(MapArea * a, int x, int y)
 		      + (double)(y - a->coords[i + 3]) * (y -
 							  a->coords[i + 3]));
 	    if (r1 == 0 || r2 == 0)
-		return TRUE;
+		return true;
 	    s = ((double)(x - a->coords[i]) * (y - a->coords[i + 3])
 		 - (double)(x - a->coords[i + 2]) * (y -
 						     a->coords[i +
@@ -61,14 +62,14 @@ inMapArea(MapArea * a, int x, int y)
 	    t += atan2(s, c);
 	}
 	if (fabs(t) > 2 * 3.14)
-	    return TRUE;
+	    return true;
 	break;
     case SHAPE_DEFAULT:
-	return TRUE;
+	return true;
     default:
 	break;
     }
-    return FALSE;
+    return false;
 }
 
 static int
@@ -519,8 +520,8 @@ append_frame_info(Buffer *buf, Str html, struct frameset *set, int level)
     }
 }
 
-/* 
- * information of current page and link 
+/*
+ * information of current page and link
  */
 Buffer *
 page_info_panel(Buffer *buf)
