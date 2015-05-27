@@ -86,7 +86,7 @@ static void do_dump(Buffer *);
 int prec_num = 0;
 int prev_key = -1;
 int on_target = 1;
-static int add_download_list = FALSE;
+static bool add_download_list = false;
 
 void set_buffer_environ(Buffer *);
 static void save_buffer_position(Buffer *buf);
@@ -911,7 +911,7 @@ main(int argc, char **argv, char **envp)
     }
 
     if (add_download_list) {
-	add_download_list = FALSE;
+	add_download_list = false;
 	CurrentTab = LastTab;
 	if (!FirstTab) {
 	    FirstTab = LastTab = CurrentTab = newTab();
@@ -962,7 +962,7 @@ main(int argc, char **argv, char **envp)
     }
     for (;;) {
 	if (add_download_list) {
-	    add_download_list = FALSE;
+	    add_download_list = false;
 	    ldDL();
 	}
 	if (Currentbuf->submit) {
@@ -6194,7 +6194,7 @@ addDownloadList(pid_t pid, char *url, char *save, char *lock, clen_t size)
     else
 	FirstDL = d;
     LastDL = d;
-    add_download_list = TRUE;
+    add_download_list = true;
 }
 
 static bool
