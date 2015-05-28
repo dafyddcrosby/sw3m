@@ -617,9 +617,6 @@ PKG_CONFIG
 USE_SSL
 HAVE_OLD_SS_FAMILY
 INET6
-DEF_EXT_BROWSER
-DEF_MAILER
-DEF_EDITOR
 DEF_MIGEMO_COMMAND
 USE_MIGEMO
 USE_W3MMAILER
@@ -788,9 +785,6 @@ enable_help_cgi
 enable_external_uri_loader
 enable_w3mmailer
 with_migemo
-with_editor
-with_mailer
-with_browser
 enable_ipv6
 with_ssl
 enable_digest_auth
@@ -1468,9 +1462,6 @@ Optional Packages:
 				 IMAGELIBS may be space separeted list of:
 				    gtk2 gdk-pixbuf imlib imlib2
   --with-migemo=MIGEMO_COMMAND	migemo command
-  --with-editor=EDITOR		default editor (/usr/bin/vi)
-  --with-mailer=MAILER		default mailer (/usr/bin/mail)
-  --with-browser=BROWSER	default browser (/usr/bin/mozilla)
   --with-ssl=PREFIX		support https protocol
   --with-termlib=LIBS		terminal library
 				LIBS is space separated list of:
@@ -7204,54 +7195,6 @@ fi
 $as_echo "$migemo_command" >&6; }
  cat >>confdefs.h <<_ACEOF
 #define DEF_MIGEMO_COMMAND "$migemo_command"
-_ACEOF
-
-
-w3m_editor="/usr/bin/vi"
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking which editor is used by default" >&5
-$as_echo_n "checking which editor is used by default... " >&6; }
-
-# Check whether --with-editor was given.
-if test "${with_editor+set}" = set; then :
-  withval=$with_editor; w3m_editor="$with_editor"
-fi
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $w3m_editor" >&5
-$as_echo "$w3m_editor" >&6; }
-cat >>confdefs.h <<_ACEOF
-#define DEF_EDITOR "$w3m_editor"
-_ACEOF
-
-
-w3m_mailer="/usr/bin/mail"
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking which mailer is used by default" >&5
-$as_echo_n "checking which mailer is used by default... " >&6; }
-
-# Check whether --with-mailer was given.
-if test "${with_mailer+set}" = set; then :
-  withval=$with_mailer; w3m_mailer="$with_mailer"
-fi
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $w3m_mailer" >&5
-$as_echo "$w3m_mailer" >&6; }
-cat >>confdefs.h <<_ACEOF
-#define DEF_MAILER "$w3m_mailer"
-_ACEOF
-
-
-w3m_browser="/usr/bin/mozilla"
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking which external browser is used by default" >&5
-$as_echo_n "checking which external browser is used by default... " >&6; }
-
-# Check whether --with-browser was given.
-if test "${with_browser+set}" = set; then :
-  withval=$with_browser; w3m_browser="$with_browser"
-fi
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $w3m_browser" >&5
-$as_echo "$w3m_browser" >&6; }
-cat >>confdefs.h <<_ACEOF
-#define DEF_EXT_BROWSER "$w3m_browser"
 _ACEOF
 
 

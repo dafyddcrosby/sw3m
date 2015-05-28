@@ -86,9 +86,9 @@
 #undef TABLE_NO_COMPACT
 #define NOWRAP
 
-#define DEF_EDITOR "@DEF_EDITOR@"
-#define DEF_MAILER "@DEF_MAILER@
-#define DEF_EXT_BROWSER "@DEF_EXT_BROWSER@"
+#define DEF_EDITOR "/usr/bin/vi"
+#define DEF_MAILER "/usr/bin/mail"
+#define DEF_EXT_BROWSER "/usr/bin/firefox"
 
 /* fallback viewer. mailcap override these configuration */
 #define DEF_IMAGE_VIEWER	"display"

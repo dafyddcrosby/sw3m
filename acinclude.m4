@@ -264,45 +264,6 @@ AC_DEFUN([AC_W3M_MIGEMO],
  AC_DEFINE_UNQUOTED(DEF_MIGEMO_COMMAND, "$migemo_command")])
 #
 # ----------------------------------------------------------------
-# AC_W3M_EDITOR
-# ----------------------------------------------------------------
-AC_DEFUN([AC_W3M_EDITOR],
-[AC_SUBST(DEF_EDITOR)
-w3m_editor="/usr/bin/vi"
-AC_MSG_CHECKING(which editor is used by default)
-AC_ARG_WITH(editor,
- [  --with-editor=EDITOR		default editor (/usr/bin/vi)],
- [w3m_editor="$with_editor"])
-AC_MSG_RESULT($w3m_editor)
-AC_DEFINE_UNQUOTED(DEF_EDITOR, "$w3m_editor")])
-#
-# ----------------------------------------------------------------
-# AC_W3M_MAILER
-# ----------------------------------------------------------------
-AC_DEFUN([AC_W3M_MAILER],
-[AC_SUBST(DEF_MAILER)
-w3m_mailer="/usr/bin/mail"
-AC_MSG_CHECKING(which mailer is used by default)
-AC_ARG_WITH(mailer,
- [  --with-mailer=MAILER		default mailer (/usr/bin/mail)],
- [w3m_mailer="$with_mailer"])
-AC_MSG_RESULT($w3m_mailer)
-AC_DEFINE_UNQUOTED(DEF_MAILER, "$w3m_mailer")])
-#
-# ----------------------------------------------------------------
-# AC_W3M_EXT_BROWSER
-# ----------------------------------------------------------------
-AC_DEFUN([AC_W3M_EXT_BROWSER],
-[AC_SUBST(DEF_EXT_BROWSER)
-w3m_browser="/usr/bin/mozilla"
-AC_MSG_CHECKING(which external browser is used by default)
-AC_ARG_WITH(browser,
- [  --with-browser=BROWSER	default browser (/usr/bin/mozilla)],
- [w3m_browser="$with_browser"])
-AC_MSG_RESULT($w3m_browser)
-AC_DEFINE_UNQUOTED(DEF_EXT_BROWSER, "$w3m_browser")])
-#
-# ----------------------------------------------------------------
 # AC_W3M_HELP_CGI
 # ----------------------------------------------------------------
 AC_DEFUN([AC_W3M_HELP_CGI],

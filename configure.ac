@@ -71,9 +71,6 @@ AC_W3M_HELP_CGI
 AC_W3M_EXTERNAL_URI_LOADER
 AC_W3M_W3MMAILER
 AC_W3M_MIGEMO
-AC_W3M_EDITOR
-AC_W3M_MAILER
-AC_W3M_EXT_BROWSER
 
 dnl Checks for ext libs
 for lib in bsd BSD 44bsd socket nsl dld dl
