@@ -342,5 +342,4 @@ localcgi_post(char *uri, char *qstr, FormList *request, char *referer)
     fprintf(stderr, "execl(\"%s\", \"%s\", NULL): %s\n",
 	    file, mybasename(file), strerror(errno));
     exit(1);
-    return NULL;
 }
