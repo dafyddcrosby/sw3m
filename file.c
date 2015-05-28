@@ -11,6 +11,7 @@
 #include <utime.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
 
 #include "html.h"
 #include "parsetagx.h"
