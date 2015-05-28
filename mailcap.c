@@ -15,7 +15,7 @@ static struct mailcap DefaultMailcap[] = {
 static TextList *mailcap_list;
 static struct mailcap **UserMailcap;
 
-int
+static int
 mailcapMatch(struct mailcap *mcap, char *type)
 {
     char *cap = mcap->type, *p;
@@ -46,7 +46,7 @@ mailcapMatch(struct mailcap *mcap, char *type)
     return 20 + level;
 }
 
-struct mailcap *
+static struct mailcap *
 searchMailcap(struct mailcap *table, char *type)
 {
     int level = 0;
@@ -71,10 +71,10 @@ searchMailcap(struct mailcap *table, char *type)
     return mcap;
 }
 
-static int
+static bool
 matchMailcapAttr(char *p, char *attr, int len, Str *value)
 {
-    int quoted;
+    bool quoted = false;
     char *q = NULL;
 
     if (strncasecmp(p, attr, len) == 0) {
@@ -85,29 +85,28 @@ matchMailcapAttr(char *p, char *attr, int len, Str *value)
 	    if (*p == '=') {
 		p++;
 		SKIP_BLANKS(p);
-		quoted = 0;
 		while (*p && (quoted || *p != ';')) {
 		    if (quoted || !IS_SPACE(*p))
 			q = p;
 		    if (quoted)
-			quoted = 0;
+			quoted = false;
 		    else if (*p == '\\')
-			quoted = 1;
+			quoted = true;
 		    Strcat_char(*value, *p);
 		    p++;
 		}
 		if (q)
 		    Strshrink(*value, p - q - 1);
 	    }
-	    return 1;
+	    return true;
 	}
 	else {
 	    if (*p == '\0' || *p == ';') {
-		return 1;
+		return true;
 	    }
 	}
     }
-    return 0;
+    return false;
 }
 
 static int
@@ -115,7 +114,7 @@ extractMailcapEntry(char *mcap_entry, struct mailcap *mcap)
 {
     int j, k;
     char *p;
-    int quoted;
+    bool quoted = false;
     Str tmp;
 
     memset(mcap, 0, sizeof(struct mailcap));
@@ -133,14 +132,13 @@ extractMailcapEntry(char *mcap_entry, struct mailcap *mcap)
 
     SKIP_BLANKS(p);
     k = -1;
-    quoted = 0;
     for (j = 0; p[j] && (quoted || p[j] != ';'); j++) {
 	if (quoted || !IS_SPACE(p[j]))
 	    k = j;
 	if (quoted)
-	    quoted = 0;
+	    quoted = false;
 	else if (p[j] == '\\')
-	    quoted = 1;
+	    quoted = true;
     }
     mcap->viewer = allocStr(p, (k >= 0) ? k + 1 : j);
     p += j;
@@ -167,12 +165,12 @@ extractMailcapEntry(char *mcap_entry, struct mailcap *mcap)
 	else if (matchMailcapAttr(p, "edit", 4, &tmp)) {
 	    mcap->edit = allocStr(tmp->ptr, tmp->length);
 	}
-	quoted = 0;
+	quoted = false;
 	while (*p && (quoted || *p != ';')) {
 	    if (quoted)
-		quoted = 0;
+		quoted = false;
 	    else if (*p == '\\')
-		quoted = 1;
+		quoted = true;
 	    p++;
 	}
     }

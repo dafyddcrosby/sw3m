@@ -149,7 +149,6 @@ extern Anchor *list_menu(Buffer *buf);
 extern void undoPos(void);
 extern void redoPos(void);
 
-extern int currentLn(Buffer *buf);
 extern void tmpClearBuffer(Buffer *buf);
 extern char *filename_extension(char *patch, int is_url);
 #ifdef USE_EXTERNAL_URI_LOADER
@@ -502,8 +501,6 @@ extern URLFile openURL(char *url, ParsedURL *pu, ParsedURL *current,
 		       URLOption *option, FormList *request,
 		       TextList *extra_header, URLFile *ouf,
 		       HRequest *hr, unsigned char *status);
-extern int mailcapMatch(struct mailcap *mcap, char *type);
-extern struct mailcap *searchMailcap(struct mailcap *table, char *type);
 extern void initMailcap();
 extern char *acceptableMimeTypes();
 extern struct mailcap *searchExtViewer(char *type);

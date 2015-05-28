@@ -198,7 +198,7 @@ UFhalfclose(URLFile *f)
     }
 }
 
-int
+static int
 currentLn(Buffer *buf)
 {
     if (buf->currentLine)
