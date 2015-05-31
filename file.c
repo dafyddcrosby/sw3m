@@ -7739,7 +7739,6 @@ doExternal(URLFile uf, char *path, char *type, Buffer **bufp,
 	command = tmp;
     }
 
-#ifdef HAVE_SETPGRP
     if (!(mcap->flags & (MAILCAP_HTMLOUTPUT | MAILCAP_COPIOUSOUTPUT)) &&
 	!(mcap->flags & MAILCAP_NEEDSTERMINAL) && BackgroundExtViewer) {
 	flush_tty();
@@ -7754,7 +7753,6 @@ doExternal(URLFile uf, char *path, char *type, Buffer **bufp,
 	return 1;
     }
     else
-#endif
     {
 	if (save2tmp(uf, tmpf->ptr) < 0) {
 	    *bufp = NULL;

@@ -134,8 +134,7 @@ dnl AC_FUNC_MEMCMP
 dnl AC_FUNC_MMAP
 dnl AC_FUNC_SETVBUF_REVERSED
 dnl AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(strcasestr memcpy bcopy setpgrp explicit_bzero)
-AC_FUNC_SETPGRP
+AC_CHECK_FUNCS(strcasestr bcopy explicit_bzero)
 AM_LANGINFO_CODESET
 AC_W3M_SYS_ERRLIST
 AC_W3M_SIGSETJMP
