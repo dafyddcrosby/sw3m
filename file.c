@@ -15,7 +15,6 @@
 
 #include "html.h"
 #include "parsetagx.h"
-#include "local.h"
 #include "regex.h"
 
 #ifndef max
@@ -24,6 +23,8 @@
 #ifndef min
 #define min(a,b)        ((a) > (b) ? (b) : (a))
 #endif				/* not min */
+
+#define NOT_REGULAR(m)  (((m) & S_IFMT) != S_IFREG)
 
 static int frame_source = 0;
 
@@ -241,7 +242,7 @@ dir_exist(char *path)
 	return false;
     if (stat(path, &stbuf) == -1)
 	return false;
-    return IS_DIRECTORY(stbuf.st_mode);
+    return S_ISDIR(stbuf.st_mode);
 }
 
 static int

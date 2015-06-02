@@ -3,7 +3,6 @@
 #include <pwd.h>
 #include "myctype.h"
 #include "html.h"
-#include "local.h"
 #include "hash.h"
 
 #include <fcntl.h>

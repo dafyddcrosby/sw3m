@@ -14,7 +14,6 @@
 
 #include <time.h>
 #include <stdbool.h>
-#include "local.h"
 #include "regex.h"
 #include "myctype.h"
 

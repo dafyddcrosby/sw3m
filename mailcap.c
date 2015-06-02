@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <errno.h>
 #include "parsetag.h"
-#include "local.h"
 
 static struct mailcap DefaultMailcap[] = {
     {"image/*", DEF_IMAGE_VIEWER " %s", 0, NULL, NULL, NULL},	/* */

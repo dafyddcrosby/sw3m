@@ -6,7 +6,6 @@
 #include "parsetag.h"
 #include "parsetagx.h"
 #include "myctype.h"
-#include "local.h"
 #include "regex.h"
 
 extern Str *textarea_str;

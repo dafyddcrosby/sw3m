@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include <errno.h>
 #include "parsetag.h"
-#include "local.h"
 #include <stdlib.h>
 
 struct param_ptr {

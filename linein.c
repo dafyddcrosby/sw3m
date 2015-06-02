@@ -1,6 +1,8 @@
 /* $Id: linein.c,v 1.35 2007/05/23 12:14:24 inu Exp $ */
+#include <sys/types.h>
+#include <dirent.h>
+#include <sys/stat.h>
 #include "fm.h"
-#include "local.h"
 #include "myctype.h"
 
 #ifdef USE_MOUSE
@@ -847,7 +849,7 @@ doComplete(Str ifn, int *status, int next)
     int fl, i;
     char *fn, *p;
     DIR *d;
-    Directory *dir;
+    struct dirent *dir;
     struct stat st;
 
     if (!cm_next) {
