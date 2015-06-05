@@ -103,7 +103,7 @@ ALLOBJS=$(OBJS) $(LOBJS) $(LLOBJS)
 
 EXT=@EXEEXT@
 
-TARGET=$(PACKAGE)$(EXT)
+TARGET=sw3m
 BOOKMARKER=w3mbookmark$(EXT)
 HELPER=w3mhelperpanel$(EXT)
 INFLATE=inflate$(EXT)

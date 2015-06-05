@@ -1,3 +1,26 @@
+2015-06-02  David Crosby <dtcrsby@gmail.com>
+
+	* sw3m 0.6.0 (first release of w3m fork)
+	* Apply OpenBSD w3m ports patches
+	* Remove if 0 and if 1 macros
+	* Remove EGD
+	* Remove OS/2 support
+	* Remove DOS support
+	* Remove Windows support
+	* SSL/TLS verification in by default, no longer a compiler option
+	* Remove use of bzero where possible, use explicit_bzero for sensitive
+	  bzero-ing
+	* Remove most duplicate functions that are part of POSIX 2008
+	* Remove ancient OpenSSL macros
+	* Use stdbool.h true/false, replace int with bool on many
+	  functions and variables
+	* History built-in but disabled initially
+	* Cookies built-in but disabled initially
+	* Remove unfreely-licensed matrix.h
+	* Remove compilation options for editor, mailer, and external browser
+	  (they can be adjusted in the options menu)
+
+
 2012-05-22  Tatsuya Kinoshita <tats@vega.ocn.ne.jp>
 
 	* [w3m-dev 04451] w3m/entity.h should be removed when `make clean'
