@@ -6185,7 +6185,7 @@ addDownloadList(pid_t pid, char *url, char *save, char *lock, clen_t size)
     d->lock = lock;
     d->size = size;
     d->time = time(0);
-    d->running = TRUE;
+    d->running = true;
     d->err = 0;
     d->next = NULL;
     d->prev = LastDL;
@@ -6246,7 +6246,7 @@ DownloadListBuffer(void)
 		       "<form method=internal action=download><hr>\n");
     for (d = LastDL; d != NULL; d = d->prev) {
 	if (lstat(d->lock, &st))
-	    d->running = FALSE;
+	    d->running = false;
 	Strcat_charp(src, "<pre>\n");
 	Strcat(src, Sprintf("%s\n  --&gt; %s\n  ", html_quote(d->url),
 			    html_quote(conv_from_system(d->save))));
