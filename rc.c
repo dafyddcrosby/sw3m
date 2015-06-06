@@ -141,7 +141,6 @@ static int OptionEncode = FALSE;
 #define CMT_EXTBRZ       N_("External Browser")
 #define CMT_EXTBRZ2      N_("Second External Browser")
 #define CMT_EXTBRZ3      N_("Third External Browser")
-#define CMT_DISABLE_SECRET_SECURITY_CHECK	N_("Disable secret file security check")
 #define CMT_PASSWDFILE	 N_("Password file")
 #define CMT_PRE_FORM_FILE	N_("File for setting form on loading")
 #define CMT_FTPPASS      N_("Password for anonymous FTP (your mail address)")
@@ -576,9 +575,6 @@ struct param_ptr params8[] = {
 
 struct param_ptr params9[] = {
     {"passwd_file", P_STRING, PI_TEXT, (void *)&passwd_file, CMT_PASSWDFILE,
-     NULL},
-    {"disable_secret_security_check", P_INT, PI_ONOFF,
-     (void *)&disable_secret_security_check, CMT_DISABLE_SECRET_SECURITY_CHECK,
      NULL},
     {"ftppasswd", P_STRING, PI_TEXT, (void *)&ftppasswd, CMT_FTPPASS, NULL},
     {"ftppass_hostnamegen", P_INT, PI_ONOFF, (void *)&ftppass_hostnamegen,
