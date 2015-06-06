@@ -325,7 +325,7 @@ make_optional_header_string(char *s)
     hs = Strnew_size(strlen(s) + 3);
     Strcopy_charp_n(hs, s, p - s);
     if (!Strcasecmp_charp(hs, "content-type"))
-	override_content_type = TRUE;
+	override_content_type = true;
     Strcat_charp(hs, ": ");
     if (*(++p)) {		/* not null header */
 	SKIP_BLANKS(p);		/* skip white spaces */
@@ -349,7 +349,7 @@ main(int argc, char **argv, char **envp)
     bool load_bookmark = false;
     bool visual_start = false;
     bool open_new_tab = false;
-    char search_header = FALSE;
+    bool search_header = false;
     char *default_type = NULL;
     char *post_file = NULL;
     Str err_msg;
@@ -475,7 +475,7 @@ main(int argc, char **argv, char **envp)
 		    Tabstop = atoi(argv[i]);
 	    }
 	    else if (!strcmp("-r", argv[i]))
-		ShowEffect = FALSE;
+		ShowEffect = true;
 	    else if (!strcmp("-l", argv[i])) {
 		if (++i >= argc)
 		    usage();
@@ -522,14 +522,14 @@ main(int argc, char **argv, char **envp)
 		DefaultType = default_type = argv[i];
 	    }
 	    else if (!strcmp("-m", argv[i]))
-		SearchHeader = search_header = TRUE;
+		SearchHeader = search_header = true;
 	    else if (!strcmp("-v", argv[i]))
 		visual_start = true;
 	    else if (!strcmp("-N", argv[i]))
 		open_new_tab = true;
 #ifdef USE_COLOR
 	    else if (!strcmp("-M", argv[i]))
-		useColor = FALSE;
+		useColor = false;
 #endif				/* USE_COLOR */
 	    else if (!strcmp("-B", argv[i]))
 		load_bookmark = true;
@@ -546,7 +546,7 @@ main(int argc, char **argv, char **envp)
 		}
 	    }
 	    else if (!strcmp("-F", argv[i]))
-		RenderFrame = TRUE;
+		RenderFrame = true;
 	    else if (!strcmp("-W", argv[i])) {
 		if (WrapDefault)
 		    WrapDefault = FALSE;
@@ -567,7 +567,7 @@ main(int argc, char **argv, char **envp)
 		w3m_dump = DUMP_HALFDUMP;
 	    else if (!strcmp("-halfload", argv[i])) {
 		w3m_dump = 0;
-		w3m_halfload = TRUE;
+		w3m_halfload = true;
 		DefaultType = default_type = "text/html";
 	    }
 	    else if (!strcmp("-backend", argv[i])) {
@@ -614,7 +614,7 @@ main(int argc, char **argv, char **envp)
 	    }
 #endif
 	    else if (!strcmp("-num", argv[i]))
-		showLineNum = TRUE;
+		showLineNum = true;
 	    else if (!strcmp("-no-proxy", argv[i]))
 		use_proxy = FALSE;
 #ifdef INET6
@@ -643,7 +643,7 @@ main(int argc, char **argv, char **envp)
 	    }
 #ifdef USE_MOUSE
 	    else if (!strcmp("-no-mouse", argv[i])) {
-		use_mouse = FALSE;
+		use_mouse = false;
 	    }
 #endif				/* USE_MOUSE */
 	    else if (!strcmp("-no-cookie", argv[i])) {
@@ -657,7 +657,7 @@ main(int argc, char **argv, char **envp)
 	    else if (!strcmp("-S", argv[i]))
 		squeezeBlankLine = TRUE;
 	    else if (!strcmp("-X", argv[i]))
-		Do_not_use_ti_te = TRUE;
+		Do_not_use_ti_te = true;
 	    else if (!strcmp("-title", argv[i]))
 		displayTitleTerm = getenv("TERM");
 	    else if (!strncmp("-title=", argv[i], 7))
@@ -727,7 +727,7 @@ main(int argc, char **argv, char **envp)
     }
 #ifdef USE_IMAGE
     else if (w3m_halfdump && displayImage)
-	activeImage = TRUE;
+	activeImage = true;
 #endif
 
     sync_with_option();
@@ -948,7 +948,7 @@ main(int argc, char **argv, char **envp)
     if (err_msg->length)
 	disp_message_nsec(err_msg->ptr, FALSE, 1, TRUE, FALSE);
 
-    SearchHeader = FALSE;
+    SearchHeader = false;
     DefaultType = NULL;
 #ifdef USE_M17N
     UseContentCharset = TRUE;
@@ -4247,18 +4247,18 @@ DEFUN(ldHist, HISTORY, "View history of URL")
 DEFUN(svA, SAVE_LINK, "Save link to file")
 {
     CurrentKeyData = NULL;	/* not allowed in w3m-control: */
-    do_download = TRUE;
+    do_download = true;
     followA();
-    do_download = FALSE;
+    do_download = false;
 }
 
 /* download IMG link */
 DEFUN(svI, SAVE_IMAGE, "Save image to file")
 {
     CurrentKeyData = NULL;	/* not allowed in w3m-control: */
-    do_download = TRUE;
+    do_download = true;
     followI();
-    do_download = FALSE;
+    do_download = false;
 }
 
 /* save buffer */
@@ -4318,7 +4318,7 @@ DEFUN(svSrc, DOWNLOAD SAVE, "Save document source to file")
     if (Currentbuf->sourcefile == NULL)
 	return;
     CurrentKeyData = NULL;	/* not allowed in w3m-control: */
-    PermitSaveToPipe = TRUE;
+    PermitSaveToPipe = true;
     if (Currentbuf->real_scheme == SCM_LOCAL)
 	file = conv_from_system(guess_save_name(NULL,
 						Currentbuf->currentURL.
@@ -4326,7 +4326,7 @@ DEFUN(svSrc, DOWNLOAD SAVE, "Save document source to file")
     else
 	file = guess_save_name(Currentbuf, Currentbuf->currentURL.file);
     doFileCopy(Currentbuf->sourcefile, file);
-    PermitSaveToPipe = FALSE;
+    PermitSaveToPipe = false;
     displayBuffer(Currentbuf, B_NORMAL);
 }
 
@@ -4630,7 +4630,7 @@ DEFUN(reload, RELOAD, "Reload buffer")
 #ifdef USE_M17N
     DocumentCharset = old_charset;
 #endif
-    SearchHeader = FALSE;
+    SearchHeader = false;
     DefaultType = NULL;
 
     if (multipart)
@@ -4966,7 +4966,7 @@ DEFUN(dispI, DISPLAY_IMAGE, "Restart loading and drawing of images")
 	initImage();
     if (!activeImage)
 	return;
-    displayImage = TRUE;
+    displayImage = true;
     /*
      * if (!(Currentbuf->type && is_html_type(Currentbuf->type)))
      * return;
@@ -5223,10 +5223,10 @@ process_mouse(int btn, int x, int y)
 DEFUN(msToggle, MOUSE_TOGGLE, "Toggle activity of mouse")
 {
     if (use_mouse) {
-	use_mouse = FALSE;
+	use_mouse = false;
     }
     else {
-	use_mouse = TRUE;
+	use_mouse = true;
     }
     displayBuffer(Currentbuf, B_FORCE_REDRAW);
 }
@@ -5810,7 +5810,7 @@ DEFUN(defKey, DEFINE_KEY,
 	    return;
 	}
     }
-    setKeymap(allocStr(data, -1), -1, TRUE);
+    setKeymap(allocStr(data, -1), -1, true);
     displayBuffer(Currentbuf, B_NORMAL);
 }
 

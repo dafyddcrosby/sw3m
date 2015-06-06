@@ -49,6 +49,7 @@ static int RC_table_size;
 #define P_PIXELS   8
 #define P_NZINT    9
 #define P_SCALE    10
+#define P_BOOL     11
 
 /* FIXME: gettextize here */
 #ifdef USE_M17N
@@ -335,18 +336,18 @@ struct param_ptr params1[] = {
     {"pixel_per_line", P_PIXELS, PI_TEXT, (void *)&pixel_per_line,
      CMT_PIXEL_PER_LINE, NULL},
 #endif
-    {"frame", P_CHARINT, PI_ONOFF, (void *)&RenderFrame, CMT_FRAME, NULL},
-    {"target_self", P_CHARINT, PI_ONOFF, (void *)&TargetSelf, CMT_TSELF, NULL},
-    {"open_tab_blank", P_INT, PI_ONOFF, (void *)&open_tab_blank,
+    {"frame", P_BOOL, PI_ONOFF, (void *)&RenderFrame, CMT_FRAME, NULL},
+    {"target_self", P_BOOL, PI_ONOFF, (void *)&TargetSelf, CMT_TSELF, NULL},
+    {"open_tab_blank", P_BOOL, PI_ONOFF, (void *)&open_tab_blank,
      CMT_OPEN_TAB_BLANK, NULL},
-    {"open_tab_dl_list", P_INT, PI_ONOFF, (void *)&open_tab_dl_list,
+    {"open_tab_dl_list", P_BOOL, PI_ONOFF, (void *)&open_tab_dl_list,
      CMT_OPEN_TAB_DL_LIST, NULL},
-    {"display_link", P_INT, PI_ONOFF, (void *)&displayLink, CMT_DISPLINK,
+    {"display_link", P_BOOL, PI_ONOFF, (void *)&displayLink, CMT_DISPLINK,
      NULL},
-    {"display_link_number", P_INT, PI_ONOFF, (void *)&displayLinkNumber,
+    {"display_link_number", P_BOOL, PI_ONOFF, (void *)&displayLinkNumber,
      CMT_DISPLINKNUMBER, NULL},
-    {"decode_url", P_INT, PI_ONOFF, (void *)&DecodeURL, CMT_DECODE_URL, NULL},
-    {"display_lineinfo", P_INT, PI_ONOFF, (void *)&displayLineInfo,
+    {"decode_url", P_BOOL, PI_ONOFF, (void *)&DecodeURL, CMT_DECODE_URL, NULL},
+    {"display_lineinfo", P_BOOL, PI_ONOFF, (void *)&displayLineInfo,
      CMT_DISPLINEINFO, NULL},
     {"ext_dirlist", P_INT, PI_ONOFF, (void *)&UseExternalDirBuffer,
      CMT_EXT_DIRLIST, NULL},
@@ -358,8 +359,8 @@ struct param_ptr params1[] = {
     {"dictcommand", P_STRING, PI_TEXT, (void *)&DictCommand,
      CMT_DICTCOMMAND, NULL},
 #endif				/* USE_DICT */
-    {"multicol", P_INT, PI_ONOFF, (void *)&multicolList, CMT_MULTICOL, NULL},
-    {"alt_entity", P_CHARINT, PI_ONOFF, (void *)&UseAltEntity, CMT_ALT_ENTITY,
+    {"multicol", P_BOOL, PI_ONOFF, (void *)&multicolList, CMT_MULTICOL, NULL},
+    {"alt_entity", P_BOOL, PI_ONOFF, (void *)&UseAltEntity, CMT_ALT_ENTITY,
      NULL},
     {"graphic_char", P_CHARINT, PI_SEL_C, (void *)&UseGraphicChar,
      CMT_GRAPHIC_CHAR, (void *)graphic_char_str},
@@ -372,37 +373,37 @@ struct param_ptr params1[] = {
     {"view_unseenobject", P_INT, PI_ONOFF, (void *)&view_unseenobject,
      CMT_VIEW_UNSEENOBJECTS, NULL},
     /* XXX: emacs-w3m force to off display_image even if image options off */
-    {"display_image", P_INT, PI_ONOFF, (void *)&displayImage, CMT_DISP_IMAGE,
+    {"display_image", P_BOOL, PI_ONOFF, (void *)&displayImage, CMT_DISP_IMAGE,
      NULL},
-    {"pseudo_inlines", P_INT, PI_ONOFF, (void *)&pseudoInlines,
+    {"pseudo_inlines", P_BOOL, PI_ONOFF, (void *)&pseudoInlines,
      CMT_PSEUDO_INLINES, NULL},
 #ifdef USE_IMAGE
-    {"auto_image", P_INT, PI_ONOFF, (void *)&autoImage, CMT_AUTO_IMAGE, NULL},
+    {"auto_image", P_BOOL, PI_ONOFF, (void *)&autoImage, CMT_AUTO_IMAGE, NULL},
     {"max_load_image", P_INT, PI_TEXT, (void *)&maxLoadImage,
      CMT_MAX_LOAD_IMAGE, NULL},
-    {"ext_image_viewer", P_INT, PI_ONOFF, (void *)&useExtImageViewer,
+    {"ext_image_viewer", P_BOOL, PI_ONOFF, (void *)&useExtImageViewer,
      CMT_EXT_IMAGE_VIEWER, NULL},
     {"image_scale", P_SCALE, PI_TEXT, (void *)&image_scale, CMT_IMAGE_SCALE,
      NULL},
     {"imgdisplay", P_STRING, PI_TEXT, (void *)&Imgdisplay, CMT_IMGDISPLAY,
      NULL},
-    {"image_map_list", P_INT, PI_ONOFF, (void *)&image_map_list,
+    {"image_map_list", P_BOOL, PI_ONOFF, (void *)&image_map_list,
      CMT_IMAGE_MAP_LIST, NULL},
 #endif
     {"fold_line", P_INT, PI_ONOFF, (void *)&FoldLine, CMT_FOLD_LINE, NULL},
-    {"show_lnum", P_INT, PI_ONOFF, (void *)&showLineNum, CMT_SHOW_NUM, NULL},
-    {"show_srch_str", P_INT, PI_ONOFF, (void *)&show_srch_str,
+    {"show_lnum", P_BOOL, PI_ONOFF, (void *)&showLineNum, CMT_SHOW_NUM, NULL},
+    {"show_srch_str", P_BOOL, PI_ONOFF, (void *)&show_srch_str,
      CMT_SHOW_SRCH_STR, NULL},
-    {"label_topline", P_INT, PI_ONOFF, (void *)&label_topline,
+    {"label_topline", P_BOOL, PI_ONOFF, (void *)&label_topline,
      CMT_LABEL_TOPLINE, NULL},
-    {"nextpage_topline", P_INT, PI_ONOFF, (void *)&nextpage_topline,
+    {"nextpage_topline", P_BOOL, PI_ONOFF, (void *)&nextpage_topline,
      CMT_NEXTPAGE_TOPLINE, NULL},
     {NULL, 0, 0, NULL, NULL, NULL},
 };
 
 #ifdef USE_COLOR
 struct param_ptr params2[] = {
-    {"color", P_INT, PI_ONOFF, (void *)&useColor, CMT_COLOR, NULL},
+    {"color", P_BOOL, PI_ONOFF, (void *)&useColor, CMT_COLOR, NULL},
     {"basic_color", P_COLOR, PI_SEL_C, (void *)&basic_color, CMT_B_COLOR,
      (void *)colorstr},
     {"anchor_color", P_COLOR, PI_SEL_C, (void *)&anchor_color, CMT_A_COLOR,
@@ -417,11 +418,11 @@ struct param_ptr params2[] = {
     {"bg_color", P_COLOR, PI_SEL_C, (void *)&bg_color, CMT_BG_COLOR,
      (void *)colorstr},
 #endif				/* USE_BG_COLOR */
-    {"active_style", P_INT, PI_ONOFF, (void *)&useActiveColor,
+    {"active_style", P_BOOL, PI_ONOFF, (void *)&useActiveColor,
      CMT_ACTIVE_STYLE, NULL},
     {"active_color", P_COLOR, PI_SEL_C, (void *)&active_color, CMT_C_COLOR,
      (void *)colorstr},
-    {"visited_anchor", P_INT, PI_ONOFF, (void *)&useVisitedColor,
+    {"visited_anchor", P_BOOL, PI_ONOFF, (void *)&useVisitedColor,
      CMT_VISITED_ANCHOR, NULL},
     {"visited_color", P_COLOR, PI_SEL_C, (void *)&visited_color, CMT_V_COLOR,
      (void *)colorstr},
@@ -432,19 +433,19 @@ struct param_ptr params2[] = {
 
 struct param_ptr params3[] = {
     {"pagerline", P_NZINT, PI_TEXT, (void *)&PagerMax, CMT_PAGERLINE, NULL},
-    {"use_history", P_INT, PI_ONOFF, (void *)&UseHistory, CMT_HISTORY, NULL},
+    {"use_history", P_BOOL, PI_ONOFF, (void *)&UseHistory, CMT_HISTORY, NULL},
     {"history", P_INT, PI_TEXT, (void *)&URLHistSize, CMT_HISTSIZE, NULL},
-    {"save_hist", P_INT, PI_ONOFF, (void *)&SaveURLHist, CMT_SAVEHIST, NULL},
-    {"confirm_qq", P_INT, PI_ONOFF, (void *)&confirm_on_quit, CMT_CONFIRM_QQ,
+    {"save_hist", P_BOOL, PI_ONOFF, (void *)&SaveURLHist, CMT_SAVEHIST, NULL},
+    {"confirm_qq", P_BOOL, PI_ONOFF, (void *)&confirm_on_quit, CMT_CONFIRM_QQ,
      NULL},
-    {"close_tab_back", P_INT, PI_ONOFF, (void *)&close_tab_back,
+    {"close_tab_back", P_BOOL, PI_ONOFF, (void *)&close_tab_back,
      CMT_CLOSE_TAB_BACK, NULL},
 #ifdef USE_MARK
-    {"mark", P_INT, PI_ONOFF, (void *)&use_mark, CMT_USE_MARK, NULL},
+    {"mark", P_BOOL, PI_ONOFF, (void *)&use_mark, CMT_USE_MARK, NULL},
 #endif
-    {"emacs_like_lineedit", P_INT, PI_ONOFF, (void *)&emacs_like_lineedit,
+    {"emacs_like_lineedit", P_BOOL, PI_ONOFF, (void *)&emacs_like_lineedit,
      CMT_EMACS_LIKE_LINEEDIT, NULL},
-    {"vi_prec_num", P_INT, PI_ONOFF, (void *)&vi_prec_num, CMT_VI_PREC_NUM,
+    {"vi_prec_num", P_BOOL, PI_ONOFF, (void *)&vi_prec_num, CMT_VI_PREC_NUM,
      NULL},
     {"mark_all_pages", P_INT, PI_ONOFF, (void *)&MarkAllPages,
      CMT_MARK_ALL_PAGES, NULL},
@@ -458,10 +459,10 @@ struct param_ptr params3[] = {
      CMT_MIGEMO_COMMAND, NULL},
 #endif				/* USE_MIGEMO */
 #ifdef USE_MOUSE
-    {"use_mouse", P_INT, PI_ONOFF, (void *)&use_mouse, CMT_MOUSE, NULL},
-    {"reverse_mouse", P_INT, PI_ONOFF, (void *)&reverse_mouse,
+    {"use_mouse", P_BOOL, PI_ONOFF, (void *)&use_mouse, CMT_MOUSE, NULL},
+    {"reverse_mouse", P_BOOL, PI_ONOFF, (void *)&reverse_mouse,
      CMT_REVERSE_MOUSE, NULL},
-    {"relative_wheel_scroll", P_INT, PI_SEL_C, (void *)&relative_wheel_scroll,
+    {"relative_wheel_scroll", P_BOOL, PI_SEL_C, (void *)&relative_wheel_scroll,
      CMT_RELATIVE_WHEEL_SCROLL, (void *)wheelmode},
     {"relative_wheel_scroll_ratio", P_INT, PI_TEXT,
      (void *)&relative_wheel_scroll_ratio,
@@ -532,7 +533,7 @@ struct param_ptr params6[] = {
      NULL},
     {"extbrowser3", P_STRING, PI_TEXT, (void *)&ExtBrowser3, CMT_EXTBRZ3,
      NULL},
-    {"bgextviewer", P_INT, PI_ONOFF, (void *)&BackgroundExtViewer,
+    {"bgextviewer", P_BOOL, PI_ONOFF, (void *)&BackgroundExtViewer,
      CMT_BGEXTVIEW, NULL},
     {"use_lessopen", P_INT, PI_ONOFF, (void *)&use_lessopen, CMT_USE_LESSOPEN,
      NULL},
@@ -820,6 +821,9 @@ show_params(FILE * fp)
 		t = (sections[j].params[i].inputtype ==
 		     PI_ONOFF) ? "bool" : "number";
 		break;
+		  case P_BOOL:
+		t = "bool";
+		break;
 	    case P_CHAR:
 		t = "char";
 		break;
@@ -866,31 +870,31 @@ show_params(FILE * fp)
     }
 }
 
-int
+bool
 str_to_bool(char *value, int old)
 {
     if (value == NULL)
-	return 1;
+	return true;
     switch (TOLOWER(*value)) {
     case '0':
     case 'f':			/* false */
     case 'n':			/* no */
     case 'u':			/* undef */
-	return 0;
+	return false;
     case 'o':
 	if (TOLOWER(value[1]) == 'f')	/* off */
-	    return 0;
-	return 1;		/* on */
+	    return false;
+	return true;		/* on */
     case 't':
 	if (TOLOWER(value[1]) == 'o')	/* toggle */
 	    return !old;
-	return 1;		/* true */
+	return true;		/* true */
     case '!':
     case 'r':			/* reverse */
     case 'x':			/* exchange */
 	return !old;
     }
-    return 1;
+    return true;
 }
 
 #ifdef USE_COLOR
@@ -963,6 +967,9 @@ set_param(char *name, char *value)
     case P_CHARINT:
 	*(char *)p->varptr = (p->inputtype == PI_ONOFF)
 	    ? str_to_bool(value, *(char *)p->varptr) : atoi(value);
+	break;
+	  case P_BOOL:
+	*(bool *)p->varptr = str_to_bool(value, *(bool *)p->varptr);
 	break;
     case P_CHAR:
 	*(char *)p->varptr = value[0];
@@ -1129,7 +1136,7 @@ sync_with_option(void)
     if (fmInitialized && displayImage)
 	initImage();
 #else
-    displayImage = FALSE;	/* XXX */
+    displayImage = false;	/* XXX */
 #endif
     loadPasswd();
     loadPreForm();
@@ -1205,7 +1212,7 @@ init_rc(void)
 	fprintf(stderr, "%s is not writable!", rc_dir);
 	goto rc_dir_err;
     }
-    no_rc_dir = FALSE;
+    no_rc_dir = false;
     tmp_dir = rc_dir;
 
     if (config_file == NULL)
@@ -1230,7 +1237,7 @@ init_rc(void)
     return;
 
   rc_dir_err:
-    no_rc_dir = TRUE;
+    no_rc_dir = true;
     if (((tmp_dir = getenv("TMPDIR")) == NULL || *tmp_dir == '\0') &&
 	((tmp_dir = getenv("TMP")) == NULL || *tmp_dir == '\0') &&
 	((tmp_dir = getenv("TEMP")) == NULL || *tmp_dir == '\0'))
@@ -1270,6 +1277,8 @@ to_str(struct param_ptr *p)
 	return Sprintf("%d", *(short *)p->varptr);
     case P_CHARINT:
 	return Sprintf("%d", *(char *)p->varptr);
+    case P_BOOL:
+	return Sprintf("%d", *(bool *)p->varptr);
     case P_CHAR:
 	return Sprintf("%c", *(char *)p->varptr);
     case P_STRING:

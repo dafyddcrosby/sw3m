@@ -4,6 +4,7 @@
 #include <pwd.h>
 #include <sys/param.h>
 #include <sys/types.h>
+#include <limits.h>
 #include <stdlib.h>
 #include "indep.h"
 #include "Str.h"

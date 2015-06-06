@@ -179,7 +179,7 @@ searchAnchor(AnchorList *al, char *str)
 	a = &al->anchors[i];
 	if (a->hseq < 0)
 	  continue;
-	if (!strcmp(a->url, str))
+	if (strcmp(a->url, str) == 0)
 	    return a;
     }
     return NULL;
@@ -402,7 +402,8 @@ reAnchorNewsheader(Buffer *buf)
 	"Newsgroups:", NULL
     };
     char **header, **q;
-    int i, search = FALSE;
+    int i;
+		bool search = false;
 
     if (!buf || !buf->firstLine)
 	return NULL;
@@ -421,10 +422,10 @@ reAnchorNewsheader(Buffer *buf)
 		continue;
 	    p = l->lineBuf;
 	    if (!IS_SPACE(*p)) {
-		search = FALSE;
+		search = false;
 		for (q = header; *q; q++) {
 		    if (!strncasecmp(p, *q, strlen(*q))) {
-			search = TRUE;
+			search = true;
 			p = strchr(p, ':') + 1;
 			break;
 		    }

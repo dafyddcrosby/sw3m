@@ -237,7 +237,7 @@ checkType(Str s, Lineprop **oprop, Linecolor **ocolor)
 #ifdef USE_ANSI_COLOR
     Lineprop ceffect = PE_NORMAL;
     Linecolor cmode = 0;
-    int check_color = FALSE;
+    bool check_color = false;
     Linecolor *color = NULL;
     static Linecolor *color_buffer = NULL;
     static int color_size = 0;
@@ -411,7 +411,7 @@ checkType(Str s, Lineprop **oprop, Linecolor **ocolor)
 		    es = memchr(str, ESC_CODE, endp - str);
 		if (ok) {
 		    if (cmode)
-			check_color = TRUE;
+			check_color = true;
 		    continue;
 		}
 	    }
@@ -1314,9 +1314,9 @@ setup_child(int child, int i, int f)
 	setpgid(0, 0);
     close_tty();
     close_all_fds_except(i, f);
-    QuietMessage = TRUE;
-    fmInitialized = FALSE;
-    TrapSignal = FALSE;
+    QuietMessage = true;
+    fmInitialized = false;
+    TrapSignal = false;
 }
 
 pid_t
@@ -1404,14 +1404,14 @@ myExtCommand(char *cmd, char *arg, int redirect)
 {
     Str tmp = NULL;
     char *p;
-    int set_arg = FALSE;
+    bool set_arg = false;
 
     for (p = cmd; *p; p++) {
 	if (*p == '%' && *(p + 1) == 's' && !set_arg) {
 	    if (tmp == NULL)
 		tmp = Strnew_charp_n(cmd, (int)(p - cmd));
 	    Strcat_charp(tmp, arg);
-	    set_arg = TRUE;
+	    set_arg = true;
 	    p++;
 	}
 	else {

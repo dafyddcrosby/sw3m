@@ -168,7 +168,7 @@ fmTerm(void)
 	    mouse_end();
 #endif				/* USE_MOUSE */
 	reset_tty();
-	fmInitialized = FALSE;
+	fmInitialized = false;
     }
 }
 
@@ -188,7 +188,7 @@ fmInit(void)
 	    initImage();
 #endif
     }
-    fmInitialized = TRUE;
+    fmInitialized = true;
 }
 
 /*

@@ -353,7 +353,7 @@ typedef struct _image {
     short y;
     short rows;
     char *map;
-    char ismap;
+    bool ismap;
     int touch;
     ImageCache *cache;
 } Image;
@@ -458,7 +458,7 @@ typedef struct _Buffer {
     struct mailcap *mailcap;
     char *mailcap_source;
     char *header_source;
-    char search_header;
+    bool search_header;
 #ifdef USE_SSL
     char *ssl_certificate;
 #endif
@@ -764,23 +764,23 @@ extern int LINES, COLS;
 
 global int Tabstop init(8);
 global int IndentIncr init(4);
-global int ShowEffect init(TRUE);
+global bool ShowEffect init(true);
 global int PagerMax init(PAGER_MAX_LINE);
 
-global char SearchHeader init(FALSE);
+global bool SearchHeader init(false);
 global char *DefaultType init(NULL);
-global char RenderFrame init(FALSE);
-global char TargetSelf init(FALSE);
-global char PermitSaveToPipe init(FALSE);
+global bool RenderFrame init(false);
+global bool TargetSelf init(false);
+global bool PermitSaveToPipe init(false);
 global char DecodeCTE init(FALSE);
 global char AutoUncompress init(FALSE);
 global char PreserveTimestamp init(TRUE);
 global char ArgvIsURL init(FALSE);
 global char MetaRefresh init(FALSE);
 
-global char fmInitialized init(FALSE);
-global char QuietMessage init(FALSE);
-global char TrapSignal init(TRUE);
+global bool fmInitialized init(false);
+global bool QuietMessage init(false);
+global bool TrapSignal init(true);
 #define TRAP_ON if (TrapSignal) { \
     prevtrap = mySignal(SIGINT, KeyAbort); \
     if (fmInitialized) \
@@ -830,7 +830,7 @@ global TextList *NO_proxy_domains;
 global char NoCache init(FALSE);
 global char use_proxy init(TRUE);
 #define Do_not_use_proxy (!use_proxy)
-global int Do_not_use_ti_te init(FALSE);
+global bool Do_not_use_ti_te init(false);
 global char *NNTP_server init(NULL);
 global char *NNTP_mode init(NULL);
 global int MaxNewsMessage init(50);
@@ -849,9 +849,9 @@ global int CurrentPid;
 global TabBuffer *CurrentTab;
 global TabBuffer *FirstTab;
 global TabBuffer *LastTab;
-global int open_tab_blank init(FALSE);
-global int open_tab_dl_list init(FALSE);
-global int close_tab_back init(FALSE);
+global bool open_tab_blank init(false);
+global bool open_tab_dl_list init(false);
+global bool close_tab_back init(false);
 global int nTab;
 global int TabCols init(10);
 #define NO_TABBUFFER ((TabBuffer *)1)
@@ -874,12 +874,12 @@ extern char *w3m_version;
 global int w3m_debug;
 global int w3m_dump init(0);
 #define w3m_halfdump (w3m_dump & DUMP_HALFDUMP)
-global int w3m_halfload init(FALSE);
+global bool w3m_halfload init(false);
 global Str header_string init(NULL);
-global int override_content_type init(FALSE);
+global bool override_content_type init(false);
 
 #ifdef USE_COLOR
-global int useColor init(TRUE);
+global bool useColor init(true);
 global int basic_color init(8);	/* don't change */
 global int anchor_color init(4);	/* blue  */
 global int image_color init(2);	/* green */
@@ -888,39 +888,39 @@ global int form_color init(1);	/* red   */
 global int bg_color init(8);	/* don't change */
 global int mark_color init(6);	/* cyan */
 #endif				/* USE_BG_COLOR */
-global int useActiveColor init(FALSE);
+global bool useActiveColor init(false);
 global int active_color init(6);	/* cyan */
-global int useVisitedColor init(FALSE);
+global bool useVisitedColor init(false);
 global int visited_color init(5);	/* magenta  */
 #endif				/* USE_COLOR */
-global int confirm_on_quit init(TRUE);
+global bool confirm_on_quit init(true);
 #ifdef USE_MARK
-global int use_mark init(FALSE);
+global bool use_mark init(false);
 #endif
-global int emacs_like_lineedit init(FALSE);
-global int vi_prec_num init(FALSE);
-global int label_topline init(FALSE);
-global int nextpage_topline init(FALSE);
+global bool emacs_like_lineedit init(false);
+global bool vi_prec_num init(false);
+global bool label_topline init(false);
+global bool nextpage_topline init(false);
 global char *displayTitleTerm init(NULL);
-global int displayLink init(FALSE);
-global int displayLinkNumber init(FALSE);
-global int displayLineInfo init(FALSE);
-global int DecodeURL init(FALSE);
-global int retryAsHttp init(TRUE);
-global int showLineNum init(FALSE);
-global int show_srch_str init(TRUE);
+global bool displayLink init(false);
+global bool displayLinkNumber init(false);
+global bool displayLineInfo init(false);
+global bool DecodeURL init(false);
+global bool retryAsHttp init(true);
+global bool showLineNum init(false);
+global bool show_srch_str init(true);
 #ifdef USE_IMAGE
 global char *Imgdisplay init(IMGDISPLAY);
-global int activeImage init(FALSE);
-global int displayImage init(TRUE);
-global int autoImage init(TRUE);
-global int useExtImageViewer init(TRUE);
+global bool activeImage init(false);
+global bool displayImage init(true);
+global bool autoImage init(true);
+global bool useExtImageViewer init(true);
 global int maxLoadImage init(4);
-global int image_map_list init(TRUE);
+global bool image_map_list init(true);
 #else
-global int displayImage init(FALSE);	/* XXX: emacs-w3m use display_image=off */
+global bool displayImage init(false);	/* XXX: emacs-w3m use display_image=off */
 #endif
-global int pseudoInlines init(TRUE);
+global bool pseudoInlines init(true);
 global char *Editor init(DEF_EDITOR);
 #ifdef USE_W3MMAILER
 global char *Mailer init(NULL);
@@ -936,13 +936,13 @@ global int MailtoOptions init(MAILTO_OPTIONS_IGNORE);
 global char *ExtBrowser init(DEF_EXT_BROWSER);
 global char *ExtBrowser2 init(NULL);
 global char *ExtBrowser3 init(NULL);
-global int BackgroundExtViewer init(TRUE);
+global bool BackgroundExtViewer init(true);
 global int disable_secret_security_check init(FALSE);
 global char *passwd_file init(PASSWD_FILE);
 global char *pre_form_file init(PRE_FORM_FILE);
 global char *ftppasswd init(NULL);
 global int ftppass_hostnamegen init(TRUE);
-global int do_download init(FALSE);
+global bool do_download init(false);
 #ifdef USE_IMAGE
 global char *image_source init(NULL);
 #endif
@@ -997,10 +997,10 @@ extern Hist *SaveHist;
 extern Hist *URLHist;
 extern Hist *ShellHist;
 extern Hist *TextHist;
-global int UseHistory init(FALSE);
+global bool UseHistory init(false);
 global int URLHistSize init(100);
-global int SaveURLHist init(FALSE);
-global int multicolList init(FALSE);
+global bool SaveURLHist init(false);
+global bool multicolList init(false);
 
 #ifdef USE_M17N
 global wc_ces InnerCharset init(WC_CES_WTF);	/* Don't change */
@@ -1029,7 +1029,7 @@ global char SimplePreserveSpace init(FALSE);
 #define wc_Str_conv(x,charset0,charset1) (x)
 #define wc_Str_conv_strict(x,charset0,charset1) (x)
 #endif
-global char UseAltEntity init(TRUE);
+global bool UseAltEntity init(true);
 #define GRAPHIC_CHAR_ASCII 2
 #define GRAPHIC_CHAR_DEC 1
 #define GRAPHIC_CHAR_CHARSET 0
@@ -1040,16 +1040,16 @@ extern int symbol_width;
 extern int symbol_width0;
 #define N_GRAPH_SYMBOL 32
 #define SYMBOL_BASE 0x20
-global int no_rc_dir init(FALSE);
+global bool no_rc_dir init(false);
 global char *rc_dir init(NULL);
 global char *tmp_dir;
 global char *config_file init(NULL);
 
 #ifdef USE_MOUSE
-global int use_mouse init(TRUE);
+global bool use_mouse init(true);
 extern bool mouseActive;
-global int reverse_mouse init(FALSE);
-global int relative_wheel_scroll init(FALSE);
+global bool reverse_mouse init(false);
+global bool relative_wheel_scroll init(false);
 global int fixed_wheel_scroll_count init(5);
 global int relative_wheel_scroll_ratio init(30);
 typedef struct _MouseActionMap {

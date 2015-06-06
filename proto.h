@@ -178,7 +178,7 @@ extern void update_utf8_symbol(void);
 extern Buffer *loadFile(char *path);
 extern Buffer *loadGeneralFile(char *path, ParsedURL *current, char *referer,
 			       int flag, FormList *request);
-extern int is_boundary(unsigned char *, unsigned char *);
+extern bool is_boundary(unsigned char *, unsigned char *);
 extern void push_render_image(Str str, int width, int limit,
 			      struct html_feed_environ *h_env);
 extern void flushline(struct html_feed_environ *h_env, struct readbuffer *obuf,
@@ -251,7 +251,7 @@ extern int checkCopyFile(char *path1, char *path2);
 extern int checkSaveFile(InputStream stream, char *path);
 extern int checkOverWrite(char *path);
 extern char *inputAnswer(char *prompt);
-extern int matchattr(char *p, char *attr, int len, Str *value);
+extern bool matchattr(char *p, char *attr, int len, Str *value);
 extern void readHeader(URLFile *uf, Buffer *newBuf, int thru, ParsedURL *pu);
 extern char *checkHeader(Buffer *buf, char *field);
 extern TabBuffer *newTab(void);
@@ -689,7 +689,7 @@ extern void clearImage(void);
 
 extern char *searchKeyData(void);
 
-extern void setKeymap(char *p, int lineno, int verbose);
+extern void setKeymap(char *p, int lineno, bool verbose);
 extern void initKeymap(int force);
 extern int getFuncList(char *id);
 extern int getKey(char *s);

@@ -38,7 +38,7 @@ initImage()
     if (activeImage)
 	return;
     if (getCharSize())
-	activeImage = TRUE;
+	activeImage = true;
 }
 
 static bool
@@ -100,11 +100,11 @@ openImgdisplay()
 	    cmd = Imgdisplay;
 	myExec(cmd);
     }
-    activeImage = TRUE;
+    activeImage = true;
     return true;
   err0:
     Imgdisplay_pid = 0;
-    activeImage = FALSE;
+    activeImage = false;
     return false;
 }
 

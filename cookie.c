@@ -119,16 +119,16 @@ portlist2str(struct portlist *first)
     return tmp;
 }
 
-static int
+static bool
 port_match(struct portlist *first, int port)
 {
     struct portlist *pl;
 
     for (pl = first; pl; pl = pl->next) {
 	if (pl->port == port)
-	    return 1;
+	    return true;
     }
-    return 0;
+    return false;
 }
 
 static void
@@ -166,27 +166,27 @@ make_cookie(struct cookie *cookie)
     return tmp;
 }
 
-static int
+static bool
 match_cookie(ParsedURL *pu, struct cookie *cookie, char *domainname)
 {
     if (!domainname)
-	return 0;
+	return false;
 
     if (!domain_match(domainname, cookie->domain->ptr))
-	return 0;
+	return false;
     if (strncmp(cookie->path->ptr, pu->file, cookie->path->length) != 0)
-	return 0;
+	return false;
 #ifdef USE_SSL
     if (cookie->flag & COO_SECURE && pu->scheme != SCM_HTTPS)
-	return 0;
+	return false;
 #else				/* not USE_SSL */
     if (cookie->flag & COO_SECURE)
-	return 0;
+	return false;
 #endif				/* not USE_SSL */
     if (cookie->portl && !port_match(cookie->portl, pu->port))
-	return 0;
+	return false;
 
-    return 1;
+    return true;
 }
 
 struct cookie *

@@ -37,7 +37,7 @@ killn(void), killb(void), _inbrk(void), _esc(void), _editor(void),
 _prev(void), _next(void), _compl(void), _tcompl(void),
 _dcompl(void), _rdcompl(void), _rcompl(void);
 
-static int terminated(unsigned char c);
+static bool terminated(unsigned char c);
 #define iself ((void(*)())insertself)
 
 static void next_compl(int next);
@@ -62,14 +62,14 @@ static void addPasswd(char *p, Lineprop *pr, int len, int pos, int limit);
 static void addStr(char *p, Lineprop *pr, int len, int pos, int limit);
 
 static int CPos, CLen, offset;
-static int i_cont, i_broken, i_quote;
-static int cm_mode, cm_next, cm_clear, cm_disp_next, cm_disp_clear;
-static int need_redraw, is_passwd;
-static int move_word;
+static bool i_cont, i_broken, i_quote;
+static bool cm_next, cm_clear, cm_disp_clear;
+static int cm_mode, cm_disp_next;
+static bool need_redraw, is_passwd, move_word;
 
 static Hist *CurrentHist;
 static Str strCurrentBuf;
-static int use_hist;
+static bool use_hist;
 #ifdef USE_M17N
 static void ins_char(Str str);
 #else
@@ -87,16 +87,16 @@ inputLineHistSearch(char *prompt, char *def_str, int flag, Hist *hist,
     Str tmp;
 #endif
 
-    is_passwd = FALSE;
-    move_word = TRUE;
+    is_passwd = false;
+    move_word = true;
 
     CurrentHist = hist;
     if (hist != NULL) {
-	use_hist = TRUE;
+	use_hist = true;
 	strCurrentBuf = NULL;
     }
     else {
-	use_hist = FALSE;
+	use_hist = false;
     }
     if (flag & IN_URL) {
 	cm_mode = CPL_ALWAYS | CPL_URL;
@@ -106,8 +106,8 @@ inputLineHistSearch(char *prompt, char *def_str, int flag, Hist *hist,
     }
     else if (flag & IN_PASSWORD) {
 	cm_mode = CPL_NEVER;
-	is_passwd = TRUE;
-	move_word = FALSE;
+	is_passwd = true;
+	move_word = false;
     }
     else if (flag & IN_COMMAND)
 	cm_mode = CPL_ON;
@@ -130,12 +130,12 @@ inputLineHistSearch(char *prompt, char *def_str, int flag, Hist *hist,
 	CLen = CPos = 0;
     }
 
-    i_cont = TRUE;
-    i_broken = FALSE;
-    i_quote = FALSE;
-    cm_next = FALSE;
+    i_cont = true;
+    i_broken = false;
+    i_quote = false;
+    cm_next = false;
     cm_disp_next = -1;
-    need_redraw = FALSE;
+    need_redraw = false;
 
 #ifdef USE_M17N
     wc_char_conv_init(wc_guess_8bit_charset(DisplayCharset), InnerCharset);
@@ -167,14 +167,14 @@ inputLineHistSearch(char *prompt, char *def_str, int flag, Hist *hist,
 
       next_char:
 	c = getch();
-	cm_clear = TRUE;
-	cm_disp_clear = TRUE;
+	cm_clear = true;
+	cm_disp_clear = true;
 	if (!i_quote &&
 	    (((cm_mode & CPL_ALWAYS) && (c == CTRL_I || c == ' ')) ||
 	     ((cm_mode & CPL_ON) && (c == CTRL_I)))) {
 	    if (emacs_like_lineedit && cm_next) {
 		_dcompl();
-		need_redraw = TRUE;
+		need_redraw = true;
 	    }
 	    else {
 		_compl();
@@ -185,12 +185,12 @@ inputLineHistSearch(char *prompt, char *def_str, int flag, Hist *hist,
 		 (cm_mode & CPL_ALWAYS || cm_mode & CPL_ON) && c == CTRL_D) {
 	    if (!emacs_like_lineedit) {
 		_dcompl();
-		need_redraw = TRUE;
+		need_redraw = true;
 	    }
 	}
 	else if (!i_quote && c == DEL_CODE) {
 	    _bs();
-	    cm_next = FALSE;
+	    cm_next = false;
 	    cm_disp_next = -1;
 	}
 	else if (!i_quote && c < 0x20) {	/* Control code */
@@ -200,7 +200,7 @@ inputLineHistSearch(char *prompt, char *def_str, int flag, Hist *hist,
 	    if (incrfunc && c != (unsigned char)-1 && c != CTRL_J)
 		incrfunc(-1, strBuf, strProp);
 	    if (cm_clear)
-		cm_next = FALSE;
+		cm_next = false;
 	    if (cm_disp_clear)
 		cm_disp_next = -1;
 	}
@@ -208,11 +208,11 @@ inputLineHistSearch(char *prompt, char *def_str, int flag, Hist *hist,
 	else {
 	    tmp = wc_char_conv(c);
 	    if (tmp == NULL) {
-		i_quote = TRUE;
+		i_quote = true;
 		goto next_char;
 	    }
-	    i_quote = FALSE;
-	    cm_next = FALSE;
+	    i_quote = false;
+	    cm_next = false;
 	    cm_disp_next = -1;
 	    if (CLen + tmp->length > STR_LEN || !tmp->length)
 		goto next_char;
@@ -222,8 +222,8 @@ inputLineHistSearch(char *prompt, char *def_str, int flag, Hist *hist,
 	}
 #else
 	else {
-	    i_quote = FALSE;
-	    cm_next = FALSE;
+	    i_quote = false;
+	    cm_next = false;
 	    cm_disp_next = -1;
 	    if (CLen >= STR_LEN)
 		goto next_char;
@@ -391,8 +391,8 @@ _esc(void)
     case ' ':
 	if (emacs_like_lineedit) {
 	    _rdcompl();
-	    cm_clear = FALSE;
-	    need_redraw = TRUE;
+	    cm_clear = false;
+	    need_redraw = true;
 	}
 	else
 	    _rcompl();
@@ -400,7 +400,7 @@ _esc(void)
     case CTRL_D:
 	if (!emacs_like_lineedit)
 	    _rdcompl();
-	need_redraw = TRUE;
+	need_redraw = true;
 	break;
     case 'f':
 	if (emacs_like_lineedit)
@@ -417,7 +417,7 @@ _esc(void)
 #ifdef USE_M17N
     default:
 	if (wc_char_conv(ESC_CODE) == NULL && wc_char_conv(c) == NULL)
-	    i_quote = TRUE;
+	    i_quote = true;
 #endif
     }
 }
@@ -530,7 +530,7 @@ _bsw(void)
 static void
 _enter(void)
 {
-    i_cont = FALSE;
+    i_cont = false;
 }
 
 static void
@@ -547,7 +547,7 @@ insertself(char c)
 static void
 _quo(void)
 {
-    i_quote = TRUE;
+    i_quote = true;
 }
 
 static void
@@ -579,8 +579,8 @@ killb(void)
 static void
 _inbrk(void)
 {
-    i_cont = FALSE;
-    i_broken = TRUE;
+    i_cont = false;
+    i_broken = true;
 }
 
 static void
@@ -614,7 +614,7 @@ next_compl(int next)
 
     if (cm_mode == CPL_NEVER || cm_mode & CPL_OFF)
 	return;
-    cm_clear = FALSE;
+    cm_clear = false;
     if (!cm_next) {
 	if (cm_mode & CPL_ALWAYS) {
 	    b = 0;
@@ -672,19 +672,20 @@ next_dcompl(int next)
     Str f;
     char *p;
     struct stat st;
-    int comment, nline;
+    bool comment;
+		int nline;
 
     if (cm_mode == CPL_NEVER || cm_mode & CPL_OFF)
 	return;
-    cm_disp_clear = FALSE;
+    cm_disp_clear = false;
     if (CurrentTab)
 	displayBuffer(Currentbuf, B_FORCE_REDRAW);
     if (LASTLINE >= 3) {
-	comment = TRUE;
+	comment = true;
 	nline = LASTLINE - 2;
     }
     else if (LASTLINE) {
-	comment = FALSE;
+	comment = false;
 	nline = LASTLINE;
     }
     else {
@@ -706,7 +707,7 @@ next_dcompl(int next)
 	goto disp_next;
     }
 
-    cm_next = FALSE;
+    cm_next = false;
     next_compl(0);
     if (NCFileBuf == 0)
 	return;
@@ -846,7 +847,8 @@ unescape_spaces(Str s)
 static Str
 doComplete(Str ifn, int *status, int next)
 {
-    int fl, i;
+    size_t fl;
+		int i;
     char *fn, *p;
     DIR *d;
     struct dirent *dir;
@@ -924,7 +926,7 @@ doComplete(Str ifn, int *status, int next)
 	qsort(CFileBuf, NCFileBuf, sizeof(CFileBuf[0]), strCmp);
 	NCFileOffset = 0;
 	if (NCFileBuf >= 2) {
-	    cm_next = TRUE;
+	    cm_next = true;
 	    *status = CPL_AMBIG;
 	}
 	else {
@@ -1045,7 +1047,7 @@ setStrType(Str str, Lineprop *prop)
     return i;
 }
 
-static int
+static bool
 terminated(unsigned char c)
 {
     int termchar[] = { '/', '&', '?', ' ', -1 };
@@ -1053,11 +1055,11 @@ terminated(unsigned char c)
 
     for (tp = termchar; *tp > 0; tp++) {
 	if (c == *tp) {
-	    return 1;
+	    return true;
 	}
     }
 
-    return 0;
+    return false;
 }
 
 static void

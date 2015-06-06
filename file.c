@@ -401,7 +401,7 @@ examineFile(char *path, URLFile *uf)
 
 #define S_IXANY	(S_IXUSR|S_IXGRP|S_IXOTH)
 
-int
+static bool
 check_command(char *cmd, int auxbin_p)
 {
     static char *path = NULL;
@@ -426,9 +426,9 @@ check_command(char *cmd, int auxbin_p)
 	Strcat_charp(pathname, cmd);
 	if (stat(pathname->ptr, &st) == 0 && S_ISREG(st.st_mode)
 	    && (st.st_mode & S_IXANY) != 0)
-	    return 1;
+	    return true;
     }
-    return 0;
+    return false;
 }
 
 char *
@@ -500,10 +500,10 @@ loadFile(char *path)
     return buf;
 }
 
-int
+bool
 matchattr(char *p, char *attr, int len, Str *value)
 {
-    int quoted;
+    bool quoted;
     char *q = NULL;
 
     if (strncasecmp(p, attr, len) == 0) {
@@ -514,12 +514,12 @@ matchattr(char *p, char *attr, int len, Str *value)
 	    if (*p == '=') {
 		p++;
 		SKIP_BLANKS(p);
-		quoted = 0;
+		quoted = false;
 		while (!IS_ENDL(*p) && (quoted || *p != ';')) {
 		    if (!IS_SPACE(*p))
 			q = p;
 		    if (*p == '"')
-			quoted = (quoted) ? 0 : 1;
+			quoted = (quoted) ? false : true;
 		    else
 			Strcat_char(*value, *p);
 		    p++;
@@ -527,15 +527,15 @@ matchattr(char *p, char *attr, int len, Str *value)
 		if (q)
 		    Strshrink(*value, p - q - 1);
 	    }
-	    return 1;
+	    return true;
 	}
 	else {
 	    if (IS_ENDT(*p)) {
-		return 1;
+		return true;
 	    }
 	}
     }
-    return 0;
+    return false;
 }
 
 #ifdef USE_IMAGE
@@ -1030,12 +1030,12 @@ static Str
 extract_auth_val(char **q)
 {
     unsigned char *qq = *(unsigned char **)q;
-    int quoted = 0;
+    bool quoted = false;
     Str val = Strnew();
 
     SKIP_BLANKS(qq);
     if (*qq == '"') {
-	quoted = TRUE;
+	quoted = true;
 	Strcat_char(val, *qq++);
     }
     while (*qq != '\0') {
@@ -1510,7 +1510,7 @@ getAuthCookie(struct http_auth *hauth, char *auth_header,
     Str ss = NULL;
     Str tmp;
     TextListItem *i;
-    int a_found;
+    bool a_found;
     int auth_header_len = strlen(auth_header);
     char *realm = NULL;
     int proxy;
@@ -1521,10 +1521,10 @@ getAuthCookie(struct http_auth *hauth, char *auth_header,
     if (!realm)
 	return;
 
-    a_found = FALSE;
+    a_found = false;
     for (i = extra_header->first; i != NULL; i = i->next) {
 	if (!strncasecmp(i->ptr, auth_header, auth_header_len)) {
-	    a_found = TRUE;
+	    a_found = true;
 	    break;
 	}
     }
@@ -1621,7 +1621,7 @@ same_url_p(ParsedURL *pu1, ParsedURL *pu2)
 		file ? !strcmp(pu1->file, pu2->file) : 0 : 1));
 }
 
-static int
+static bool
 checkRedirection(ParsedURL *pu)
 {
     static ParsedURL *puv = NULL;
@@ -1633,14 +1633,14 @@ checkRedirection(ParsedURL *pu)
 	nredir = 0;
 	nredir_size = 0;
 	puv = NULL;
-	return TRUE;
+	return true;
     }
     if (nredir >= FollowRedirection) {
 	/* FIXME: gettextize? */
 	tmp = Sprintf("Number of redirections exceeded %d at %s",
 		      FollowRedirection, parsedURL2Str(pu)->ptr);
 	disp_err_message(tmp->ptr, FALSE);
-	return FALSE;
+	return false;
     }
     else if (nredir_size > 0 &&
 	     (same_url_p(pu, &puv[(nredir - 1) % nredir_size]) ||
@@ -1650,7 +1650,7 @@ checkRedirection(ParsedURL *pu)
 	tmp = Sprintf("Redirection loop detected (%s)",
 		      parsedURL2Str(pu)->ptr);
 	disp_err_message(tmp->ptr, FALSE);
-	return FALSE;
+	return false;
     }
     if (!puv) {
 	nredir_size = FollowRedirection / 2 + 1;
@@ -1659,7 +1659,7 @@ checkRedirection(ParsedURL *pu)
     }
     copyParsedURL(&puv[nredir % nredir_size], pu);
     nredir++;
-    return TRUE;
+    return true;
 }
 
 Str
@@ -1688,7 +1688,7 @@ loadGeneralFile(char *path, ParsedURL *volatile current, char *referer,
     volatile Str uname = NULL;
     volatile Str pwd = NULL;
     volatile Str realm = NULL;
-    int volatile add_auth_cookie_flag;
+    bool volatile add_auth_cookie_flag;
     unsigned char status = HTST_NORMAL;
     URLOption url_option;
     Str tmp;
@@ -1701,7 +1701,7 @@ loadGeneralFile(char *path, ParsedURL *volatile current, char *referer,
 
     tpath = path;
     prevtrap = NULL;
-    add_auth_cookie_flag = 0;
+    add_auth_cookie_flag = false;
 
     checkRedirection(NULL);
   load_doc:
@@ -1848,7 +1848,7 @@ loadGeneralFile(char *path, ParsedURL *volatile current, char *referer,
 	    /* If authorization is required and passed */
 	    add_auth_user_passwd(&pu, qstr_unquote(realm)->ptr, uname, pwd,
 				  0);
-	    add_auth_cookie_flag = 0;
+	    add_auth_cookie_flag = false;
 	}
 	if ((p = checkHeader(t_buf, "WWW-Authenticate:")) != NULL &&
 	    http_response_code == 401) {
@@ -1865,7 +1865,7 @@ loadGeneralFile(char *path, ParsedURL *volatile current, char *referer,
 		    goto page_loaded;
 		}
 		UFclose(&f);
-		add_auth_cookie_flag = 1;
+		add_auth_cookie_flag = true;
 		status = HTST_NORMAL;
 		goto load_doc;
 	    }
@@ -1887,7 +1887,7 @@ loadGeneralFile(char *path, ParsedURL *volatile current, char *referer,
 		    goto page_loaded;
 		}
 		UFclose(&f);
-		add_auth_cookie_flag = 1;
+		add_auth_cookie_flag = true;
 		status = HTST_NORMAL;
 		add_auth_user_passwd(auth_pu, qstr_unquote(realm)->ptr, uname, pwd, 1);
 		goto load_doc;
@@ -1955,7 +1955,7 @@ loadGeneralFile(char *path, ParsedURL *volatile current, char *referer,
 	t = f.guess_type;
     }
     else if (searchHeader) {
-	searchHeader = SearchHeader = FALSE;
+	searchHeader = SearchHeader = false;
 	if (t_buf == NULL)
 	    t_buf = newBuffer(INIT_BUFFER_WIDTH);
 	readHeader(&f, t_buf, searchHeader_through, &pu);
@@ -1965,7 +1965,7 @@ loadGeneralFile(char *path, ParsedURL *volatile current, char *referer,
 	    tpath = url_quote_conv(remove_space(p), DocumentCharset);
 	    request = NULL;
 	    UFclose(&f);
-	    add_auth_cookie_flag = 0;
+	    add_auth_cookie_flag = false;
 	    current = New(ParsedURL);
 	    copyParsedURL(current, &pu);
 	    t_buf = newBuffer(INIT_BUFFER_WIDTH);
@@ -1988,7 +1988,7 @@ loadGeneralFile(char *path, ParsedURL *volatile current, char *referer,
 		    goto page_loaded;
 		}
 		UFclose(&f);
-		add_auth_cookie_flag = 1;
+		add_auth_cookie_flag = true;
 		status = HTST_NORMAL;
 		goto load_doc;
 	    }
@@ -2267,7 +2267,7 @@ push_link(int cmd, int offset, int pos)
     link_stack = p;
 }
 
-static int
+static bool
 is_period_char(unsigned char *ch)
 {
     switch (*ch) {
@@ -2281,9 +2281,9 @@ is_period_char(unsigned char *ch)
     case ']':
     case '}':
     case '>':
-	return 1;
+	return true;
     default:
-	return 0;
+	return false;
     }
 }
 
@@ -2302,23 +2302,23 @@ is_beginning_char(unsigned char *ch)
     }
 }
 
-static int
+static bool
 is_word_char(unsigned char *ch)
 {
     Lineprop ctype = get_mctype(ch);
 
 #ifdef USE_M17N
     if (ctype & (PC_CTRL | PC_KANJI | PC_UNKNOWN))
-	return 0;
+	return false;
     if (ctype & (PC_WCHAR1 | PC_WCHAR2))
-	return 1;
+	return true;
 #else
     if (ctype == PC_CTRL)
-	return 0;
+	return false;
 #endif
 
     if (IS_ALNUM(*ch))
-	return 1;
+	return true;
 
     switch (*ch) {
     case ',':
@@ -2334,55 +2334,55 @@ is_word_char(unsigned char *ch)
     case '@':
     case '~':
     case '_':
-	return 1;
+	return true;
     }
 #ifdef USE_M17N
     if (*ch == NBSP_CODE)
-	return 1;
+	return true;
 #else
     if (*ch == TIMES_CODE || *ch == DIVIDE_CODE || *ch == ANSP_CODE)
-	return 0;
+	return false;
     if (*ch >= AGRAVE_CODE || *ch == NBSP_CODE)
-	return 1;
+	return true;
 #endif
-    return 0;
+    return false;
 }
 
 #ifdef USE_M17N
-static int
+static bool
 is_combining_char(unsigned char *ch)
 {
     Lineprop ctype = get_mctype(ch);
 
     if (ctype & PC_WCHAR2)
-	return 1;
-    return 0;
+	return true;
+    return false;
 }
 #endif
 
-int
+bool
 is_boundary(unsigned char *ch1, unsigned char *ch2)
 {
     if (!*ch1 || !*ch2)
-	return 1;
+	return true;
 
     if (*ch1 == ' ' && *ch2 == ' ')
-	return 0;
+	return false;
 
     if (*ch1 != ' ' && is_period_char(ch2))
-	return 0;
+	return false;
 
     if (*ch2 != ' ' && is_beginning_char(ch1))
-	return 0;
+	return false;
 
 #ifdef USE_M17N
     if (is_combining_char(ch2))
-	return 0;
+	return false;
 #endif
     if (is_word_char(ch1) && is_word_char(ch2))
-	return 0;
+	return false;
 
-    return 1;
+    return true;
 }
 
 
@@ -2979,7 +2979,7 @@ purgeline(struct html_feed_environ *h_env)
     h_env->blank_lines--;
 }
 
-static int
+static bool
 close_effect0(struct readbuffer *obuf, int cmd)
 {
     int i;
@@ -2993,13 +2993,13 @@ close_effect0(struct readbuffer *obuf, int cmd)
 	obuf->tag_sp--;
 	bcopy(&obuf->tag_stack[i + 1], &obuf->tag_stack[i],
 	      (obuf->tag_sp - i) * sizeof(struct cmdtable *));
-	return 1;
+	return true;
     }
     else if ((p = has_hidden_link(obuf, cmd)) != NULL) {
 	passthrough(obuf, p, 1);
-	return 1;
+	return true;
     }
-    return 0;
+    return false;
 }
 
 static void
@@ -3134,7 +3134,8 @@ process_img(struct parsed_tag *tag, int width)
     char *p, *q, *r, *r2 = NULL, *s, *t;
 #ifdef USE_IMAGE
     int w, i, nw, ni = 1, n, w0 = -1, i0 = -1;
-    int align, xoffset, yoffset, top, bottom, ismap = 0;
+    int align, xoffset, yoffset, top, bottom;
+		bool ismap = false;
     int use_image = activeImage && displayImage;
 #else
     int w, i, nw, n;
@@ -3188,9 +3189,9 @@ process_img(struct parsed_tag *tag, int width)
 	}
 	align = -1;
 	parsedtag_get_value(tag, ATTR_ALIGN, &align);
-	ismap = 0;
+	ismap = false;
 	if (parsedtag_exists(tag, ATTR_ISMAP))
-	    ismap = 1;
+	    ismap = true;
     }
     else
 #endif
@@ -5503,7 +5504,8 @@ HTMLlineproc2body(Buffer *buf, Str (*feed) (), int llimit)
 		case HTML_IMG_ALT:
 		    if (parsedtag_get_value(tag, ATTR_SRC, &p)) {
 #ifdef USE_IMAGE
-			int w = -1, h = -1, iseq = 0, ismap = 0;
+			int w = -1, h = -1, iseq = 0;
+			bool ismap = false;
 			int xoffset = 0, yoffset = 0, top = 0, bottom = 0;
 			parsedtag_get_value(tag, ATTR_HSEQ, &iseq);
 			parsedtag_get_value(tag, ATTR_WIDTH, &w);
@@ -5513,7 +5515,7 @@ HTMLlineproc2body(Buffer *buf, Str (*feed) (), int llimit)
 			parsedtag_get_value(tag, ATTR_TOP_MARGIN, &top);
 			parsedtag_get_value(tag, ATTR_BOTTOM_MARGIN, &bottom);
 			if (parsedtag_exists(tag, ATTR_ISMAP))
-			    ismap = 1;
+			    ismap = true;
 			q = NULL;
 			parsedtag_get_value(tag, ATTR_USEMAP, &q);
 			if (iseq > 0) {
@@ -6899,10 +6901,6 @@ loadHTMLstream(URLFile *f, Buffer *newBuf, FILE * src, int internal)
 	doc_charset = WC_CES_UTF_8;
     meta_charset = 0;
 #endif
-#if	0
-    do_blankline(&htmlenv1, &obuf, 0, 0, htmlenv1.limit);
-    obuf.flag = RB_IGNORE_P;
-#endif
     if (IStype(f->stream) != IST_ENCODED)
 	f->stream = newEncodedStream(f->stream, f->encoding);
     while ((lineBuf2 = StrmyUFgets(f))->length) {
@@ -6910,9 +6908,6 @@ loadHTMLstream(URLFile *f, Buffer *newBuf, FILE * src, int internal)
 	    Strshrinkfirst(lineBuf2, 1);
 	    if (lineBuf2->ptr[0] == '\n' || lineBuf2->ptr[0] == '\r' ||
 		lineBuf2->ptr[0] == '\0') {
-		/*
-		 * iseos(f->stream) = TRUE;
-		 */
 		break;
 	    }
 	}
@@ -6924,10 +6919,6 @@ loadHTMLstream(URLFile *f, Buffer *newBuf, FILE * src, int internal)
 	if (w3m_dump & DUMP_SOURCE)
 	    continue;
 	showProgress(&linelen, &trbyte);
-	/*
-	 * if (frame_source)
-	 * continue;
-	 */
 #ifdef USE_M17N
 	if (meta_charset) {	/* <META> */
 	    if (content_charset == 0 && UseContentCharset) {
@@ -7478,7 +7469,7 @@ openGeneralPagerBuffer(InputStream stream)
 	    t_buf->topLine = t_buf->firstLine;
 	    t_buf->currentLine = t_buf->lastLine;
 	}
-	SearchHeader = FALSE;
+	SearchHeader = false;
     }
     else if (DefaultType) {
 	t = DefaultType;
@@ -7815,7 +7806,7 @@ _MoveFile(char *path1, char *path2)
 {
     InputStream f1;
     FILE *f2;
-    int is_pipe;
+    bool is_pipe;
     clen_t linelen = 0, trbyte = 0;
     Str buf;
 
@@ -7823,11 +7814,11 @@ _MoveFile(char *path1, char *path2)
     if (f1 == NULL)
 	return -1;
     if (*path2 == '|' && PermitSaveToPipe) {
-	is_pipe = TRUE;
+	is_pipe = true;
 	f2 = popen(path2 + 1, "w");
     }
     else {
-	is_pipe = FALSE;
+	is_pipe = false;
 	f2 = fopen(path2, "wb");
     }
     if (f2 == NULL) {
@@ -7859,7 +7850,7 @@ _doFileCopy(char *tmpf, char *defstr, int download)
     char *lock;
     struct stat st;
     clen_t size = 0;
-    int is_pipe = FALSE;
+    bool is_pipe = false;
 
     if (fmInitialized) {
 	p = searchKeyData();
@@ -7872,7 +7863,7 @@ _doFileCopy(char *tmpf, char *defstr, int download)
 	    p = conv_to_system(q);
 	}
 	if (*p == '|' && PermitSaveToPipe)
-	    is_pipe = TRUE;
+	    is_pipe = true;
 	else {
 	    if (q) {
 		p = unescape_spaces(Strnew_charp(q))->ptr;
@@ -7930,7 +7921,7 @@ _doFileCopy(char *tmpf, char *defstr, int download)
 	    return -1;
 	p = q;
 	if (*p == '|' && PermitSaveToPipe)
-	    is_pipe = TRUE;
+	    is_pipe = true;
 	else {
 	    p = expandPath(p);
 	    if (checkOverWrite(p) < 0)

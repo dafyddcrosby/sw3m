@@ -4,7 +4,7 @@
  */
 
 #include <stdio.h>
-
+#include <stdbool.h>
 #include "fm.h"
 #include "func.h"
 #include "myctype.h"
@@ -19,7 +19,7 @@ static struct stat sys_current_keymap_file;
 static struct stat current_keymap_file;
 
 void
-setKeymap(char *p, int lineno, int verbose)
+setKeymap(char *p, int lineno, bool verbose)
 {
     unsigned char *map = NULL;
     char *s, *emsg;
@@ -124,8 +124,8 @@ interpret_keymap(FILE * kf, struct stat *current, int force)
 #ifdef USE_M17N
     wc_ces charset = SystemCharset;
 #endif
-    int verbose = 1;
-    extern int str_to_bool(char *value, int old);
+    bool verbose = true;
+    extern bool str_to_bool(char *value, int old);
 
     if ((fd = fileno(kf)) < 0 || fstat(fd, &kstat) ||
 	(!force &&
