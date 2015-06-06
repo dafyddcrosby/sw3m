@@ -1616,7 +1616,7 @@ static int
 same_url_p(ParsedURL *pu1, ParsedURL *pu2)
 {
     return (pu1->scheme == pu2->scheme && pu1->port == pu2->port &&
-	    (pu1->host ? pu2->host ? !strcasecmp(pu1->host, pu2->host) : 0 : 1)
+	    (pu1->host ? pu2->host ? strcasecmp(pu1->host, pu2->host) == 0 : 0 : 1)
 	    && (pu1->file ? pu2->
 		file ? !strcmp(pu1->file, pu2->file) : 0 : 1));
 }
@@ -4174,11 +4174,11 @@ ul_type(struct parsed_tag *tag, int default_type)
 {
     char *p;
     if (parsedtag_get_value(tag, ATTR_TYPE, &p)) {
-	if (!strcasecmp(p, "disc"))
+	if (strcasecmp(p, "disc") == 0)
 	    return (int)'d';
-	else if (!strcasecmp(p, "circle"))
+	else if (strcasecmp(p, "circle") == 0)
 	    return (int)'c';
-	else if (!strcasecmp(p, "square"))
+	else if (strcasecmp(p, "square") == 0)
 	    return (int)'s';
     }
     return default_type;
@@ -4948,7 +4948,7 @@ HTMLtagproc1(struct parsed_tag *tag, struct html_feed_environ *h_env)
 	    meta_charset = wc_guess_charset(r, 0);
 	}
 	else
-	if (p && q && !strcasecmp(p, "Content-Type") &&
+	if (p && q && strcasecmp(p, "Content-Type") == 0 &&
 	    (q = strcasestr(q, "charset")) != NULL) {
 	    q += 7;
 	    SKIP_BLANKS(q);
@@ -4960,7 +4960,7 @@ HTMLtagproc1(struct parsed_tag *tag, struct html_feed_environ *h_env)
 	}
 	else
 #endif
-	if (p && q && !strcasecmp(p, "refresh")) {
+	if (p && q && strcasecmp(p, "refresh") == 0) {
 	    int refresh_interval;
 	    tmp = NULL;
 	    refresh_interval = getMetaRefreshParam(q, &tmp);
@@ -5743,7 +5743,7 @@ HTMLlineproc2body(Buffer *buf, Str (*feed) (), int llimit)
 		    p = q = NULL;
 		    parsedtag_get_value(tag, ATTR_HTTP_EQUIV, &p);
 		    parsedtag_get_value(tag, ATTR_CONTENT, &q);
-		    if (p && q && !strcasecmp(p, "refresh") && MetaRefresh) {
+		    if (p && q && strcasecmp(p, "refresh") == 0 && MetaRefresh) {
 			Str tmp = NULL;
 			int refresh_interval = getMetaRefreshParam(q, &tmp);
 #ifdef USE_ALARM
@@ -6871,7 +6871,7 @@ loadHTMLstream(URLFile *f, Buffer *newBuf, FILE * src, int internal)
 	max_select = 0;
 #endif
 	HTMLlineproc3(newBuf, f->stream);
-	w3m_halfload = FALSE;
+	w3m_halfload = false;
 	return;
     }
 
@@ -6897,7 +6897,7 @@ loadHTMLstream(URLFile *f, Buffer *newBuf, FILE * src, int internal)
     }
     if (content_charset && UseContentCharset)
 	doc_charset = content_charset;
-    else if (f->guess_type && !strcasecmp(f->guess_type, "application/xhtml+xml"))
+    else if (f->guess_type && strcasecmp(f->guess_type, "application/xhtml+xml") == 0)
 	doc_charset = WC_CES_UTF_8;
     meta_charset = 0;
 #endif

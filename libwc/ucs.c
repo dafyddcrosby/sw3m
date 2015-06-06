@@ -666,7 +666,7 @@ wc_ucs_put_tag(char *p)
     if (p == NULL || *p == '\0')
 	return 0;
     for (i = 1; i <= n_tag_map; i++) {
-	if (!strcasecmp(p, tag_map[i]))
+	if (strcasecmp(p, tag_map[i]) == 0)
 	    return i;
     }
     n_tag_map++;

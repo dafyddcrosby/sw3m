@@ -244,7 +244,7 @@ parse_tag(char **s, int internal)
 	    if (!internal &&
 		((AttrMAP[attr_id].flag & AFLG_INT) ||
 		 (value && AttrMAP[attr_id].vtype == VTYPE_METHOD &&
-		  !strcasecmp(value->ptr, "internal")))) {
+		  strcasecmp(value->ptr, "internal") == 0))) {
 		tag->need_reconstruct = TRUE;
 		continue;
 	    }

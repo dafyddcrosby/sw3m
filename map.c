@@ -313,7 +313,7 @@ newMapArea(char *url, char *target, char *alt, char *shape, char *coords)
 #ifdef USE_IMAGE
     a->shape = SHAPE_RECT;
     if (shape) {
-	if (!strcasecmp(shape, "default"))
+	if (strcasecmp(shape, "default") == 0)
 	    a->shape = SHAPE_DEFAULT;
 	else if (!strncasecmp(shape, "rect", 4))
 	    a->shape = SHAPE_RECT;

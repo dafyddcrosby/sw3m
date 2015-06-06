@@ -43,15 +43,15 @@ newFormList(char *action, char *method, char *charset, char *enctype,
     wc_ces c = 0;
 #endif
 
-    if (method == NULL || !strcasecmp(method, "get"))
+    if (method == NULL || strcasecmp(method, "get") == 0)
 	m = FORM_METHOD_GET;
-    else if (!strcasecmp(method, "post"))
+    else if (strcasecmp(method, "post") == 0)
 	m = FORM_METHOD_POST;
-    else if (!strcasecmp(method, "internal"))
+    else if (strcasecmp(method, "internal") == 0)
 	m = FORM_METHOD_INTERNAL;
     /* unknown method is regarded as 'get' */
 
-    if (enctype != NULL && !strcasecmp(enctype, "multipart/form-data")) {
+    if (enctype != NULL && strcasecmp(enctype, "multipart/form-data") == 0) {
 	e = FORM_ENCTYPE_MULTIPART;
 	if (m == FORM_METHOD_GET)
 	    m = FORM_METHOD_POST;
@@ -190,7 +190,7 @@ formtype(char *typestr)
 {
     int i;
     for (i = 0; _formtypetbl[i]; i++) {
-	if (!strcasecmp(typestr, _formtypetbl[i]))
+	if (strcasecmp(typestr, _formtypetbl[i]) == 0)
 	    return i;
     }
     return FORM_UNKNOWN;
@@ -829,7 +829,7 @@ add_pre_form_item(struct pre_form *pf, struct pre_form_item *prev, int type,
     new->value = value;
     if (checked && *checked && (!strcmp(checked, "0") ||
 				strcasecmp(checked, "off")
-				|| !strcasecmp(checked, "no")))
+				|| strcasecmp(checked, "no") == 0))
 	new->checked = 0;
     else
 	new->checked = 1;

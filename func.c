@@ -574,25 +574,25 @@ interpret_mouse_action(FILE * mf)
 	    s = "menu";
 	else
 	    s = getWord(&p);
-	if (!strcasecmp(s, "menu")) {
+	if (strcasecmp(s, "menu") == 0) {
 	    if (!mouse_action.menu_str)
 		continue;
 	    setMouseAction1(&mouse_action.menu_map[b], mouse_action.menu_width,
 			    p);
 	}
-	else if (!strcasecmp(s, "lastline")) {
+	else if (strcasecmp(s, "lastline") == 0) {
 	    if (!mouse_action.lastline_str)
 		continue;
 	    setMouseAction1(&mouse_action.lastline_map[b],
 			    mouse_action.lastline_width, p);
 	}
-	else if (!strcasecmp(s, "default"))
+	else if (strcasecmp(s, "default") == 0)
 	    setMouseAction2(&mouse_action.default_map[b], p);
-	else if (!strcasecmp(s, "anchor"))
+	else if (strcasecmp(s, "anchor") == 0)
 	    setMouseAction2(&mouse_action.anchor_map[b], p);
-	else if (!strcasecmp(s, "active"))
+	else if (strcasecmp(s, "active") == 0)
 	    setMouseAction2(&mouse_action.active_map[b], p);
-	else if (!strcasecmp(s, "tab"))
+	else if (strcasecmp(s, "tab") == 0)
 	    setMouseAction2(&mouse_action.tab_map[b], p);
     }
 }

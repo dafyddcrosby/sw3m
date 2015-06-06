@@ -115,7 +115,7 @@ internal_get(char *url, bool flag, FormList *request)
 	    printf("%s", last->ptr);
 	}
 	else {
-	    if (!strcasecmp(buf->type, "text/plain")) {
+	    if (strcasecmp(buf->type, "text/plain") == 0) {
 		Line *lp;
 		int len = 0;
 		for (lp = buf->firstLine; lp; lp = lp->next) {
@@ -143,7 +143,7 @@ get(TextList *argv)
     bool flag = false;
 
     while ((p = popText(argv))) {
-	if (!strcasecmp(p, "-download_only"))
+	if (strcasecmp(p, "-download_only") == 0)
 	    flag = true;
 	else
 	    url = p;
@@ -165,19 +165,19 @@ post(TextList *argv)
 		bool flag = false;
 
     while ((p = popText(argv))) {
-	if (!strcasecmp(p, "-download_only"))
+	if (strcasecmp(p, "-download_only") == 0)
 	    flag = true;
-	else if (!strcasecmp(p, "-target"))
+	else if (strcasecmp(p, "-target") == 0)
 	    target = popText(argv);
-	else if (!strcasecmp(p, "-charset"))
+	else if (strcasecmp(p, "-charset") == 0)
 	    charset = popText(argv);
-	else if (!strcasecmp(p, "-enctype"))
+	else if (strcasecmp(p, "-enctype") == 0)
 	    enctype = popText(argv);
-	else if (!strcasecmp(p, "-body"))
+	else if (strcasecmp(p, "-body") == 0)
 	    body = popText(argv);
-	else if (!strcasecmp(p, "-boundary"))
+	else if (strcasecmp(p, "-boundary") == 0)
 	    boundary = popText(argv);
-	else if (!strcasecmp(p, "-length"))
+	else if (strcasecmp(p, "-length") == 0)
 	    length = atol(popText(argv));
 	else
 	    url = p;
@@ -200,7 +200,7 @@ set(TextList *argv)
     if (argv->nitem > 1) {
 	int i;
 	for (i = 0; variable_table[i].name; i++) {
-	    if (!strcasecmp(variable_table[i].name, argv->first->ptr)) {
+	    if (strcasecmp(variable_table[i].name, argv->first->ptr) == 0) {
 		popText(argv);
 		if (variable_table[i].set_func)
 		    variable_table[i].set_func(argv);
@@ -218,7 +218,7 @@ show(TextList *argv)
     if (argv->nitem >= 1) {
 	int i;
 	for (i = 0; variable_table[i].name; i++) {
-	    if (!strcasecmp(variable_table[i].name, argv->first->ptr)) {
+	    if (strcasecmp(variable_table[i].name, argv->first->ptr) == 0) {
 		popText(argv);
 		if (variable_table[i].show_func)
 		    variable_table[i].show_func(argv);
@@ -275,7 +275,7 @@ call_command_function(char *str)
     TextList *argv = split(str);
     if (argv->nitem > 0) {
 	for (i = 0; command_table[i].name; i++) {
-	    if (!strcasecmp(command_table[i].name, argv->first->ptr)) {
+	    if (strcasecmp(command_table[i].name, argv->first->ptr) == 0) {
 		popText(argv);
 		if (command_table[i].func)
 		    command_table[i].func(argv);

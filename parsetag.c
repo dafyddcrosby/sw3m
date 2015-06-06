@@ -8,7 +8,7 @@ char *
 tag_get_value(struct parsed_tagarg *t, char *arg)
 {
     for (; t; t = t->next) {
-	if (!strcasecmp(t->arg, arg))
+	if (strcasecmp(t->arg, arg) == 0)
 	    return t->value;
     }
     return NULL;
@@ -18,7 +18,7 @@ int
 tag_exists(struct parsed_tagarg *t, char *arg)
 {
     for (; t; t = t->next) {
-	if (!strcasecmp(t->arg, arg))
+	if (strcasecmp(t->arg, arg) == 0)
 	    return 1;
     }
     return 0;

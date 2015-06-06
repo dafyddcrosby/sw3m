@@ -2898,7 +2898,7 @@ DEFUN(followA, GOTO_LINK, "Go to current link")
 #endif
 
     if (check_target && open_tab_blank && a->target &&
-	(!strcasecmp(a->target, "_new") || !strcasecmp(a->target, "_blank"))) {
+	(strcasecmp(a->target, "_new") == 0 || strcasecmp(a->target, "_blank") == 0)) {
 	Buffer *buf;
 
 	_newT();
@@ -4136,7 +4136,7 @@ follow_map(struct parsed_tagarg *arg)
     parseURL2(a->url, &p_url, baseURL(Currentbuf));
     pushHashHist(URLHist, parsedURL2Str(&p_url)->ptr);
     if (check_target && open_tab_blank && a->target &&
-	(!strcasecmp(a->target, "_new") || !strcasecmp(a->target, "_blank"))) {
+	(strcasecmp(a->target, "_new") == 0 || strcasecmp(a->target, "_blank") == 0)) {
 	Buffer *buf;
 
 	_newT();
@@ -4464,7 +4464,7 @@ DEFUN(vwSrc, SOURCE VIEW, "View HTML source")
     }
     if (Currentbuf->sourcefile == NULL) {
 	if (Currentbuf->pagerSource &&
-	    !strcasecmp(Currentbuf->type, "text/plain")) {
+	    strcasecmp(Currentbuf->type, "text/plain") == 0) {
 #ifdef USE_M17N
 	    wc_ces old_charset;
 	    wc_bool old_fix_width_conv;
@@ -4507,10 +4507,10 @@ DEFUN(vwSrc, SOURCE VIEW, "View HTML source")
 	buf->linkBuffer[LB_N_SOURCE] = Currentbuf;
 	Currentbuf->linkBuffer[LB_SOURCE] = buf;
     }
-    else if (!strcasecmp(Currentbuf->type, "text/plain")) {
+    else if (strcasecmp(Currentbuf->type, "text/plain") == 0) {
 	buf->type = "text/html";
 	if (Currentbuf->real_type &&
-	    !strcasecmp(Currentbuf->real_type, "text/plain"))
+	    strcasecmp(Currentbuf->real_type, "text/plain") == 0)
 	    buf->real_type = "text/html";
 	else
 	    buf->real_type = Currentbuf->real_type;
@@ -4648,10 +4648,10 @@ DEFUN(reload, RELOAD, "Reload buffer")
 	Firstbuf = deleteBuffer(Firstbuf, fbuf);
     repBuffer(Currentbuf, buf);
     if ((buf->type != NULL) && (sbuf.type != NULL) &&
-	((!strcasecmp(buf->type, "text/plain") &&
+	((strcasecmp(buf->type, "text/plain") == 0 &&
 	  is_html_type(sbuf.type)) ||
 	 (is_html_type(buf->type) &&
-	  !strcasecmp(sbuf.type, "text/plain")))) {
+	  strcasecmp(sbuf.type, "text/plain") == 0))) {
 	vwSrc();
 	if (Currentbuf != buf)
 	    Firstbuf = deleteBuffer(Firstbuf, buf);
@@ -5743,30 +5743,30 @@ DEFUN(reinit, REINIT, "Reload configuration files")
 	return;
     }
 
-    if (!strcasecmp(resource, "CONFIG") || !strcasecmp(resource, "RC")) {
+    if (strcasecmp(resource, "CONFIG") == 0 || strcasecmp(resource, "RC") == 0) {
 	init_rc();
 	sync_with_option();
 	displayBuffer(Currentbuf, B_REDRAW_IMAGE);
 	return;
     }
 
-    if (!strcasecmp(resource, "COOKIE")) {
+    if (strcasecmp(resource, "COOKIE") == 0) {
 	initCookie();
 	return;
     }
 
-    if (!strcasecmp(resource, "KEYMAP")) {
+    if (strcasecmp(resource, "KEYMAP") == 0) {
 	initKeymap(TRUE);
 	return;
     }
 
-    if (!strcasecmp(resource, "MAILCAP")) {
+    if (strcasecmp(resource, "MAILCAP") == 0) {
 	initMailcap();
 	return;
     }
 
 #ifdef USE_MOUSE
-    if (!strcasecmp(resource, "MOUSE")) {
+    if (strcasecmp(resource, "MOUSE") == 0) {
 	initMouseAction();
 	displayBuffer(Currentbuf, B_REDRAW_IMAGE);
 	return;
@@ -5774,19 +5774,19 @@ DEFUN(reinit, REINIT, "Reload configuration files")
 #endif
 
 #ifdef USE_MENU
-    if (!strcasecmp(resource, "MENU")) {
+    if (strcasecmp(resource, "MENU") == 0) {
 	initMenu();
 	return;
     }
 #endif
 
-    if (!strcasecmp(resource, "MIMETYPES")) {
+    if (strcasecmp(resource, "MIMETYPES") == 0) {
 	initMimeTypes();
 	return;
     }
 
 #ifdef USE_EXTERNAL_URI_LOADER
-    if (!strcasecmp(resource, "URIMETHODS")) {
+    if (strcasecmp(resource, "URIMETHODS") == 0) {
 	initURIMethods();
 	return;
     }

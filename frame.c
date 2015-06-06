@@ -525,7 +525,7 @@ createFrameFile(struct frameset *f, FILE * f1, Buffer *current, int level,
 #endif
 		t_stack = 0;
 		if (frame.body->type &&
-		    !strcasecmp(frame.body->type, "text/plain")) {
+		    strcasecmp(frame.body->type, "text/plain") == 0) {
 		    Str tmp;
 		    fprintf(f1, "<pre>\n");
 		    while ((tmp = StrmyUFgets(&f2))->length) {
@@ -640,9 +640,9 @@ createFrameFile(struct frameset *f, FILE * f1, Buffer *current, int level,
 				parseURL(q, &base, NULL);
 			    }
 			    if (parsedtag_get_value(tag, ATTR_TARGET, &q)) {
-				if (!strcasecmp(q, "_self"))
+				if (strcasecmp(q, "_self") == 0)
 				    d_target = s_target;
-				else if (!strcasecmp(q, "_parent"))
+				else if (strcasecmp(q, "_parent") == 0)
 				    d_target = p_target;
 				else
 				    d_target = url_quote_conv(q, charset);
@@ -653,7 +653,7 @@ createFrameFile(struct frameset *f, FILE * f1, Buffer *current, int level,
 			    goto token_end;
 			case HTML_META:
 			    if (parsedtag_get_value(tag, ATTR_HTTP_EQUIV, &q)
-				&& !strcasecmp(q, "refresh")) {
+				&& strcasecmp(q, "refresh") == 0) {
 				if (parsedtag_get_value(tag, ATTR_CONTENT, &q)
 				    ) {
 				    Str s_tmp = NULL;
@@ -670,7 +670,7 @@ createFrameFile(struct frameset *f, FILE * f1, Buffer *current, int level,
 #ifdef USE_M17N
 			    if (UseContentCharset &&
 				parsedtag_get_value(tag, ATTR_HTTP_EQUIV, &q)
-				&& !strcasecmp(q, "Content-Type")
+				&& strcasecmp(q, "Content-Type") == 0
 				&& parsedtag_get_value(tag, ATTR_CONTENT, &q)
 				&& (q = strcasestr(q, "charset")) != NULL) {
 				q += 7;
@@ -793,11 +793,11 @@ createFrameFile(struct frameset *f, FILE * f1, Buffer *current, int level,
 				if (!tag->value[j])
 				    break;
 				a_target |= 2;
-				if (!strcasecmp(tag->value[j], "_self")) {
+				if (strcasecmp(tag->value[j], "_self") == 0) {
 				    parsedtag_set_value(tag,
 							ATTR_TARGET, s_target);
 				}
-				else if (!strcasecmp(tag->value[j], "_parent")) {
+				else if (strcasecmp(tag->value[j], "_parent") == 0) {
 				    parsedtag_set_value(tag,
 							ATTR_TARGET, p_target);
 				}
