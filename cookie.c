@@ -1,5 +1,3 @@
-/* $Id: cookie.c,v 1.11 2010/07/26 11:38:53 htrb Exp $ */
-
 /*
  * References for version 0 cookie:
  *   [NETACAPE] http://www.netscape.com/newsref/std/cookie_spec.html
@@ -10,6 +8,7 @@
  */
 
 #include "fm.h"
+#include "cookie.h"
 #include "html.h"
 
 #include <time.h>
@@ -17,6 +16,7 @@
 #include "regex.h"
 #include "myctype.h"
 
+static struct cookie *First_cookie init(NULL);
 static bool is_saved = true;
 
 #define contain_no_dots(p, ep) (total_dot_number((p),(ep),1)==0)

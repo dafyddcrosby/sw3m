@@ -1,5 +1,6 @@
 /* $Id: file.c,v 1.266 2012/05/22 09:45:56 inu Exp $ */
 #include "fm.h"
+#include "cookie.h"
 #include <sys/types.h>
 #include "myctype.h"
 #include <signal.h>
