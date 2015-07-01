@@ -104,6 +104,7 @@ make_portlist(Str port)
 	pl->next = first;
 	first = pl;
     }
+    Strfree(tmp);
     return first;
 }
 
