@@ -753,7 +753,8 @@ readHeader(URLFile *uf, Buffer *newBuf, int thru, ParsedURL *pu)
 		  !strncasecmp(lineBuf2->ptr, "Set-Cookie2:", 12))) {
 	    Str name = Strnew(), value = Strnew(), domain = NULL, path = NULL,
 		comment = NULL, commentURL = NULL, port = NULL, tmp2;
-	    int version, quoted, flag = 0;
+	    int version, flag = 0;
+	    bool quoted = false;
 	    time_t expires = (time_t) - 1;
 
 	    q = NULL;
@@ -775,12 +776,12 @@ readHeader(URLFile *uf, Buffer *newBuf, int thru, ParsedURL *pu)
 	    if (*p == '=') {
 		p++;
 		SKIP_BLANKS(p);
-		quoted = 0;
+		quoted = false;
 		while (!IS_ENDL(*p) && (quoted || *p != ';')) {
 		    if (!IS_SPACE(*p))
 			q = p;
 		    if (*p == '"')
-			quoted = (quoted) ? 0 : 1;
+			quoted = (quoted) ? false : true;
 		    Strcat_char(value, *(p++));
 		}
 		if (q)
@@ -824,10 +825,10 @@ readHeader(URLFile *uf, Buffer *newBuf, int thru, ParsedURL *pu)
 		    /* version 1, Set-Cookie2 */
 		    flag |= COO_DISCARD;
 		}
-		quoted = 0;
+		quoted = false;
 		while (!IS_ENDL(*p) && (quoted || *p != ';')) {
 		    if (*p == '"')
-			quoted = (quoted) ? 0 : 1;
+			quoted = (quoted) ? false : true;
 		    p++;
 		}
 	    }
