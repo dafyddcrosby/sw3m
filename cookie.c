@@ -327,12 +327,12 @@ add_cookie(ParsedURL *pu, Str name, Str value,
 	    }
 	    else if (n == 2) {
 		char **sdomain;
-		int ok = 0;
+		bool ok = false;
 		for (sdomain = special_domain; !ok && *sdomain; sdomain++) {
 		    int offset = domain->length - strlen(*sdomain);
 		    if (offset >= 0 &&
 			strcasecmp(*sdomain, &domain->ptr[offset]) == 0)
-			ok = 1;
+			ok = true;
 		}
 		if (!ok && ! check_avoid_wrong_number_of_dots_domain(domain)) {
 		    COOKIE_ERROR(COO_ESPECIAL);
