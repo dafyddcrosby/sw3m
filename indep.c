@@ -9,6 +9,7 @@
 #include "indep.h"
 #include "Str.h"
 #include <gc.h>
+#include <string.h>
 #include "myctype.h"
 #include "entity.h"
 
@@ -56,6 +57,26 @@ strtoclen(const char *s)
 {
     return strtoll(s, NULL, 10);
 }
+
+#ifndef HAVE_EXPLICIT_BZERO
+/*	$OpenBSD: explicit_bzero.c,v 1.3 2014/06/21 02:34:26 matthew Exp $ */
+/*
+ * Public domain.
+ * Written by Matthew Dempsky.
+ */
+
+__attribute__((weak)) void
+__explicit_bzero_hook(void *buf, size_t len)
+{
+}
+
+void
+explicit_bzero(void *buf, size_t len)
+{
+	memset(buf, 0, len);
+	__explicit_bzero_hook(buf, len);
+}
+#endif /* ifndef HAVE_EXPLICIT_BZERO */
 
 #ifndef HAVE_BCOPY
 void

@@ -213,6 +213,10 @@ po:
 
 install: install-core install-scripts install-po
 
+# TODO - add regression suite
+test:
+	true
+
 install-core: $(TARGETS)
 	-$(MKDIR) $(DESTDIR)$(bindir)
 	-$(MKDIR) $(DESTDIR)$(AUXBIN_DIR)
