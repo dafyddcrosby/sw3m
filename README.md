@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dafyddcrosby/sw3m.svg)](https://travis-ci.org/dafyddcrosby/sw3m)
+
 # sw3m
 
 Looking for a web browser that's secure, speedy, small, standards-driven, and
