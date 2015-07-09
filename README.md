@@ -32,8 +32,8 @@ A. It's dead, Jim.
 Q. explicit_bzero isn't POSIX, what gives?
 
 A. memset can get optimized out of the code, which is not something you want
-when you're trying to clear the memory. explicit_bzero is easy to implement,
-and will be added in the portability package.
+when you're trying to clear the memory. explicit_bzero is easily implemented,
+and is currently built-in when not found by autotools.
 
 Q. Will sw3m work on <blah>
 
@@ -42,7 +42,7 @@ there are plans to create a sw3m-portable (as is done for OpenSSH and
 LibreSSL). However, portability work is unlikely to start until the OpenBSD
 releases are in good shape.
 
-Q. Why is <feature> not enabled by default?!
+Q. Why is ``<feature>`` not enabled by default?!
 
 A. While sw3m aims to support a great deal of functionality 'out of the box'
 (eg not requiring recompilation to enable), where possible certain
