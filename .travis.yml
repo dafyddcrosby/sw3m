@@ -2,3 +2,18 @@ language: c
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -y libgc-dev
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "bSfzFf9OSSykvKqgiRRAdXm1SMitBQaOd9IgAoNfH8zoIU+Cb6ZVT1xQXApPfkbUjDD3ugJlHgOxzr+m+c/DhP1zrl243hgmlrGX/ftxA+FkfZEmw+t4iBntc0xylKr5Y2k6zZA4wOfkvhA2JZY3OhcgnyVRKuBXCObSfJ1hP3tZyxyyZA1lzrxzUhhSARsNGMall56DgGvih47F07oqy5YQj8Zw6lHmuqj2mszO7aAQ4fRWe/ddGbhWS8+ci1yUFQgKR6DwMKfbdiC8rx0b/nvMVQ7/ZPVCN3hl63KMR2IzkyYYR1+i9r9OwsqTKM2zo9qMWjWUHvnf+vCFHLNxb35KYqmobpWiniYYVHly9vySe3mL0VWfL5YoSDK3HvERhLrQ2tK3Ryg7KM24dUz2JsXmkUKFRsRo0uBhN4eIhXI2lQJMen9mnA8zTngoIUrByCTctrpQJuh0MSOdqTrbsoZsLdXrsvyNTYQ6dufPM4YEVIOFH/WogzwyqZrjv+ujYbbMWWD1TrusJ68/dPQXT53fKnoakL8t+RjE+dG+W3C/ZNxjN9OAqRmcnHVBogsjQl14DpDMwZHuE/FYPoI+drLcX1MHwrmLgJFHELqr4R51LIByf24Nu2cDAaTIm0IMIBpBOtMNFOcC4LKqv2k9tPxZRFMYnNgaMA26//LR87k="
+
+addons:
+  coverity_scan:
+    project:
+      name: "dafyddcrosby/sw3m"
+      description: "Build submitted via Travis CI"
+    notification_email: dtcrsby@gmail.com
+    build_command_prepend: "./configure"
+    build_command:   "make"
+    branch_pattern: coverity_scan
