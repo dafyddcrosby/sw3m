@@ -242,7 +242,6 @@ fusage(FILE * f, int err)
     exit(err);
 }
 
-static GC_warn_proc orig_GC_warn_proc = NULL;
 #define GC_WARN_KEEP_MAX (20)
 
 static void
@@ -282,8 +281,6 @@ wrap_GC_warn_proc(char *msg, GC_word arg)
 	    lock = 0;
 	}
     }
-    else if (orig_GC_warn_proc)
-	orig_GC_warn_proc(msg, arg);
     else
 	fprintf(stderr, msg, (unsigned long)arg);
 }
@@ -750,7 +747,6 @@ main(int argc, char **argv, char **envp)
     mySignal(SIGCHLD, sig_chld);
     mySignal(SIGPIPE, SigPipe);
 
-    orig_GC_warn_proc = GC_get_warn_proc();
     GC_set_warn_proc(wrap_GC_warn_proc);
 
     err_msg = Strnew();
