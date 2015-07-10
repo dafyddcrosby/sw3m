@@ -96,6 +96,7 @@ loadLocalDir(char *dname)
 	    n++;
 	}
     }
+    closedir(d);
 
     if (multicolList) {
 	l = COLS / (maxlen + 2);
