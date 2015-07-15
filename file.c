@@ -3375,7 +3375,6 @@ process_img(struct parsed_tag *tag, int width)
 	/* guess what the image is! */
 	if (w < 32 && i < 48) {
 	    /* must be an icon or space */
-	    n = 1;
 	    if (strcasestr(p, "space") || strcasestr(p, "blank"))
 		Strcat_charp(tmp, "_");
 	    else {
@@ -3387,7 +3386,6 @@ process_img(struct parsed_tag *tag, int width)
 			pre_int = TRUE;
 		    }
 		    push_symbol(tmp, IMG_SYMBOL, symbol_width, 1);
-		    n = symbol_width;
 		}
 	    }
 	    goto img_end;
@@ -3402,7 +3400,6 @@ process_img(struct parsed_tag *tag, int width)
 	    if (w <= 0)
 		w = 1;
 	    push_symbol(tmp, HR_SYMBOL, symbol_width, w);
-	    n = w * symbol_width;
 	    goto img_end;
 	}
     }
@@ -7129,7 +7126,6 @@ loadBuffer(URLFile *uf, Buffer *volatile newBuf)
 
     if (newBuf == NULL)
 	newBuf = newBuffer(INIT_BUFFER_WIDTH);
-    lineBuf2 = Strnew();
 
     if (SETJMP(AbortLoading) != 0) {
 	goto _end;

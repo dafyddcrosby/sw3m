@@ -641,7 +641,6 @@ addMultirowsForm(Buffer *buf, AnchorList *al)
 {
     int i, j, k, col, ecol, pos;
     Anchor a_form, *a;
-    FormItemList *fi;
     Line *l, *ls;
 
     if (al == NULL || al->nanchor == 0)
@@ -668,7 +667,6 @@ addMultirowsForm(Buffer *buf, AnchorList *al)
 	    if (!ls)
 		continue;
 	}
-	fi = (FormItemList *)a_form.url;
 	col = COLPOS(ls, a_form.start.pos);
 	ecol = COLPOS(ls, a_form.end.pos);
 	for (j = 0; l && j < a_form.rows; l = l->next, j++) {
