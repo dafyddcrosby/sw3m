@@ -57,15 +57,6 @@ void flush_tty();
 #define SIGIOT SIGABRT
 #endif				/* not SIGIOT */
 
-#ifdef HAVE_TERMIO_H
-#include <termio.h>
-typedef struct termio TerminalMode;
-#define TerminalSet(fd,x)       ioctl(fd,TCSETA,x)
-#define TerminalGet(fd,x)       ioctl(fd,TCGETA,x)
-#define MODEFLAG(d)     ((d).c_lflag)
-#define IMODEFLAG(d)    ((d).c_iflag)
-#endif				/* HAVE_TERMIO_H */
-
 #ifdef HAVE_TERMIOS_H
 #include <termios.h>
 #include <unistd.h>

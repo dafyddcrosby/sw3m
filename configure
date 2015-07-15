@@ -8494,17 +8494,9 @@ if test "x$ac_cv_header_termios_h" = x""yes; then :
   $as_echo "#define HAVE_TERMIOS_H 1" >>confdefs.h
 
 else
-  ac_fn_c_check_header_mongrel "$LINENO" "termio.h" "ac_cv_header_termio_h" "$ac_includes_default"
-if test "x$ac_cv_header_termio_h" = x""yes; then :
-  $as_echo "#define HAVE_TERMIO_H 1" >>confdefs.h
-
-else
   ac_fn_c_check_header_mongrel "$LINENO" "sgtty.h" "ac_cv_header_sgtty_h" "$ac_includes_default"
 if test "x$ac_cv_header_sgtty_h" = x""yes; then :
   $as_echo "#define HAVE_SGTTY_H 1" >>confdefs.h
-
-fi
-
 
 fi
 

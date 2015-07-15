@@ -108,10 +108,9 @@ AC_DEFINE(AUXBIN_TARGETS, "$AUXBIN_TARGETS")
 AC_HEADER_DIRENT
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
-dnl AC_CHECK_HEADERS(fcntl.h malloc.h sgtty.h strings.h sys/ioctl.h sys/time.h termio.h unistd.h setjmp.h)
+dnl AC_CHECK_HEADERS(fcntl.h malloc.h sgtty.h strings.h sys/ioctl.h sys/time.h unistd.h setjmp.h)
 AC_CHECK_HEADER(termios.h, [AC_DEFINE(HAVE_TERMIOS_H)],
-	 [AC_CHECK_HEADER(termio.h, [AC_DEFINE(HAVE_TERMIO_H)],
-	  [AC_CHECK_HEADER(sgtty.h, [AC_DEFINE(HAVE_SGTTY_H)])])])
+  [AC_CHECK_HEADER(sgtty.h, [AC_DEFINE(HAVE_SGTTY_H)])])
 AC_CHECK_HEADER([float.h], [AC_DEFINE(HAVE_FLOAT_H)])
 AC_CHECK_HEADER([sys/select.h], [AC_DEFINE(HAVE_SYS_SELECT_H)])
 AC_CHECK_HEADER([locale.h], [AC_DEFINE(HAVE_LOCALE_H)])
