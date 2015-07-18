@@ -111,7 +111,6 @@ typedef long clen_t;
 #endif
 #undef HAVE_STRCASESTR
 #undef HAVE_SYS_ERRLIST
-#undef HAVE_BCOPY
 #undef HAVE_LANGINFO_CODESET
 #undef HAVE_EXPLICIT_BZERO
 

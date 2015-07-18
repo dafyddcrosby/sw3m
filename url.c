@@ -9,7 +9,7 @@
 #include <signal.h>
 #include <setjmp.h>
 #include <errno.h>
-
+#include <string.h>
 #include <sys/stat.h>
 
 #include "html.h"
@@ -469,7 +469,7 @@ openSocket(char *const hostname,
     if (regexMatch(hostname, -1, 1)) {
 	sscanf(hostname, "%d.%d.%d.%d", &a1, &a2, &a3, &a4);
 	adr = htonl((a1 << 24) | (a2 << 16) | (a3 << 8) | a4);
-	bcopy((void *)&adr, (void *)&hostaddr.sin_addr, sizeof(long));
+	memmove((void *)&hostaddr.sin_addr, (void *)&adr, sizeof(long));
 	hostaddr.sin_family = AF_INET;
 	hostaddr.sin_port = s_port;
 	if (fmInitialized) {
@@ -503,7 +503,7 @@ openSocket(char *const hostname,
 	hostaddr.sin_family = AF_INET;
 	hostaddr.sin_port = s_port;
 	for (h_addr_list = entry->h_addr_list; *h_addr_list; h_addr_list++) {
-	    bcopy((void *)h_addr_list[0], (void *)&hostaddr.sin_addr,
+	    memmove((void *)&hostaddr.sin_addr, (void *)h_addr_list[0],
 		  entry->h_length);
 #ifdef SOCK_DEBUG
 	    adr = ntohl(*(long *)&hostaddr.sin_addr);

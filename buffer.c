@@ -1,4 +1,5 @@
 /* $Id: buffer.c,v 1.30 2010/07/18 14:10:09 htrb Exp $ */
+#include <string.h>
 #include "fm.h"
 
 #ifdef USE_MOUSE
@@ -590,7 +591,7 @@ void
 copyBuffer(Buffer *a, Buffer *b)
 {
     readBufferCache(b);
-    bcopy((void *)b, (void *)a, sizeof(Buffer));
+    memmove((void *)a, (void *)b, sizeof(Buffer));
 }
 
 Buffer *

@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 #include "fm.h"
 #include "func.h"
 #include "myctype.h"
@@ -602,11 +603,11 @@ initMouseAction(void)
 {
     FILE *mf;
 
-    bcopy((void *)&default_mouse_action, (void *)&mouse_action,
+    memmove((void *)&mouse_action, (void *)&default_mouse_action,
 	  sizeof(default_mouse_action));
     mouse_action.lastline_map[0] = New_N(MouseActionMap, 6);
-    bcopy((void *)&default_lastline_action,
-	  (void *)mouse_action.lastline_map[0],
+    memmove((void *)mouse_action.lastline_map[0],
+	  (void *)&default_lastline_action,
 	  sizeof(default_lastline_action));
     {
 #ifdef USE_M17N

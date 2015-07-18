@@ -3,6 +3,7 @@
 #include "myctype.h"
 #include "istream.h"
 #include <signal.h>
+#include <string.h>
 #ifdef USE_SSL
 #include <openssl/x509v3.h>
 #endif
@@ -51,7 +52,7 @@ buffer_read(StreamBuffer sb, char *obuf, int count)
     if (len > 0) {
 	if (len > count)
 	    len = count;
-	bcopy((const void *)&sb->buf[sb->cur], obuf, len);
+	memmove(obuf, (const void *)&sb->buf[sb->cur], len);
 	sb->cur += len;
     }
     return len;
@@ -729,7 +730,7 @@ ens_read(struct ens_handle *handle, char *buf, int len)
     if (len > handle->s->length - handle->pos)
 	len = handle->s->length - handle->pos;
 
-    bcopy(&handle->s->ptr[handle->pos], buf, len);
+    memmove(buf, &handle->s->ptr[handle->pos], len);
     handle->pos += len;
     return len;
 }

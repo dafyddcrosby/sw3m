@@ -4,6 +4,7 @@
 #include "myctype.h"
 #include <signal.h>
 #include <setjmp.h>
+#include <string.h>
 
 static JMP_BUF AbortLoading;
 struct frameset *renderFrameSet = NULL;
@@ -168,7 +169,7 @@ copyFrame(struct frame_body *ob)
     struct frame_body *rb;
 
     rb = New(struct frame_body);
-    bcopy((const void *)ob, (void *)rb, sizeof(struct frame_body));
+    memmove((void *)rb, (const void *)ob, sizeof(struct frame_body));
     return rb;
 }
 
@@ -180,13 +181,13 @@ copyFrameSet(struct frameset *of)
 
     rf = New(struct frameset);
     n = of->col * of->row;
-    bcopy((const void *)of, (void *)rf, sizeof(struct frameset));
+    memmove((void *)rf, (const void *)of, sizeof(struct frameset));
     rf->width = New_N(char *, rf->col);
-    bcopy((const void *)of->width,
-	  (void *)rf->width, sizeof(char *) * rf->col);
+    memmove((void *)rf->width,
+	(const void *)of->width, sizeof(char *) * rf->col);
     rf->height = New_N(char *, rf->row);
-    bcopy((const void *)of->height,
-	  (void *)rf->height, sizeof(char *) * rf->row);
+    memmove((void *)rf->height,
+	(const void *)of->height, sizeof(char *) * rf->row);
     rf->frame = New_N(union frameset_element, n);
     while (n) {
 	n--;

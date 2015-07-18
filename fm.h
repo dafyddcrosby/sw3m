@@ -75,10 +75,6 @@ typedef int wc_ces;	/* XXX: not used */
 #include "funcname1.h"
 #include "terms.h"
 
-#ifndef HAVE_BCOPY
-void bcopy(const void *, void *, int);
-#endif				/* HAVE_BCOPY */
-
 #ifdef MAINPROGRAM
 #define global
 #define init(x) =(x)

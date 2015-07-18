@@ -8574,7 +8574,7 @@ _ACEOF
 
 
 
-for ac_func in strcasestr bcopy explicit_bzero
+for ac_func in strcasestr explicit_bzero
 do :
   as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
 ac_fn_c_check_func "$LINENO" "$ac_func" "$as_ac_var"

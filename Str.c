@@ -61,7 +61,7 @@ Strnew_charp(char *p)
     x->ptr = GC_MALLOC_ATOMIC(n);
     x->area_size = n;
     x->length = n - 1;
-    bcopy((void *)p, (void *)x->ptr, n);
+    memmove((void *)x->ptr, (void *)p, n);
     return x;
 }
 
@@ -90,7 +90,7 @@ Strnew_charp_n(char *p, int n)
     x->ptr = GC_MALLOC_ATOMIC(n + 1);
     x->area_size = n + 1;
     x->length = n;
-    bcopy((void *)p, (void *)x->ptr, n);
+    memmove((void *)x->ptr, (void *)p, n);
     x->ptr[n] = '\0';
     return x;
 }
@@ -128,7 +128,7 @@ Strcopy(Str x, Str y)
 	x->ptr = GC_MALLOC_ATOMIC(y->length + 1);
 	x->area_size = y->length + 1;
     }
-    bcopy((void *)y->ptr, (void *)x->ptr, y->length + 1);
+    memmove((void *)x->ptr, (void *)y->ptr, y->length + 1);
     x->length = y->length;
 }
 
@@ -148,7 +148,7 @@ Strcopy_charp(Str x, char *y)
 	x->ptr = GC_MALLOC_ATOMIC(len + 1);
 	x->area_size = len + 1;
     }
-    bcopy((void *)y, (void *)x->ptr, len + 1);
+    memmove((void *)x->ptr, (void *)y, len + 1);
     x->length = len;
 }
 
@@ -167,7 +167,7 @@ Strcopy_charp_n(Str x, char *y, int n)
 	x->ptr = GC_MALLOC_ATOMIC(len + 1);
 	x->area_size = len + 1;
     }
-    bcopy((void *)y, (void *)x->ptr, n);
+    memmove((void *)x->ptr, (void *)y, n);
     x->ptr[n] = '\0';
     x->length = n;
 }
@@ -186,10 +186,10 @@ Strcat_charp_n(Str x, char *y, int n)
 	newlen = newlen * 3 / 2;
 	x->ptr = GC_MALLOC_ATOMIC(newlen);
 	x->area_size = newlen;
-	bcopy((void *)old, (void *)x->ptr, x->length);
+	memmove((void *)x->ptr, (void *)old, x->length);
 	GC_free(old);
     }
-    bcopy((void *)y, (void *)&x->ptr[x->length], n);
+    memmove((void *)&x->ptr[x->length], (void *)y, n);
     x->length += n;
     x->ptr[x->length] = '\0';
 }
@@ -230,7 +230,7 @@ Strgrow(Str x)
 	newlen += 2;
     x->ptr = GC_MALLOC_ATOMIC(newlen);
     x->area_size = newlen;
-    bcopy((void *)old, (void *)x->ptr, x->length);
+    memmove((void *)x->ptr, (void *)old, x->length);
     GC_free(old);
 }
 

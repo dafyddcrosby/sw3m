@@ -13,6 +13,7 @@
 
 #include <time.h>
 #include <stdbool.h>
+#include <string.h>
 #include "regex.h"
 #include "myctype.h"
 
@@ -221,7 +222,7 @@ find_cookie(ParsedURL *pu)
 	    if (p1)
 		continue;
 	    p1 = New(struct cookie);
-	    bcopy(p, p1, sizeof(struct cookie));
+	    memmove(p1, p, sizeof(struct cookie));
 	    p1->next = fco;
 	    fco = p1;
 	    if (p1->version > version)

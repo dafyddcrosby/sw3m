@@ -78,24 +78,6 @@ explicit_bzero(void *buf, size_t len)
 }
 #endif /* ifndef HAVE_EXPLICIT_BZERO */
 
-#ifndef HAVE_BCOPY
-void
-bcopy(const void *src, void *dest, int len)
-{
-    int i;
-    if (src == dest)
-	return;
-    if (src < dest) {
-	for (i = len - 1; i >= 0; i--)
-	    ((char *)dest)[i] = ((const char *)src)[i];
-    }
-    else {			/* src > dest */
-	for (i = 0; i < len; i++)
-	    ((char *)dest)[i] = ((const char *)src)[i];
-    }
-}
-#endif				/* not HAVE_BCOPY */
-
 char *
 allocStr(const char *s, int len)
 {
@@ -110,7 +92,7 @@ allocStr(const char *s, int len)
 	fprintf(stderr, "fm: Can't allocate string. Give me more memory!\n");
 	exit(-1);
     }
-    bcopy(s, ptr, len);
+    memmove(ptr, s, len);
     ptr[len] = '\0';
     return ptr;
 }
