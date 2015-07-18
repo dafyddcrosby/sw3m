@@ -35,7 +35,7 @@ A. memset can get optimized out of the code, which is not something you want
 when you're trying to clear the memory. explicit_bzero is easily implemented,
 and is currently built-in when not found by autotools.
 
-Q. Will sw3m work on <blah>
+Q. Will sw3m work on ``<blah>``
 
 A. The reference platform is the latest OpenBSD stable release. Long term,
 there are plans to create a sw3m-portable (as is done for OpenSSH and
