@@ -1202,7 +1202,7 @@ renderTable(struct table *t, int max_width, struct html_feed_environ *h_env)
 {
     int i, j, w, r, h;
     Str renderbuf;
-    short new_tabwidth[MAXCOL];
+    short new_tabwidth[MAXCOL] = { 0 };
     int width;
     int rulewidth;
     Str vrulea = NULL, vruleb = NULL, vrulec = NULL;
