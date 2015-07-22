@@ -6937,7 +6937,6 @@ loadHTMLstream(URLFile *f, Buffer *newBuf, FILE * src, int internal)
 	HTMLlineproc0(lineBuf2->ptr, &htmlenv1, internal);
     }
     if (obuf.status != R_ST_NORMAL) {
-	obuf.status = R_ST_EOL;
 	HTMLlineproc0("\n", &htmlenv1, internal);
     }
     obuf.status = R_ST_NORMAL;
