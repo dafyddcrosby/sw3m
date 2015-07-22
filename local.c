@@ -150,7 +150,7 @@ loadLocalDir(char *dname)
 	}
 	else {
 	    if (S_ISLNK(lst.st_mode)) {
-		if ((l = readlink(fbuf->ptr, lbuf, sizeof(lbuf))) > 0) {
+		if ((l = readlink(fbuf->ptr, lbuf, sizeof(lbuf) - 1)) > 0) {
 		    lbuf[l] = '\0';
 		    Strcat_m_charp(tmp, " -> ",
 				   html_quote(conv_from_system(lbuf)), NULL);
