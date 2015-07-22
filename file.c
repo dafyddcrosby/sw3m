@@ -5466,7 +5466,7 @@ HTMLlineproc2body(Buffer *buf, Str (*feed) (), int llimit)
 			    buf->hmarklist->marks[h].invalid) {
 			    buf->hmarklist->marks[h].pos = pos;
 			    buf->hmarklist->marks[h].line = currentLn(buf);
-			    buf->hmarklist->marks[h].invalid = 0;
+			    buf->hmarklist->marks[h].invalid = false;
 			    hseq = -hseq;
 			}
 		    }
@@ -5492,7 +5492,7 @@ HTMLlineproc2body(Buffer *buf, Str (*feed) (), int llimit)
 			    a_href->start.pos == a_href->end.pos) {
 			    if (buf->hmarklist &&
 				a_href->hseq < buf->hmarklist->nmark)
-				buf->hmarklist->marks[a_href->hseq].invalid = 1;
+				buf->hmarklist->marks[a_href->hseq].invalid = true;
 			    a_href->hseq = -1;
 			}
 			a_href = NULL;

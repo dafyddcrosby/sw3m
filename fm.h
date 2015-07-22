@@ -323,7 +323,7 @@ typedef struct _Line {
 typedef struct {
     int line;
     int pos;
-    int invalid;
+    bool invalid;
 } BufferPoint;
 
 #ifdef USE_IMAGE

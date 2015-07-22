@@ -1,5 +1,6 @@
 /* $Id: anchor.c,v 1.33 2006/04/08 11:33:16 inu Exp $ */
 #include <string.h>
+#include <stdbool.h>
 
 #include "fm.h"
 #include "myctype.h"
@@ -31,6 +32,7 @@ putAnchor(AnchorList *al, char *url, char *target, Anchor **anchor_return,
     }
     bp.line = line;
     bp.pos = pos;
+    bp.invalid = false;
     n = al->nanchor;
     if (!n || bpcmp(al->anchors[n - 1].start, bp) < 0)
 	i = n;
