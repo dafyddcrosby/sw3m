@@ -242,7 +242,7 @@ reseq_anchor(Buffer *buf)
 {
     int i, j, n, nmark = (buf->hmarklist) ? buf->hmarklist->nmark : 0;
     short *seqmap;
-    Anchor *a, *a1;
+    Anchor *a, *a1 = NULL;
     HmarkerList *ml = NULL;
 
     if (!buf->href)
@@ -282,7 +282,8 @@ reseq_anchor(Buffer *buf)
 	}
     }
 
-    free(a1);
+    if (a1)
+	    free(a1);
     for (i = 0; i < nmark; i++) {
 	ml = putHmarker(ml, buf->hmarklist->marks[i].line,
 			buf->hmarklist->marks[i].pos, seqmap[i]);
