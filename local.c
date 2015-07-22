@@ -298,9 +298,11 @@ localcgi_post(char *uri, char *qstr, FormList *request, char *referer)
 	    return NULL;
     }
     pid = open_pipe_rw(&fr, NULL);
-    if (pid < 0)
+    if (pid < 0) {
+	if (fw)
+	    fclose(fw);
 	return NULL;
-    else if (pid) {
+    } else if (pid) {
 	if (fw)
 	    fclose(fw);
 	return fr;
