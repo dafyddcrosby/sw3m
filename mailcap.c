@@ -71,7 +71,7 @@ searchMailcap(struct mailcap *table, char *type)
 }
 
 static bool
-matchMailcapAttr(char *p, char *attr, int len, Str *value)
+matchMailcapAttr(char *p, char *attr, size_t len, Str *value)
 {
     bool quoted = false;
     char *q = NULL;
