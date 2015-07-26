@@ -40,7 +40,7 @@ total_dot_number(char *p, char *ep, int max_count)
 static char *
 domain_match(char *host, char *domain)
 {
-    int m0, m1;
+    bool m0, m1;
 
     /* [RFC 2109] s. 2, "domain-match", case 1
      * (both are IP and identical)

@@ -291,13 +291,13 @@ newRegex(char *ex, int igncase, Regex *regex, char **msg)
 /*
  * regexMatch: match regular expression
  */
-int
+bool
 regexMatch(char *str, int len, int firstp)
 {
     return RegexMatch(&DefaultRegex, str, len, firstp);
 }
 
-int
+bool
 RegexMatch(Regex *re, char *str, int len, int firstp)
 {
     char *p, *ep;
@@ -305,7 +305,7 @@ RegexMatch(Regex *re, char *str, int len, int firstp)
     Regex *r;
 
     if (str == NULL)
-	return 0;
+	return false;
     if (len < 0)
 	len = strlen(str);
     re->position = NULL;
@@ -314,24 +314,20 @@ RegexMatch(Regex *re, char *str, int len, int firstp)
 	lpos = NULL;
 	re->lposition = NULL;
 	for (r = re; r != NULL; r = r->alt_regex) {
-	    switch (regmatch(r->re, p, ep, firstp && (p == str), &lpos)) {
-	    case 1:		/* matched */
+	    if (regmatch(r->re, p, ep, firstp && (p == str), &lpos)) {
+		/* matched */
 		re->position = p;
 		if (re->lposition == NULL || re->lposition < lpos)
 		    re->lposition = lpos;
-		break;
-	    case -1:		/* error */
-		re->position = NULL;
-		return -1;
 	    }
 	}
 	if (re->lposition != NULL) {
 	    /* matched */
-	    return 1;
+	    return true;
 	}
 	p += get_mclen(p) - 1;
     }
-    return 0;
+    return false;
 }
 
 /*
