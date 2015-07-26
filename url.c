@@ -1760,7 +1760,7 @@ check_no_proxy(char *domain)
 	struct hostent *he;
 	int n;
 	unsigned char **h_addr_list;
-	char addr[4 * 16], buf[5];
+	char addr[64], buf[5];
 
 	he = gethostbyname(domain);
 	if (!he) {
@@ -1769,9 +1769,9 @@ check_no_proxy(char *domain)
 	}
 	for (h_addr_list = (unsigned char **)he->h_addr_list; *h_addr_list;
 	     h_addr_list++) {
-	    sprintf(addr, "%d", h_addr_list[0][0]);
+	    snprintf(addr, sizeof(addr), "%d", h_addr_list[0][0]);
 	    for (n = 1; n < he->h_length; n++) {
-		sprintf(buf, ".%d", h_addr_list[0][n]);
+		snprintf(buf, sizeof(buf), ".%d", h_addr_list[0][n]);
 		strcat(addr, buf);
 	    }
 	    for (tl = NO_proxy_domains->first; tl != NULL; tl = tl->next) {
