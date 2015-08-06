@@ -996,6 +996,10 @@ check_table_height(struct table *t)
 
     cell.size = 0;
     cell.maxcell = -1;
+    cell.row = NewAtom_N(short, cell.size);
+    cell.rowspan = NewAtom_N(short, cell.size);
+    cell.indexarray = NewAtom_N(short, cell.size);
+    cell.height = NewAtom_N(short, cell.size);
 
     for (j = 0; j <= t->maxrow; j++) {
 	if (!t->tabattr[j])
