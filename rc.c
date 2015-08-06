@@ -1110,8 +1110,6 @@ parse_cookie()
 	       	= make_domain_list(cookie_avoid_wrong_number_of_dots);
 }
 
-#define do_mkdir(dir,mode) mkdir(dir,mode)
-
 void
 sync_with_option(void)
 {
@@ -1186,7 +1184,7 @@ init_rc(void)
 
     if (stat(rc_dir, &st) < 0) {
 	if (errno == ENOENT) {	/* no directory */
-	    if (do_mkdir(rc_dir, 0700) < 0) {
+	    if (mkdir(rc_dir, 0700) < 0) {
 		fprintf(stderr, "Can't create config directory (%s)!", rc_dir);
 		goto rc_dir_err;
 	    }
