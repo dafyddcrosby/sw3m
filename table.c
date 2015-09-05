@@ -811,7 +811,7 @@ table_rule_width(struct table *t)
 static void
 check_cell_width(short *tabwidth, short *cellwidth,
 		 short *col, short *colspan, short maxcell,
-		 short *indexarray, int space, CellDirection dir)
+		 short *indexarray, bool space, CellDirection dir)
 {
     int i, j, k, bcol, ecol;
     int swidth, width;
@@ -826,7 +826,11 @@ check_cell_width(short *tabwidth, short *cellwidth,
 	for (i = bcol; i < ecol; i++)
 	    swidth += tabwidth[i];
 
-	width = cellwidth[j] - (colspan[j] - 1) * space;
+	if (space) {
+		width = cellwidth[j] - (colspan[j] - 1);
+	} else {
+		width = 0;
+	}
 	if (width > swidth) {
 	    int w = (width - swidth) / colspan[j];
 	    int r = (width - swidth) % colspan[j];
@@ -997,7 +1001,7 @@ check_table_height(struct table *t)
 	short size;
 	short *height;
     } cell;
-    int space = 0;
+    bool space = false;
 
     cell.size = 0;
     cell.maxcell = -1;
@@ -1072,10 +1076,10 @@ check_table_height(struct table *t)
     case BORDER_THIN:
     case BORDER_THICK:
     case BORDER_NOWIN:
-	space = 1;
+	space = true;
 	break;
     case BORDER_NONE:
-	space = 0;
+	space = false;
     }
     check_cell_width(t->tabheight, cell.height, cell.row, cell.rowspan,
 		     cell.maxcell, cell.indexarray, space, CELL_DIR_VERTICAL);
