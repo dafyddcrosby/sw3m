@@ -41,8 +41,10 @@ int symbol_width0 = 0;
 #endif				/* NOWRAP */
 #define TAG_IS(s,tag,len) (strncasecmp(s,tag,len)==0&&(s[len] == '>' || IS_SPACE((int)s[len])))
 
-#define CELL_DIR_HORIZONTAL 0
-#define CELL_DIR_VERTICAL   1
+typedef enum _CellDirection {
+  CELL_DIR_HORIZONTAL,
+  CELL_DIR_VERTICAL
+} CellDirection;
 
 #ifndef max
 #define max(a,b)        ((a) > (b) ? (a) : (b))
@@ -808,7 +810,7 @@ table_rule_width(struct table *t)
 static void
 check_cell_width(short *tabwidth, short *cellwidth,
 		 short *col, short *colspan, short maxcell,
-		 short *indexarray, int space, int dir)
+		 short *indexarray, int space, CellDirection dir)
 {
     int i, j, k, bcol, ecol;
     int swidth, width;
