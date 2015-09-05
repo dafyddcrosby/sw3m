@@ -543,13 +543,14 @@ openSocket(char *const hostname,
 
 }
 
-
-#define COPYPATH_SPC_ALLOW 0
-#define COPYPATH_SPC_IGNORE 1
-#define COPYPATH_SPC_REPLACE 2
+typedef enum _CopypathSpc {
+  COPYPATH_SPC_ALLOW,
+  COPYPATH_SPC_IGNORE,
+  COPYPATH_SPC_REPLACE
+} CopypathSpc;
 
 static char *
-copyPath(char *orgpath, int length, int option)
+copyPath(char *orgpath, int length, CopypathSpc option)
 {
     Str tmp = Strnew();
     while (*orgpath && length != 0) {
