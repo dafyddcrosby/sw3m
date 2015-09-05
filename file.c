@@ -3013,7 +3013,7 @@ close_anchor(struct html_feed_environ *h_env, struct readbuffer *obuf)
     if (obuf->anchor.url) {
 	int i;
 	char *p = NULL;
-	int is_erased = 0;
+	bool is_erased = false;
 
 	for (i = obuf->tag_sp - 1; i >= 0; i--) {
 	    if (obuf->tag_stack[i]->cmd == HTML_A)
@@ -3022,7 +3022,7 @@ close_anchor(struct html_feed_environ *h_env, struct readbuffer *obuf)
 	if (i < 0 && obuf->anchor.hseq > 0 && Strlastchar(obuf->line) == ' ') {
 	    Strshrink(obuf->line, 1);
 	    obuf->pos--;
-	    is_erased = 1;
+	    is_erased = true;
 	}
 
 	if (i >= 0 || (p = has_hidden_link(obuf, HTML_A))) {
@@ -3042,7 +3042,7 @@ close_anchor(struct html_feed_environ *h_env, struct readbuffer *obuf)
 		memset((void *)&obuf->anchor, 0, sizeof(obuf->anchor));
 		return;
 	    }
-	    is_erased = 0;
+	    is_erased = false;
 	}
 	if (is_erased) {
 	    Strcat_char(obuf->line, ' ');
