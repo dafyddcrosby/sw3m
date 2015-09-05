@@ -19,11 +19,6 @@ int symbol_width0 = 0;
 #define RULE(mode,n) (((mode) == BORDER_THICK) ? ((n) + 16) : (n))
 #define TK_VERTICALBAR(mode) RULE(mode,5)
 
-#define BORDERWIDTH     2
-#define BORDERHEIGHT    1
-#define NOBORDERWIDTH   1
-#define NOBORDERHEIGHT  0
-
 #define HTT_X   1
 #define HTT_Y   2
 #define HTT_ALIGN  0x30
