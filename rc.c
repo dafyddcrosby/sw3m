@@ -979,7 +979,7 @@ set_param(char *name, char *value)
 	    *(char **)p->varptr = rcFile(value);
 	else
 	    *(char **)p->varptr = NULL;
-	ssl_path_modified = 1;
+	ssl_path_modified = true;
 	break;
 #endif
 #ifdef USE_COLOR

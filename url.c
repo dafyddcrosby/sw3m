@@ -247,11 +247,11 @@ openSSLHandle(int sock, char *hostname, char **p_cert)
 
     if (old_ssl_verify_server != ssl_verify_server) {
 	old_ssl_verify_server = ssl_verify_server;
-	ssl_path_modified = 1;
+	ssl_path_modified = true;
     }
     if (ssl_path_modified) {
 	free_ssl_ctx();
-	ssl_path_modified = 0;
+	ssl_path_modified = false;
     }
     if (ssl_ctx == NULL) {
 	SSL_library_init();

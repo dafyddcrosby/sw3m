@@ -1055,7 +1055,7 @@ global char *ssl_cert_file init(NULL);
 global char *ssl_key_file init(NULL);
 global char *ssl_ca_path init(NULL);
 global char *ssl_ca_file init(NULL);
-global int ssl_path_modified init(FALSE);
+global bool ssl_path_modified init(false);
 global char *ssl_forbid_method init(NULL);
 #endif
 
