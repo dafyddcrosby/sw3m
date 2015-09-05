@@ -223,6 +223,7 @@ parse_tag(char **s, int internal)
 	 bool hidden=false;
          for (j=0; j<i; j++) {
            if (tag->attrid[j] == ATTR_TYPE &&
+	       tag->value[j] &&
                strcmp("hidden",tag->value[j]) == 0) {
              hidden=true;
              break;
