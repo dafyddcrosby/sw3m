@@ -87,7 +87,7 @@ static int display_ok = FALSE;
 static void do_dump(Buffer *);
 int prec_num = 0;
 int prev_key = -1;
-int on_target = 1;
+bool on_target = true;
 static bool add_download_list = false;
 
 void set_buffer_environ(Buffer *);
@@ -2915,9 +2915,9 @@ DEFUN(followA, GOTO_LINK, "Go to current link")
 void
 bufferA(void)
 {
-    on_target = FALSE;
+    on_target = false;
     followA();
-    on_target = TRUE;
+    on_target = true;
 }
 
 /* view inline image */
