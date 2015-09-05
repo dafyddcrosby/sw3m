@@ -1837,11 +1837,13 @@ table_close_anchor0(struct table *tbl, struct table_mode *mode)
     }
 }
 
-#define TAG_ACTION_NONE 0
-#define TAG_ACTION_FEED 1
-#define TAG_ACTION_TABLE 2
-#define TAG_ACTION_N_TABLE 3
-#define TAG_ACTION_PLAIN 4
+typedef enum _TagAction {
+  TAG_ACTION_NONE,
+  TAG_ACTION_FEED,
+  TAG_ACTION_TABLE,
+  TAG_ACTION_N_TABLE,
+  TAG_ACTION_PLAIN
+} TagAction;
 
 #define CASE_TABLE_TAG \
 	case HTML_TABLE:\
@@ -1864,7 +1866,7 @@ table_close_anchor0(struct table *tbl, struct table_mode *mode)
 
 #define ATTR_ROWSPAN_MAX 32766
 
-static int
+static TagAction
 feed_table_tag(struct table *tbl, char *line, struct table_mode *mode,
 	       int width, struct parsed_tag *tag)
 {
