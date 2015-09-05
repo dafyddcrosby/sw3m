@@ -12,7 +12,7 @@ struct parsed_tag {
     unsigned char *attrid;
     char **value;
     unsigned char *map;
-    char need_reconstruct;
+    bool need_reconstruct;
 };
 
 #define parsedtag_accepts(tag, id) ((tag)->map&&(tag)->map[id]!=MAX_TAGATTR)

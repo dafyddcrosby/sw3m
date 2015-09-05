@@ -4982,7 +4982,7 @@ HTMLtagproc1(struct parsed_tag *tag, struct html_feed_environ *h_env)
 			     h_env->limit);
 		if (!is_redisplay &&
 		    !((obuf->flag & RB_NOFRAMES) && RenderFrame)) {
-		    tag->need_reconstruct = TRUE;
+		    tag->need_reconstruct = true;
 		    return 0;
 		}
 	    }
