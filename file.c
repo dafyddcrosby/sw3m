@@ -2292,7 +2292,7 @@ is_period_char(unsigned char *ch)
     }
 }
 
-static int
+static bool
 is_beginning_char(unsigned char *ch)
 {
     switch (*ch) {
@@ -2301,9 +2301,9 @@ is_beginning_char(unsigned char *ch)
     case '{':
     case '`':
     case '<':
-	return 1;
+	return true;
     default:
-	return 0;
+	return false;
     }
 }
 
