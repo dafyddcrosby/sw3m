@@ -500,7 +500,7 @@ Str HTTPrequestURI(ParsedURL *pu, HRequest *hr);
 extern URLFile openURL(char *url, ParsedURL *pu, ParsedURL *current,
 		       URLOption *option, FormList *request,
 		       TextList *extra_header, URLFile *ouf,
-		       HRequest *hr, unsigned char *status);
+		       HRequest *hr, HTSTStatus *status);
 extern void initMailcap();
 extern char *acceptableMimeTypes();
 extern struct mailcap *searchExtViewer(char *type);

@@ -681,22 +681,27 @@ struct html_feed_environ {
 #define VALIGN_TOP    1
 #define VALIGN_BOTTOM 2
 
+typedef enum _HRCommand {
+  HR_COMMAND_GET,
+  HR_COMMAND_POST,
+  HR_COMMAND_CONNECT,
+  HR_COMMAND_HEAD
+} HRCommand;
+
 typedef struct http_request {
-    char command;
+    HRCommand command;
     char flag;
     char *referer;
     FormList *request;
 } HRequest;
 
-#define HR_COMMAND_GET		0
-#define HR_COMMAND_POST		1
-#define HR_COMMAND_CONNECT	2
-#define HR_COMMAND_HEAD		3
+typedef enum _HTSTStatus {
+  HTST_UNKNOWN,
+  HTST_MISSING,
+  HTST_NORMAL,
+  HTST_CONNECT
+} HTSTStatus;
 
-#define HTST_UNKNOWN		255
-#define HTST_MISSING		254
-#define HTST_NORMAL		0
-#define HTST_CONNECT		1
 
 #define TMPF_DFL	0
 #define TMPF_SRC	1

@@ -1289,7 +1289,7 @@ init_stream(URLFile *uf, int scheme, InputStream stream)
 URLFile
 openURL(char *url, ParsedURL *pu, ParsedURL *current,
 	URLOption *option, FormList *request, TextList *extra_header,
-	URLFile *ouf, HRequest *hr, unsigned char *status)
+	URLFile *ouf, HRequest *hr, HTSTStatus *status)
 {
     Str tmp;
     int sock, scheme;

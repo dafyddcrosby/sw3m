@@ -1694,7 +1694,7 @@ loadGeneralFile(char *path, ParsedURL *volatile current, char *referer,
     volatile Str pwd = NULL;
     volatile Str realm = NULL;
     bool volatile add_auth_cookie_flag;
-    unsigned char status = HTST_NORMAL;
+    HTSTStatus status = HTST_NORMAL;
     URLOption url_option;
     Str tmp;
     Str volatile page = NULL;
