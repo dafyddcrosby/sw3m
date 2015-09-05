@@ -484,7 +484,7 @@ struct param_ptr params3[] = {
 };
 
 struct param_ptr params4[] = {
-    {"use_proxy", P_CHARINT, PI_ONOFF, (void *)&use_proxy, CMT_USE_PROXY,
+    {"use_proxy", P_BOOL, PI_ONOFF, (void *)&use_proxy, CMT_USE_PROXY,
      NULL},
     {"http_proxy", P_STRING, PI_TEXT, (void *)&HTTP_proxy, CMT_HTTP_PROXY,
      NULL},

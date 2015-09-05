@@ -615,7 +615,7 @@ main(int argc, char **argv, char **envp)
 	    else if (!strcmp("-num", argv[i]))
 		showLineNum = true;
 	    else if (!strcmp("-no-proxy", argv[i]))
-		use_proxy = FALSE;
+		use_proxy = false;
 #ifdef INET6
 	    else if (!strcmp("-4", argv[i]) || !strcmp("-6", argv[i]))
 		set_param_option(Sprintf("dns_order=%c", argv[i][1])->ptr);

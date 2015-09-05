@@ -1405,7 +1405,7 @@ openURL(char *url, ParsedURL *pu, ParsedURL *current,
 	if (pu->file == NULL)
 	    pu->file = allocStr("/", -1);
 	if (non_null(FTP_proxy) &&
-	    !Do_not_use_proxy &&
+	    use_proxy &&
 	    pu->host != NULL && !check_no_proxy(pu->host)) {
 	    hr->flag |= HR_FLAG_PROXY;
 	    sock = openSocket(FTP_proxy_parsed.host,
@@ -1437,7 +1437,7 @@ openURL(char *url, ParsedURL *pu, ParsedURL *current,
 #ifdef USE_SSL
 		(pu->scheme == SCM_HTTPS) ? non_null(HTTPS_proxy) :
 #endif				/* USE_SSL */
-		non_null(HTTP_proxy)) && !Do_not_use_proxy &&
+		non_null(HTTP_proxy)) && use_proxy &&
 	    pu->host != NULL && !check_no_proxy(pu->host)) {
 	    hr->flag |= HR_FLAG_PROXY;
 #ifdef USE_SSL
@@ -1552,7 +1552,7 @@ openURL(char *url, ParsedURL *pu, ParsedURL *current,
 #ifdef USE_GOPHER
     case SCM_GOPHER:
 	if (non_null(GOPHER_proxy) &&
-	    !Do_not_use_proxy &&
+	    use_proxy &&
 	    pu->host != NULL && !check_no_proxy(pu->host)) {
 	    hr->flag |= HR_FLAG_PROXY;
 	    sock = openSocket(GOPHER_proxy_parsed.host,
