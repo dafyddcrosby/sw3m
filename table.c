@@ -584,13 +584,14 @@ print_item(struct table *t, int row, int col, int width, Str buf)
     }
 }
 
-
-#define T_TOP           0
-#define T_MIDDLE        1
-#define T_BOTTOM        2
+typedef enum _TPos {
+  T_TOP,
+  T_MIDDLE,
+  T_BOTTOM
+} TPos;
 
 void
-print_sep(struct table *t, int row, int type, int maxcol, Str buf)
+print_sep(struct table *t, int row, TPos type, int maxcol, Str buf)
 {
     int forbid;
     int rule_mode;
