@@ -1,4 +1,4 @@
-/* $Id: file.c,v 1.266 2012/05/22 09:45:56 inu Exp $ */
+/* $id: file.c,v 1.266 2012/05/22 09:45:56 inu Exp $ */
 #include "fm.h"
 #include "indep.h"
 #include "cookie.h"
@@ -3375,6 +3375,7 @@ process_img(struct parsed_tag *tag, int width)
 	/* guess what the image is! */
 	if (w < 32 && i < 48) {
 	    /* must be an icon or space */
+	    n = 1;
 	    if (strcasestr(p, "space") || strcasestr(p, "blank"))
 		Strcat_charp(tmp, "_");
 	    else {
@@ -3386,6 +3387,7 @@ process_img(struct parsed_tag *tag, int width)
 			pre_int = TRUE;
 		    }
 		    push_symbol(tmp, IMG_SYMBOL, symbol_width, 1);
+		    n = symbol_width;
 		}
 	    }
 	    goto img_end;
@@ -3400,6 +3402,7 @@ process_img(struct parsed_tag *tag, int width)
 	    if (w <= 0)
 		w = 1;
 	    push_symbol(tmp, HR_SYMBOL, symbol_width, w);
+	    n = w * symbol_width;
 	    goto img_end;
 	}
     }
