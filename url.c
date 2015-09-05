@@ -22,6 +22,9 @@
 #include <openssl/err.h>
 #endif
 
+#define HR_FLAG_LOCAL           1
+#define HR_FLAG_PROXY           2
+
 #ifdef INET6
 /* see rc.c, "dns_order" and dnsorders[] */
 int ai_family_order_table[7][3] = {

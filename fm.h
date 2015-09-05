@@ -693,9 +693,6 @@ typedef struct http_request {
 #define HR_COMMAND_CONNECT	2
 #define HR_COMMAND_HEAD		3
 
-#define HR_FLAG_LOCAL		1
-#define HR_FLAG_PROXY		2
-
 #define HTST_UNKNOWN		255
 #define HTST_MISSING		254
 #define HTST_NORMAL		0
