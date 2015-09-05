@@ -41,6 +41,9 @@ int symbol_width0 = 0;
 #endif				/* NOWRAP */
 #define TAG_IS(s,tag,len) (strncasecmp(s,tag,len)==0&&(s[len] == '>' || IS_SPACE((int)s[len])))
 
+#define CELL_DIR_HORIZONTAL 0
+#define CELL_DIR_VERTICAL   1
+
 #ifndef max
 #define max(a,b)        ((a) > (b) ? (a) : (b))
 #endif				/* not max */
@@ -826,8 +829,7 @@ check_cell_width(short *tabwidth, short *cellwidth,
 	    int r = (width - swidth) % colspan[j];
 	    for (i = bcol; i < ecol; i++)
 		tabwidth[i] += w;
-	    /* dir {0: horizontal, 1: vertical} */
-	    if (dir == 1 && r > 0)
+	    if (dir == CELL_DIR_VERTICAL && r > 0)
 		r = colspan[j];
 	    for (i = 1; i <= r; i++)
 		tabwidth[ecol - i]++;
@@ -847,7 +849,7 @@ check_minimum_width(struct table *t, short *tabwidth)
     }
 
     check_cell_width(tabwidth, cell->minimum_width, cell->col, cell->colspan,
-		     cell->maxcell, cell->index, t->cellspacing, 0);
+		     cell->maxcell, cell->index, t->cellspacing, CELL_DIR_HORIZONTAL);
 }
 
 void
@@ -855,7 +857,7 @@ check_maximum_width(struct table *t)
 {
     struct table_cell *cell = &t->cell;
     check_cell_width(t->tabwidth, cell->width, cell->col, cell->colspan,
-		     cell->maxcell, cell->index, t->cellspacing, 0);
+		     cell->maxcell, cell->index, t->cellspacing, CELL_DIR_HORIZONTAL);
     check_minimum_width(t, t->tabwidth);
 }
 
@@ -1073,7 +1075,7 @@ check_table_height(struct table *t)
 	space = 0;
     }
     check_cell_width(t->tabheight, cell.height, cell.row, cell.rowspan,
-		     cell.maxcell, cell.indexarray, space, 1);
+		     cell.maxcell, cell.indexarray, space, CELL_DIR_VERTICAL);
 }
 
 #define CHECK_MINIMUM	1
@@ -1111,11 +1113,11 @@ get_table_width(struct table *t, short *orgwidth, short *cellwidth, int flag)
 		ccellwidth[i] = cell->fixed_width[i];
 	}
 	check_cell_width(newwidth, ccellwidth, cell->col, cell->colspan,
-			 cell->maxcell, cell->index, t->cellspacing, 0);
+			 cell->maxcell, cell->index, t->cellspacing, CELL_DIR_HORIZONTAL);
     }
     else {
 	check_cell_width(newwidth, cellwidth, cell->col, cell->colspan,
-			 cell->maxcell, cell->index, t->cellspacing, 0);
+			 cell->maxcell, cell->index, t->cellspacing, CELL_DIR_HORIZONTAL);
     }
     if (flag & CHECK_MINIMUM)
 	check_minimum_width(t, newwidth);
