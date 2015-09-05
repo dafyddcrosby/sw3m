@@ -1133,8 +1133,6 @@ get_table_width(struct table *t, short *orgwidth, short *cellwidth, int flag)
     return swidth;
 }
 
-#define minimum_table_width(t)\
-(get_table_width(t,t->minimum_width,t->cell.minimum_width,0))
 #define maximum_table_width(t)\
   (get_table_width(t,t->tabwidth,t->cell.width,CHECK_FIXED))
 #define fixed_table_width(t)\
