@@ -413,15 +413,17 @@ Stralign_center(Str s, int width)
     return n;
 }
 
-#define SP_NORMAL 0
-#define SP_PREC   1
-#define SP_PREC2  2
+typedef enum _SPStatus {
+  SP_NORMAL,
+  SP_PREC,
+  SP_PREC2
+} SPStatus;
 
 Str
 Sprintf(char *fmt, ...)
 {
     int len = 0;
-    int status = SP_NORMAL;
+    SPStatus status = SP_NORMAL;
     int p = 0;
     char *f;
     Str s;
