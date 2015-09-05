@@ -227,12 +227,14 @@ static int OptionEncode = FALSE;
 
 #define CMT_KEYMAP_FILE N_("keymap file")
 
-#define PI_TEXT    0
-#define PI_ONOFF   1
-#define PI_SEL_C   2
+static enum {
 #ifdef USE_M17N
-#define PI_CODE    3
+  PI_CODE,
 #endif
+  PI_TEXT,
+  PI_ONOFF,
+  PI_SEL_C
+};
 
 struct sel_c {
     int value;
