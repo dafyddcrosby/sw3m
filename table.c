@@ -176,7 +176,7 @@ dv2sv(double *dv, short *iv, int size)
     x = edv[(int)indexarray[iw - 1]];
     for (i = 0; i < size; i++) {
 	k = indexarray[i];
-	if (i >= iw && abs(edv[k] - x) > 1e-6)
+	if (i >= iw && abs((int)edv[k] - (int)x) > 0)
 	    break;
 	iv[k]--;
     }
