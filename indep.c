@@ -489,13 +489,13 @@ file_quote(char *str)
 {
     Str tmp = NULL;
     char *p;
-    char buf[4];
+    char buf[8];
 
     for (p = str; *p; p++) {
 	if (is_file_quote(*p)) {
 	    if (tmp == NULL)
 		tmp = Strnew_charp_n(str, (int)(p - str));
-	    sprintf(buf, "%%%02X", (unsigned char)*p);
+	    snprintf(buf, sizeof(buf-1), "%%%02X", (unsigned char)*p);
 	    Strcat_charp(tmp, buf);
 	}
 	else {
@@ -542,7 +542,7 @@ Str_form_quote(Str x)
 {
     Str tmp = NULL;
     char *p = x->ptr, *ep = x->ptr + x->length;
-    char buf[4];
+    char buf[8];
 
     for (; p < ep; p++) {
 	if (*p == ' ') {
@@ -553,7 +553,7 @@ Str_form_quote(Str x)
 	else if (is_url_unsafe(*p)) {
 	    if (tmp == NULL)
 		tmp = Strnew_charp_n(x->ptr, (int)(p - x->ptr));
-	    sprintf(buf, "%%%02X", (unsigned char)*p);
+	    snprintf(buf, sizeof(buf-1), "%%%02X", (unsigned char)*p);
 	    Strcat_charp(tmp, buf);
 	}
 	else {
