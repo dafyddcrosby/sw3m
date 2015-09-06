@@ -1427,8 +1427,8 @@ begin_table(int border, int spacing, int padding, int vspace)
     struct table *t;
     int mincell = minimum_cellspacing(border);
     int rcellspacing;
-    int mincell_pixels = round(mincell * pixel_per_char);
-    int ppc = round(pixel_per_char);
+    unsigned int mincell_pixels = (unsigned int) round(mincell * pixel_per_char);
+    unsigned int ppc = (unsigned int) round(pixel_per_char);
 
     t = newTable();
     t->row = t->col = -1;
@@ -1444,13 +1444,13 @@ begin_table(int border, int spacing, int padding, int vspace)
     case BORDER_THIN:
     case BORDER_THICK:
     case BORDER_NOWIN:
-	t->cellpadding = padding - (mincell_pixels - 4) / 2;
+	t->cellpadding = padding - ((int) mincell_pixels - 4) / 2;
 	break;
     case BORDER_NONE:
-	t->cellpadding = rcellspacing - mincell_pixels;
+	t->cellpadding = rcellspacing - (int) mincell_pixels;
     }
-    if (t->cellpadding >= ppc)
-	t->cellpadding /= ppc;
+    if (t->cellpadding >= (int) ppc)
+	t->cellpadding /= (int) ppc;
     else if (t->cellpadding > 0)
 	t->cellpadding = 1;
     else
@@ -1473,7 +1473,7 @@ begin_table(int border, int spacing, int padding, int vspace)
 	    t->vspace = 1;
     }
     else {
-	if (vspace < ppc)
+	if (vspace < (int)ppc)
 	    t->vspace = 0;
 	else
 	    t->vspace = 1;
@@ -1486,7 +1486,7 @@ begin_table(int border, int spacing, int padding, int vspace)
 	    t->vcellpadding = 1;
     }
     else {
-	if (padding < 2 * ppc - 2)
+	if (padding < 2 * (int)ppc - 2)
 	    t->vcellpadding = 0;
 	else
 	    t->vcellpadding = 1;
