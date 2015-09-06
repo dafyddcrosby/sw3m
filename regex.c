@@ -750,7 +750,7 @@ lc2c(longchar * x, int len)
 #ifdef USE_M17N
 	else if (x[j].type == RE_TYPE_WCHAR_T) {
 	    char buf[20];
-	    snprintf(buf, sizeof(buf-1), "[%x-%x]", x[j].wch.ccs, x[j].wch.code);
+	    snprintf(buf, sizeof(buf), "[%x-%x]", x[j].wch.ccs, x[j].wch.code);
 	    strcpy(&y[i], buf);
 	    i += strlen(buf);
 	}

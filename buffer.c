@@ -247,7 +247,7 @@ gotoLine(Buffer *buf, int n)
     }
     if (l->linenumber > n) {
 	/* FIXME: gettextize? */
-	snprintf(msg, sizeof(msg) - 1, "First line is #%ld", l->linenumber);
+	snprintf(msg, sizeof(msg), "First line is #%ld", l->linenumber);
 	set_delayed_message(msg);
 	buf->topLine = buf->currentLine = l;
 	return;
@@ -255,7 +255,7 @@ gotoLine(Buffer *buf, int n)
     if (buf->lastLine->linenumber < n) {
 	l = buf->lastLine;
 	/* FIXME: gettextize? */
-	snprintf(msg, sizeof(msg) - 1, "Last line is #%ld", buf->lastLine->linenumber);
+	snprintf(msg, sizeof(msg), "Last line is #%ld", buf->lastLine->linenumber);
 	set_delayed_message(msg);
 	buf->currentLine = l;
 	buf->topLine = lineSkip(buf, buf->currentLine, -(buf->LINES - 1),
@@ -292,7 +292,7 @@ gotoRealLine(Buffer *buf, int n)
     }
     if (l->real_linenumber > n) {
 	/* FIXME: gettextize? */
-	snprintf(msg, sizeof(msg) - 1, "First line is #%ld", l->real_linenumber);
+	snprintf(msg, sizeof(msg), "First line is #%ld", l->real_linenumber);
 	set_delayed_message(msg);
 	buf->topLine = buf->currentLine = l;
 	return;
@@ -300,7 +300,7 @@ gotoRealLine(Buffer *buf, int n)
     if (buf->lastLine->real_linenumber < n) {
 	l = buf->lastLine;
 	/* FIXME: gettextize? */
-	snprintf(msg, sizeof(msg) - 1, "Last line is #%ld", buf->lastLine->real_linenumber);
+	snprintf(msg, sizeof(msg), "Last line is #%ld", buf->lastLine->real_linenumber);
 	set_delayed_message(msg);
 	buf->currentLine = l;
 	buf->topLine = lineSkip(buf, buf->currentLine, -(buf->LINES - 1),
