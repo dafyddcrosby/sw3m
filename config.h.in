@@ -6,6 +6,13 @@
 #define JA 0
 #define EN 1
 
+// Splint-only defines
+#ifdef S_SPLINT_S
+#define RC_DIR "~/.w3m"
+#define ETC_DIR "~/.w3m"
+#define CONF_DIR "~/.w3m"
+#endif // S_SPLINT_S
+
 /* Name of package */
 #undef PACKAGE
 
