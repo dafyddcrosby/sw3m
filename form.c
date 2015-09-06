@@ -736,7 +736,6 @@ form_write_from_file(FILE * f, char *boundary, char *name, char *filename,
 		     char *file)
 {
     FILE *fd;
-    struct stat st;
     int c;
     char *type;
 
