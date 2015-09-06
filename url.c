@@ -22,6 +22,9 @@
 #include <openssl/err.h>
 #endif
 
+#define HR_FLAG_LOCAL           1
+#define HR_FLAG_PROXY           2
+
 #ifdef INET6
 /* see rc.c, "dns_order" and dnsorders[] */
 int ai_family_order_table[7][3] = {
@@ -247,11 +250,11 @@ openSSLHandle(int sock, char *hostname, char **p_cert)
 
     if (old_ssl_verify_server != ssl_verify_server) {
 	old_ssl_verify_server = ssl_verify_server;
-	ssl_path_modified = 1;
+	ssl_path_modified = true;
     }
     if (ssl_path_modified) {
 	free_ssl_ctx();
-	ssl_path_modified = 0;
+	ssl_path_modified = false;
     }
     if (ssl_ctx == NULL) {
 	SSL_library_init();
@@ -540,13 +543,14 @@ openSocket(char *const hostname,
 
 }
 
-
-#define COPYPATH_SPC_ALLOW 0
-#define COPYPATH_SPC_IGNORE 1
-#define COPYPATH_SPC_REPLACE 2
+typedef enum _CopypathSpc {
+  COPYPATH_SPC_ALLOW,
+  COPYPATH_SPC_IGNORE,
+  COPYPATH_SPC_REPLACE
+} CopypathSpc;
 
 static char *
-copyPath(char *orgpath, int length, int option)
+copyPath(char *orgpath, int length, CopypathSpc option)
 {
     Str tmp = Strnew();
     while (*orgpath && length != 0) {
@@ -1286,7 +1290,7 @@ init_stream(URLFile *uf, int scheme, InputStream stream)
 URLFile
 openURL(char *url, ParsedURL *pu, ParsedURL *current,
 	URLOption *option, FormList *request, TextList *extra_header,
-	URLFile *ouf, HRequest *hr, unsigned char *status)
+	URLFile *ouf, HRequest *hr, HTSTStatus *status)
 {
     Str tmp;
     int sock, scheme;
@@ -1405,7 +1409,7 @@ openURL(char *url, ParsedURL *pu, ParsedURL *current,
 	if (pu->file == NULL)
 	    pu->file = allocStr("/", -1);
 	if (non_null(FTP_proxy) &&
-	    !Do_not_use_proxy &&
+	    use_proxy &&
 	    pu->host != NULL && !check_no_proxy(pu->host)) {
 	    hr->flag |= HR_FLAG_PROXY;
 	    sock = openSocket(FTP_proxy_parsed.host,
@@ -1437,7 +1441,7 @@ openURL(char *url, ParsedURL *pu, ParsedURL *current,
 #ifdef USE_SSL
 		(pu->scheme == SCM_HTTPS) ? non_null(HTTPS_proxy) :
 #endif				/* USE_SSL */
-		non_null(HTTP_proxy)) && !Do_not_use_proxy &&
+		non_null(HTTP_proxy)) && use_proxy &&
 	    pu->host != NULL && !check_no_proxy(pu->host)) {
 	    hr->flag |= HR_FLAG_PROXY;
 #ifdef USE_SSL
@@ -1552,7 +1556,7 @@ openURL(char *url, ParsedURL *pu, ParsedURL *current,
 #ifdef USE_GOPHER
     case SCM_GOPHER:
 	if (non_null(GOPHER_proxy) &&
-	    !Do_not_use_proxy &&
+	    use_proxy &&
 	    pu->host != NULL && !check_no_proxy(pu->host)) {
 	    hr->flag |= HR_FLAG_PROXY;
 	    sock = openSocket(GOPHER_proxy_parsed.host,

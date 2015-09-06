@@ -227,12 +227,14 @@ static int OptionEncode = FALSE;
 
 #define CMT_KEYMAP_FILE N_("keymap file")
 
-#define PI_TEXT    0
-#define PI_ONOFF   1
-#define PI_SEL_C   2
+enum {
 #ifdef USE_M17N
-#define PI_CODE    3
+  PI_CODE,
 #endif
+  PI_TEXT,
+  PI_ONOFF,
+  PI_SEL_C
+};
 
 struct sel_c {
     int value;
@@ -484,7 +486,7 @@ struct param_ptr params3[] = {
 };
 
 struct param_ptr params4[] = {
-    {"use_proxy", P_CHARINT, PI_ONOFF, (void *)&use_proxy, CMT_USE_PROXY,
+    {"use_proxy", P_BOOL, PI_ONOFF, (void *)&use_proxy, CMT_USE_PROXY,
      NULL},
     {"http_proxy", P_STRING, PI_TEXT, (void *)&HTTP_proxy, CMT_HTTP_PROXY,
      NULL},
@@ -979,7 +981,7 @@ set_param(char *name, char *value)
 	    *(char **)p->varptr = rcFile(value);
 	else
 	    *(char **)p->varptr = NULL;
-	ssl_path_modified = 1;
+	ssl_path_modified = true;
 	break;
 #endif
 #ifdef USE_COLOR

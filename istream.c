@@ -412,7 +412,7 @@ ssl_check_cert_ident(X509 * x, char *hostname)
 {
     int i;
     Str ret = NULL;
-    int match_ident = FALSE;
+    bool match_ident = false;
     /*
      * All we need to do here is check that the CN matches.
      *
@@ -462,7 +462,7 @@ ssl_check_cert_ident(X509 * x, char *hostname)
 	    method = X509V3_EXT_get(ex);
 	    sk_GENERAL_NAME_free(alt);
 	    if (i < n)		/* Found a match */
-		match_ident = TRUE;
+		match_ident = true;
 	    else if (seen_dnsname)
 		/* FIXME: gettextize? */
 		ret = Sprintf("Bad cert ident from %s: dNSName=%s", hostname,
@@ -470,7 +470,7 @@ ssl_check_cert_ident(X509 * x, char *hostname)
 	}
     }
 
-    if (match_ident == FALSE && ret == NULL) {
+    if (match_ident == false && ret == NULL) {
 	X509_NAME *xn;
 	char buf[2048];
 	int slen;

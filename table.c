@@ -19,11 +19,6 @@ int symbol_width0 = 0;
 #define RULE(mode,n) (((mode) == BORDER_THICK) ? ((n) + 16) : (n))
 #define TK_VERTICALBAR(mode) RULE(mode,5)
 
-#define BORDERWIDTH     2
-#define BORDERHEIGHT    1
-#define NOBORDERWIDTH   1
-#define NOBORDERHEIGHT  0
-
 #define HTT_X   1
 #define HTT_Y   2
 #define HTT_ALIGN  0x30
@@ -40,6 +35,11 @@ int symbol_width0 = 0;
 #define HTT_NOWRAP  4
 #endif				/* NOWRAP */
 #define TAG_IS(s,tag,len) (strncasecmp(s,tag,len)==0&&(s[len] == '>' || IS_SPACE((int)s[len])))
+
+typedef enum _CellDirection {
+  CELL_DIR_HORIZONTAL,
+  CELL_DIR_VERTICAL
+} CellDirection;
 
 #ifndef max
 #define max(a,b)        ((a) > (b) ? (a) : (b))
@@ -156,7 +156,7 @@ dv2sv(double *dv, short *iv, int size)
     indexarray = NewAtom_N(short, size);
     edv = NewAtom_N(double, size);
     for (i = 0; i < size; i++) {
-	iv[i] = ceil(dv[i]);
+	iv[i] = (short) ceil(dv[i]);
 	edv[i] = (double)iv[i] - dv[i];
     }
 
@@ -173,7 +173,7 @@ dv2sv(double *dv, short *iv, int size)
 	indexarray[i] = k;
     }
     iw = min((int)(w + 0.5), size);
-    if (iw == 0)
+    if (iw <= 1)
 	return;
     x = edv[(int)indexarray[iw - 1]];
     for (i = 0; i < size; i++) {
@@ -579,13 +579,14 @@ print_item(struct table *t, int row, int col, int width, Str buf)
     }
 }
 
-
-#define T_TOP           0
-#define T_MIDDLE        1
-#define T_BOTTOM        2
+typedef enum _TPos {
+  T_TOP,
+  T_MIDDLE,
+  T_BOTTOM
+} TPos;
 
 void
-print_sep(struct table *t, int row, int type, int maxcol, Str buf)
+print_sep(struct table *t, int row, TPos type, int maxcol, Str buf)
 {
     int forbid;
     int rule_mode;
@@ -805,7 +806,7 @@ table_rule_width(struct table *t)
 static void
 check_cell_width(short *tabwidth, short *cellwidth,
 		 short *col, short *colspan, short maxcell,
-		 short *indexarray, int space, int dir)
+		 short *indexarray, bool space, CellDirection dir)
 {
     int i, j, k, bcol, ecol;
     int swidth, width;
@@ -820,14 +821,17 @@ check_cell_width(short *tabwidth, short *cellwidth,
 	for (i = bcol; i < ecol; i++)
 	    swidth += tabwidth[i];
 
-	width = cellwidth[j] - (colspan[j] - 1) * space;
+	if (space) {
+		width = cellwidth[j] - (colspan[j] - 1);
+	} else {
+		width = 0;
+	}
 	if (width > swidth) {
 	    int w = (width - swidth) / colspan[j];
 	    int r = (width - swidth) % colspan[j];
 	    for (i = bcol; i < ecol; i++)
 		tabwidth[i] += w;
-	    /* dir {0: horizontal, 1: vertical} */
-	    if (dir == 1 && r > 0)
+	    if (dir == CELL_DIR_VERTICAL && r > 0)
 		r = colspan[j];
 	    for (i = 1; i <= r; i++)
 		tabwidth[ecol - i]++;
@@ -847,7 +851,7 @@ check_minimum_width(struct table *t, short *tabwidth)
     }
 
     check_cell_width(tabwidth, cell->minimum_width, cell->col, cell->colspan,
-		     cell->maxcell, cell->index, t->cellspacing, 0);
+		     cell->maxcell, cell->index, t->cellspacing, CELL_DIR_HORIZONTAL);
 }
 
 void
@@ -855,7 +859,7 @@ check_maximum_width(struct table *t)
 {
     struct table_cell *cell = &t->cell;
     check_cell_width(t->tabwidth, cell->width, cell->col, cell->colspan,
-		     cell->maxcell, cell->index, t->cellspacing, 0);
+		     cell->maxcell, cell->index, t->cellspacing, CELL_DIR_HORIZONTAL);
     check_minimum_width(t, t->tabwidth);
 }
 
@@ -992,7 +996,7 @@ check_table_height(struct table *t)
 	short size;
 	short *height;
     } cell;
-    int space = 0;
+    bool space = false;
 
     cell.size = 0;
     cell.maxcell = -1;
@@ -1071,13 +1075,13 @@ check_table_height(struct table *t)
     case BORDER_THIN:
     case BORDER_THICK:
     case BORDER_NOWIN:
-	space = 1;
+	space = true;
 	break;
     case BORDER_NONE:
-	space = 0;
+	space = false;
     }
     check_cell_width(t->tabheight, cell.height, cell.row, cell.rowspan,
-		     cell.maxcell, cell.indexarray, space, 1);
+		     cell.maxcell, cell.indexarray, space, CELL_DIR_VERTICAL);
 }
 
 #define CHECK_MINIMUM	1
@@ -1115,11 +1119,11 @@ get_table_width(struct table *t, short *orgwidth, short *cellwidth, int flag)
 		ccellwidth[i] = cell->fixed_width[i];
 	}
 	check_cell_width(newwidth, ccellwidth, cell->col, cell->colspan,
-			 cell->maxcell, cell->index, t->cellspacing, 0);
+			 cell->maxcell, cell->index, t->cellspacing, CELL_DIR_HORIZONTAL);
     }
     else {
 	check_cell_width(newwidth, cellwidth, cell->col, cell->colspan,
-			 cell->maxcell, cell->index, t->cellspacing, 0);
+			 cell->maxcell, cell->index, t->cellspacing, CELL_DIR_HORIZONTAL);
     }
     if (flag & CHECK_MINIMUM)
 	check_minimum_width(t, newwidth);
@@ -1132,8 +1136,6 @@ get_table_width(struct table *t, short *orgwidth, short *cellwidth, int flag)
     return swidth;
 }
 
-#define minimum_table_width(t)\
-(get_table_width(t,t->minimum_width,t->cell.minimum_width,0))
 #define maximum_table_width(t)\
   (get_table_width(t,t->tabwidth,t->cell.width,CHECK_FIXED))
 #define fixed_table_width(t)\
@@ -1836,11 +1838,13 @@ table_close_anchor0(struct table *tbl, struct table_mode *mode)
     }
 }
 
-#define TAG_ACTION_NONE 0
-#define TAG_ACTION_FEED 1
-#define TAG_ACTION_TABLE 2
-#define TAG_ACTION_N_TABLE 3
-#define TAG_ACTION_PLAIN 4
+typedef enum _TagAction {
+  TAG_ACTION_NONE,
+  TAG_ACTION_FEED,
+  TAG_ACTION_TABLE,
+  TAG_ACTION_N_TABLE,
+  TAG_ACTION_PLAIN
+} TagAction;
 
 #define CASE_TABLE_TAG \
 	case HTML_TABLE:\
@@ -1863,7 +1867,7 @@ table_close_anchor0(struct table *tbl, struct table_mode *mode)
 
 #define ATTR_ROWSPAN_MAX 32766
 
-static int
+static TagAction
 feed_table_tag(struct table *tbl, char *line, struct table_mode *mode,
 	       int width, struct parsed_tag *tag)
 {

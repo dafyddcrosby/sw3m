@@ -11,9 +11,11 @@
 #include <unistd.h>
 #include "hash.h"
 
-#define CGIFN_NORMAL     0
-#define CGIFN_LIBDIR     1
-#define CGIFN_CGIBIN     2
+typedef enum _CGIFN {
+  CGIFN_NORMAL,
+  CGIFN_LIBDIR,
+  CGIFN_CGIBIN
+} CGIFN;
 
 static Str Local_cookie = NULL;
 static char *Local_cookie_file = NULL;
@@ -169,20 +171,20 @@ loadLocalDir(char *dname)
     return tmp;
 }
 
-static int
-check_local_cgi(char *file, int status)
+static bool
+check_local_cgi(char *file, CGIFN status)
 {
     struct stat st;
 
     if (status != CGIFN_LIBDIR && status != CGIFN_CGIBIN)
-	return -1;
+	return false;
     if (stat(file, &st) < 0)
-	return -1;
+	return false;
     if (S_ISDIR(st.st_mode))
-	return -1;
+	return false;
     if ((st.st_uid == geteuid() && (st.st_mode & S_IXUSR)) || (st.st_gid == getegid() && (st.st_mode & S_IXGRP)) || (st.st_mode & S_IXOTH))	/* executable */
-	return 0;
-    return -1;
+	return true;
+    return false;
 }
 
 void
@@ -231,7 +233,7 @@ checkPath(char *fn, char *path)
     return NULL;
 }
 
-static int
+static CGIFN
 cgi_filename(char *uri, char **fn, char **name, char **path_info)
 {
     Str tmp;
@@ -283,12 +285,12 @@ FILE *
 localcgi_post(char *uri, char *qstr, FormList *request, char *referer)
 {
     FILE *fr = NULL, *fw = NULL;
-    int status;
+    CGIFN status;
     pid_t pid;
     char *file = uri, *name = uri, *path_info = NULL, *tmpf = NULL;
 
     status = cgi_filename(uri, &file, &name, &path_info);
-    if (check_local_cgi(file, status) < 0)
+    if (!check_local_cgi(file, status))
 	return NULL;
     writeLocalCookie();
     if (request && request->enctype != FORM_ENCTYPE_MULTIPART) {

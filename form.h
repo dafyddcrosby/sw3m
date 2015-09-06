@@ -1,6 +1,6 @@
 /* $Id: form.h,v 1.6 2003/09/22 21:02:18 ukai Exp $ */
 /*
- * HTML forms 
+ * HTML forms
  */
 #ifndef FORM_H
 #define FORM_H
@@ -33,7 +33,7 @@
 #define FORM_ENCTYPE_URLENCODED 0
 #define FORM_ENCTYPE_MULTIPART  1
 
-#define MAX_TEXTAREA 10		/* max number of <textarea>..</textarea> 
+#define MAX_TEXTAREA 10		/* max number of <textarea>..</textarea>
 				 * within one document */
 #ifdef MENU_SELECT
 #define MAX_SELECT 10		/* max number of <select>..</select>
@@ -86,7 +86,7 @@ typedef struct form_item_list {
     int size;
     int rows;
     int maxlength;
-    int readonly;
+    bool readonly;
 #ifdef MENU_SELECT
     FormSelectOptionItem *select_option;
     Str label, init_label;

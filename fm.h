@@ -681,25 +681,27 @@ struct html_feed_environ {
 #define VALIGN_TOP    1
 #define VALIGN_BOTTOM 2
 
+typedef enum _HRCommand {
+  HR_COMMAND_GET,
+  HR_COMMAND_POST,
+  HR_COMMAND_CONNECT,
+  HR_COMMAND_HEAD
+} HRCommand;
+
 typedef struct http_request {
-    char command;
+    HRCommand command;
     char flag;
     char *referer;
     FormList *request;
 } HRequest;
 
-#define HR_COMMAND_GET		0
-#define HR_COMMAND_POST		1
-#define HR_COMMAND_CONNECT	2
-#define HR_COMMAND_HEAD		3
+typedef enum _HTSTStatus {
+  HTST_UNKNOWN,
+  HTST_MISSING,
+  HTST_NORMAL,
+  HTST_CONNECT
+} HTSTStatus;
 
-#define HR_FLAG_LOCAL		1
-#define HR_FLAG_PROXY		2
-
-#define HTST_UNKNOWN		255
-#define HTST_MISSING		254
-#define HTST_NORMAL		0
-#define HTST_CONNECT		1
 
 #define TMPF_DFL	0
 #define TMPF_SRC	1
@@ -783,8 +785,7 @@ extern int ai_family_order_table[7][3];	/* XXX */
 #endif				/* INET6 */
 global TextList *NO_proxy_domains;
 global char NoCache init(FALSE);
-global char use_proxy init(TRUE);
-#define Do_not_use_proxy (!use_proxy)
+global bool use_proxy init(true);
 global bool Do_not_use_ti_te init(false);
 global char *NNTP_server init(NULL);
 global char *NNTP_mode init(NULL);
@@ -1055,7 +1056,7 @@ global char *ssl_cert_file init(NULL);
 global char *ssl_key_file init(NULL);
 global char *ssl_ca_path init(NULL);
 global char *ssl_ca_file init(NULL);
-global int ssl_path_modified init(FALSE);
+global bool ssl_path_modified init(false);
 global char *ssl_forbid_method init(NULL);
 #endif
 

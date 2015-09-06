@@ -1073,7 +1073,7 @@ _editor(void)
     if (is_passwd)
 	return;
 
-    fi.readonly = FALSE;
+    fi.readonly = false;
     fi.value = Strdup(strBuf);
     Strcat_char(fi.value, '\n');
 

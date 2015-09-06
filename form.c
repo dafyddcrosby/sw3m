@@ -102,7 +102,7 @@ formList_addInput(struct form_list *fl, struct parsed_tag *tag)
     item->accept = 0;
     item->name = NULL;
     item->value = item->init_value = NULL;
-    item->readonly = 0;
+    item->readonly = false;
     if (parsedtag_get_value(tag, ATTR_TYPE, &p)) {
 	item->type = formtype(p);
 	if (item->size < 0 &&

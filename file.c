@@ -27,6 +27,7 @@
 #endif				/* not min */
 
 #define NOT_REGULAR(m)  (((m) & S_IFMT) != S_IFREG)
+#define MAX_INPUT_SIZE 80 // TODO - max should be screen line length
 
 static int frame_source = 0;
 
@@ -1694,7 +1695,7 @@ loadGeneralFile(char *path, ParsedURL *volatile current, char *referer,
     volatile Str pwd = NULL;
     volatile Str realm = NULL;
     bool volatile add_auth_cookie_flag;
-    unsigned char status = HTST_NORMAL;
+    HTSTStatus status = HTST_NORMAL;
     URLOption url_option;
     Str tmp;
     Str volatile page = NULL;
@@ -1810,7 +1811,7 @@ loadGeneralFile(char *path, ParsedURL *volatile current, char *referer,
 	     (pu.scheme == SCM_GOPHER && non_null(GOPHER_proxy)) ||
 #endif				/* USE_GOPHER */
 	     (pu.scheme == SCM_FTP && non_null(FTP_proxy))
-	 ) && !Do_not_use_proxy && !check_no_proxy(pu.host))) {
+	 ) && use_proxy && !check_no_proxy(pu.host))) {
 
 	if (fmInitialized) {
 	    term_cbreak();
@@ -2292,7 +2293,7 @@ is_period_char(unsigned char *ch)
     }
 }
 
-static int
+static bool
 is_beginning_char(unsigned char *ch)
 {
     switch (*ch) {
@@ -2301,9 +2302,9 @@ is_beginning_char(unsigned char *ch)
     case '{':
     case '`':
     case '<':
-	return 1;
+	return true;
     default:
-	return 0;
+	return false;
     }
 }
 
@@ -3013,7 +3014,7 @@ close_anchor(struct html_feed_environ *h_env, struct readbuffer *obuf)
     if (obuf->anchor.url) {
 	int i;
 	char *p = NULL;
-	int is_erased = 0;
+	bool is_erased = false;
 
 	for (i = obuf->tag_sp - 1; i >= 0; i--) {
 	    if (obuf->tag_stack[i]->cmd == HTML_A)
@@ -3022,7 +3023,7 @@ close_anchor(struct html_feed_environ *h_env, struct readbuffer *obuf)
 	if (i < 0 && obuf->anchor.hseq > 0 && Strlastchar(obuf->line) == ' ') {
 	    Strshrink(obuf->line, 1);
 	    obuf->pos--;
-	    is_erased = 1;
+	    is_erased = true;
 	}
 
 	if (i >= 0 || (p = has_hidden_link(obuf, HTML_A))) {
@@ -3042,7 +3043,7 @@ close_anchor(struct html_feed_environ *h_env, struct readbuffer *obuf)
 		memset((void *)&obuf->anchor, 0, sizeof(obuf->anchor));
 		return;
 	    }
-	    is_erased = 0;
+	    is_erased = false;
 	}
 	if (is_erased) {
 	    Strcat_char(obuf->line, ' ');
@@ -3470,7 +3471,7 @@ process_anchor(struct parsed_tag *tag, char *tagbuf)
 Str
 process_input(struct parsed_tag *tag)
 {
-    int i, w, v, x, y, z, iw, ih;
+    int i = 20, v, x, y, z, iw, ih, size = 20;
     char *q, *p, *r, *p2, *s;
     Str tmp = NULL;
     char *qq = "";
@@ -3489,9 +3490,9 @@ process_input(struct parsed_tag *tag)
     parsedtag_get_value(tag, ATTR_VALUE, &q);
     r = "";
     parsedtag_get_value(tag, ATTR_NAME, &r);
-    w = 20;
-    parsedtag_get_value(tag, ATTR_SIZE, &w);
-    i = 20;
+    parsedtag_get_value(tag, ATTR_SIZE, &size);
+    if (size > MAX_INPUT_SIZE)
+	    size = MAX_INPUT_SIZE;
     parsedtag_get_value(tag, ATTR_MAXLENGTH, &i);
     p2 = NULL;
     parsedtag_get_value(tag, ATTR_ALT, &p2);
@@ -3547,7 +3548,7 @@ process_input(struct parsed_tag *tag)
     }
     Strcat(tmp, Sprintf("<input_alt hseq=\"%d\" fid=\"%d\" type=%s "
 			"name=\"%s\" width=%d maxlength=%d value=\"%s\"",
-			cur_hseq++, cur_form_id, p, html_quote(r), w, i, qq));
+			cur_hseq++, cur_form_id, p, html_quote(r), size, i, qq));
     if (x)
 	Strcat_charp(tmp, " checked");
     if (y)
@@ -3592,18 +3593,18 @@ process_input(struct parsed_tag *tag)
 	case FORM_INPUT_PASSWORD:
 	    i = 0;
 	    if (q) {
-		for (; i < qlen && i < w; i++)
+		for (; i < qlen && i < size; i++)
 		    Strcat_char(tmp, '*');
 	    }
-	    for (; i < w; i++)
+	    for (; i < size; i++)
 		Strcat_char(tmp, ' ');
 	    break;
 	case FORM_INPUT_TEXT:
 	case FORM_INPUT_FILE:
 	    if (q)
-		Strcat(tmp, textfieldrep(Strnew_charp(q), w));
+		Strcat(tmp, textfieldrep(Strnew_charp(q), size));
 	    else {
-		for (i = 0; i < w; i++)
+		for (i = 0; i < size; i++)
 		    Strcat_char(tmp, ' ');
 	    }
 	    break;
@@ -6076,7 +6077,7 @@ HTMLlineproc0(char *line, struct html_feed_environ *h_env, int internal)
 
     while (*line != '\0') {
 	char *str, *p;
-	int is_tag = FALSE;
+	bool is_tag = false;
 	int pre_mode = (obuf->table_level >= 0) ? tbl_mode->pre_mode :
 	    obuf->flag;
 	int end_tag = (obuf->table_level >= 0) ? tbl_mode->end_tag :
@@ -6099,7 +6100,7 @@ HTMLlineproc0(char *line, struct html_feed_environ *h_env, int internal)
 	    str = h_env->tagbuf->ptr;
 	    if (*str == '<') {
 		if (str[1] && REALLY_THE_BEGINNING_OF_A_TAG(str))
-		    is_tag = TRUE;
+		    is_tag = true;
 		else if (!(pre_mode & (RB_PLAIN | RB_INTXTA | RB_INSELECT |
 				       RB_SCRIPT | RB_STYLE | RB_TITLE))) {
 		    line = Strnew_m_charp(str + 1, line, NULL)->ptr;
@@ -6144,7 +6145,7 @@ HTMLlineproc0(char *line, struct html_feed_environ *h_env, int internal)
 		    str = Strnew_charp_n(str, p - str)->ptr;
 		    line = Strnew_m_charp(p, line, NULL)->ptr;
 		}
-		is_tag = FALSE;
+		is_tag = false;
 	    }
 	    if (obuf->table_level >= 0)
 		goto proc_normal;
