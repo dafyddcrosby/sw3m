@@ -1284,11 +1284,13 @@ reset_signals(void)
 static void
 close_all_fds_except(int i, int f)
 {
-    switch (i) {		/* fall through */
+    switch (i) {
     case 0:
 	dup2(open(DEV_NULL_PATH, O_RDONLY), 0);
+	// fallthrough
     case 1:
 	dup2(open(DEV_NULL_PATH, O_WRONLY), 1);
+	// fallthrough
     case 2:
 	dup2(open(DEV_NULL_PATH, O_WRONLY), 2);
     }
