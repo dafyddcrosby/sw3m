@@ -377,7 +377,7 @@ int visible_length_offset = 0;
 int
 visible_length(char *str)
 {
-    int len = 0, n, max_len = 0;
+    int len = 0, max_len = 0;
     int status = R_ST_NORMAL;
     int prev_status = status;
     Str tagbuf = Strnew();
