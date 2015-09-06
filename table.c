@@ -874,7 +874,7 @@ set_table_width(struct table *t, short *newwidth, int maxwidth)
     bool try_again;
 
     fixed = NewAtom_N(char, t->maxcol + 1);
-    memset(fixed, 0, t->maxcol + 1);
+    memset(fixed, 0, (size_t) t->maxcol + 1);
     dwidth = NewAtom_N(double, t->maxcol + 1);
 
     for (i = 0; i <= t->maxcol; i++) {
