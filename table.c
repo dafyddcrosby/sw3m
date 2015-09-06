@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <math.h>
 #include "fm.h"
 #include "html.h"
@@ -47,9 +48,6 @@ typedef enum _CellDirection {
 #ifndef min
 #define min(a,b)        ((a) > (b) ? (b) : (a))
 #endif				/* not min */
-#ifndef abs
-#define abs(a)          ((a) >= 0. ? (a) : -(a))
-#endif				/* not abs */
 
 #define set_prevchar(x,y,n) Strcopy_charp_n((x),(y),(n))
 #define set_space_to_prevchar(x) Strcopy_charp_n((x)," ",1)
