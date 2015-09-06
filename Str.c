@@ -511,7 +511,7 @@ Sprintf(char *fmt, ...)
     va_end(ap);
     s = Strnew_size(len * 2);
     va_start(ap, fmt);
-    vsprintf(s->ptr, fmt, ap);
+    vsnprintf(s->ptr, s->length - 1, fmt, ap);
     va_end(ap);
     s->length = strlen(s->ptr);
     if (s->length > len * 2) {
