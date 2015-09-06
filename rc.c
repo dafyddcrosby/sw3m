@@ -227,7 +227,7 @@ static int OptionEncode = FALSE;
 
 #define CMT_KEYMAP_FILE N_("keymap file")
 
-static enum {
+enum {
 #ifdef USE_M17N
   PI_CODE,
 #endif
