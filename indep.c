@@ -495,7 +495,7 @@ file_quote(char *str)
 	if (is_file_quote(*p)) {
 	    if (tmp == NULL)
 		tmp = Strnew_charp_n(str, (int)(p - str));
-	    snprintf(buf, sizeof(buf-1), "%%%02X", (unsigned char)*p);
+	    snprintf(buf, sizeof(buf) - 1, "%%%02X", (unsigned char)*p);
 	    Strcat_charp(tmp, buf);
 	}
 	else {
@@ -553,7 +553,7 @@ Str_form_quote(Str x)
 	else if (is_url_unsafe(*p)) {
 	    if (tmp == NULL)
 		tmp = Strnew_charp_n(x->ptr, (int)(p - x->ptr));
-	    snprintf(buf, sizeof(buf-1), "%%%02X", (unsigned char)*p);
+	    snprintf(buf, sizeof(buf) - 1, "%%%02X", (unsigned char)*p);
 	    Strcat_charp(tmp, buf);
 	}
 	else {
