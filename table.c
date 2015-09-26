@@ -383,6 +383,7 @@ visible_length(char *str)
     Str tagbuf = Strnew();
     char *t, *r2;
     int amp_len = 0;
+    int n;
 
     while (*str) {
 	prev_status = status;
