@@ -86,13 +86,13 @@ allocStr(const char *s, int len)
     if (s == NULL)
 	return NULL;
     if (len < 0)
-	len = strlen(s);
+	len = (int) strlen(s);
     ptr = NewAtom_N(char, len + 1);
     if (ptr == NULL) {
 	fprintf(stderr, "fm: Can't allocate string. Give me more memory!\n");
 	exit(-1);
     }
-    memmove(ptr, s, len);
+    memmove(ptr, s, (size_t) len);
     ptr[len] = '\0';
     return ptr;
 }
