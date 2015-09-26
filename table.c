@@ -20,21 +20,6 @@ int symbol_width0 = 0;
 #define RULE(mode,n) (((mode) == BORDER_THICK) ? ((n) + 16) : (n))
 #define TK_VERTICALBAR(mode) RULE(mode,5)
 
-#define HTT_X   1
-#define HTT_Y   2
-#define HTT_ALIGN  0x30
-#define HTT_LEFT   0x00
-#define HTT_CENTER 0x10
-#define HTT_RIGHT  0x20
-#define HTT_TRSET  0x40
-#define HTT_VALIGN 0x700
-#define HTT_TOP    0x100
-#define HTT_MIDDLE 0x200
-#define HTT_BOTTOM 0x400
-#define HTT_VTRSET 0x800
-#ifdef NOWRAP
-#define HTT_NOWRAP  4
-#endif				/* NOWRAP */
 #define TAG_IS(s,tag,len) (strncasecmp(s,tag,len)==0&&(s[len] == '>' || IS_SPACE((int)s[len])))
 
 typedef enum _CellDirection {

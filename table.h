@@ -14,7 +14,21 @@
 #define BORDER_THICK 2
 #define BORDER_NOWIN 3
 
-typedef unsigned short table_attr;
+typedef enum _table_attr {
+  HTT_X      = 0x0001,
+  HTT_Y      = 0x0002,
+  HTT_NOWRAP = 0x0004,
+  HTT_ALIGN  = 0x0030,
+  HTT_LEFT   = 0x0000,
+  HTT_CENTER = 0x0010,
+  HTT_RIGHT  = 0x0020,
+  HTT_TRSET  = 0x0040,
+  HTT_VALIGN = 0x0700,
+  HTT_TOP    = 0x0100,
+  HTT_MIDDLE = 0x0200,
+  HTT_BOTTOM = 0x0400,
+  HTT_VTRSET = 0x0800
+} table_attr;
 
 /* flag */
 #define TBL_IN_ROW     1
