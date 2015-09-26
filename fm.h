@@ -314,7 +314,6 @@ typedef struct _Line {
     int width;
     long linenumber;		/* on buffer */
     long real_linenumber;	/* on file */
-    unsigned short usrflags;
     int size;
     int bpos;
     int bwidth;

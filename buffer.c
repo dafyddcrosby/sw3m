@@ -634,7 +634,6 @@ writeBufferCache(Buffer *buf)
 
     for (l = buf->firstLine; l; l = l->next) {
 	if (fwrite1(l->real_linenumber, cache) ||
-	    fwrite1(l->usrflags, cache) ||
 	    fwrite1(l->width, cache) ||
 	    fwrite1(l->len, cache) ||
 	    fwrite1(l->size, cache) ||
@@ -704,7 +703,6 @@ readBufferCache(Buffer *buf)
 	if (lnum == tlnum)
 	    buf->topLine = l;
 	if (fread1(l->real_linenumber, cache) ||
-	    fread1(l->usrflags, cache) ||
 	    fread1(l->width, cache) ||
 	    fread1(l->len, cache) ||
 	    fread1(l->size, cache) ||
