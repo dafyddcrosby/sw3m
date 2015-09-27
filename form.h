@@ -25,10 +25,12 @@
 #define FORM_I_SELECT_DEFAULT_SIZE 40
 #define FORM_I_TEXTAREA_DEFAULT_WIDTH 40
 
-#define FORM_METHOD_GET 0
-#define FORM_METHOD_POST 1
-#define FORM_METHOD_INTERNAL 2
-#define FORM_METHOD_HEAD 3
+typedef enum _formmethod {
+  FORM_METHOD_GET,
+  FORM_METHOD_POST,
+  FORM_METHOD_INTERNAL,
+  FORM_METHOD_HEAD
+} FormMethod;
 
 #define FORM_ENCTYPE_URLENCODED 0
 #define FORM_ENCTYPE_MULTIPART  1
@@ -43,7 +45,7 @@
 typedef struct form_list {
     struct form_item_list *item;
     struct form_item_list *lastitem;
-    int method;
+    FormMethod method;
     Str action;
     char *target;
     char *name;

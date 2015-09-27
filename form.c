@@ -38,7 +38,7 @@ newFormList(char *action, char *method, char *charset, char *enctype,
 {
     struct form_list *l;
     Str a = Strnew_charp(action);
-    int m = FORM_METHOD_GET;
+    FormMethod m = FORM_METHOD_GET;
     int e = FORM_ENCTYPE_URLENCODED;
 #ifdef USE_M17N
     wc_ces c = 0;

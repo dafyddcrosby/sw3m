@@ -18,6 +18,7 @@
 #include "html.h"
 #include "parsetagx.h"
 #include "regex.h"
+#include "table.h"
 
 #ifndef max
 #define max(a,b)        ((a) > (b) ? (a) : (b))
@@ -4240,6 +4241,7 @@ HTMLtagproc1(struct parsed_tag *tag, struct html_feed_environ *h_env)
     struct readbuffer *obuf = h_env->obuf;
     struct environment *envs = h_env->envs;
     Str tmp;
+    BorderMode bm;
     int hseq;
     int cmd;
 #ifdef ID_EXT
@@ -4790,7 +4792,7 @@ HTMLtagproc1(struct parsed_tag *tag, struct html_feed_environ *h_env)
 	obuf->table_level++;
 	if (obuf->table_level >= MAX_TABLE)
 	    break;
-	BorderMode bm = BORDER_NONE;
+	bm = BORDER_NONE;
 	w = 0;
 	/* x: cellspacing, y: cellpadding */
 	x = 2;
