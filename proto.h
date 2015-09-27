@@ -359,7 +359,7 @@ extern void print_item(struct table *t, int row, int col, int width, Str buf);
 extern void do_refill(struct table *tbl, int row, int col, int maxlimit);
 extern void renderTable(struct table *t, int max_width,
 			struct html_feed_environ *h_env);
-extern struct table *begin_table(int border, int spacing, int padding,
+extern struct table *begin_table(BorderMode border, int spacing, int padding,
 				 int vspace);
 extern void end_table(struct table *tbl);
 extern void check_rowcol(struct table *tbl, struct table_mode *mode);

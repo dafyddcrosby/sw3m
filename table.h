@@ -9,10 +9,12 @@
 
 #define MAX_WIDTH 80
 
-#define BORDER_NONE 0
-#define BORDER_THIN 1
-#define BORDER_THICK 2
-#define BORDER_NOWIN 3
+typedef enum _bordermode {
+  BORDER_NONE,
+  BORDER_THIN,
+  BORDER_THICK,
+  BORDER_NOWIN
+} BorderMode;
 
 typedef enum _table_attr {
   HTT_X      = 0x0001,
@@ -70,7 +72,7 @@ struct table {
     int maxrow;
     int maxcol;
     int max_rowsize;
-    int border_mode;
+    BorderMode border_mode;
     int total_width;
     int total_height;
     int tabcontentssize;

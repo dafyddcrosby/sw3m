@@ -187,7 +187,7 @@ table_rowspan(struct table *t, int row, int col)
 }
 
 static int
-minimum_cellspacing(int border_mode)
+minimum_cellspacing(BorderMode border_mode)
 {
     switch (border_mode) {
     case BORDER_THIN:
@@ -573,7 +573,7 @@ void
 print_sep(struct table *t, int row, TPos type, int maxcol, Str buf)
 {
     int forbid;
-    int rule_mode;
+    BorderMode rule_mode;
     int i, k, l, m;
 
     if (row >= 0)
@@ -1408,7 +1408,7 @@ renderTable(struct table *t, int max_width, struct html_feed_environ *h_env)
 #endif
 
 struct table *
-begin_table(int border, int spacing, int padding, int vspace)
+begin_table(BorderMode border, int spacing, int padding, int vspace)
 {
     struct table *t;
     int mincell = minimum_cellspacing(border);

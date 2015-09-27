@@ -4790,7 +4790,8 @@ HTMLtagproc1(struct parsed_tag *tag, struct html_feed_environ *h_env)
 	obuf->table_level++;
 	if (obuf->table_level >= MAX_TABLE)
 	    break;
-	w = BORDER_NONE;
+	BorderMode bm = BORDER_NONE;
+	w = 0;
 	/* x: cellspacing, y: cellpadding */
 	x = 2;
 	y = 1;
@@ -4799,13 +4800,13 @@ HTMLtagproc1(struct parsed_tag *tag, struct html_feed_environ *h_env)
 	if (parsedtag_exists(tag, ATTR_BORDER)) {
 	    if (parsedtag_get_value(tag, ATTR_BORDER, &w)) {
 		if (w > 2)
-		    w = BORDER_THICK;
+		    bm = BORDER_THICK;
 		else if (w < 0) {	/* weird */
-		    w = BORDER_THIN;
+		    bm = BORDER_THIN;
 		}
 	    }
 	    else
-		w = BORDER_THIN;
+		bm = BORDER_THIN;
 	}
 	if (parsedtag_get_value(tag, ATTR_WIDTH, &i)) {
 	    if (obuf->table_level == 0)
@@ -4814,14 +4815,14 @@ HTMLtagproc1(struct parsed_tag *tag, struct html_feed_environ *h_env)
 		width = RELATIVE_WIDTH(i);
 	}
 	if (parsedtag_exists(tag, ATTR_HBORDER))
-	    w = BORDER_NOWIN;
+	    bm = BORDER_NOWIN;
 	parsedtag_get_value(tag, ATTR_CELLSPACING, &x);
 	parsedtag_get_value(tag, ATTR_CELLPADDING, &y);
 	parsedtag_get_value(tag, ATTR_VSPACE, &z);
 #ifdef ID_EXT
 	parsedtag_get_value(tag, ATTR_ID, &id);
 #endif				/* ID_EXT */
-	tables[obuf->table_level] = begin_table(w, x, y, z);
+	tables[obuf->table_level] = begin_table(bm, x, y, z);
 #ifdef ID_EXT
 	if (id != NULL)
 	    tables[obuf->table_level]->id = Strnew_charp(id);
