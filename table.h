@@ -138,6 +138,9 @@ struct table_mode {
     short anchor_offset;
     unsigned char end_tag;
 };
+
+extern struct table * begin_table(BorderMode border, int spacing, int padding, int vspace);
+
 #endif /* _TABLE_H */
 /* Local Variables:    */
 /* c-basic-offset: 4   */

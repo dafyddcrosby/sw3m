@@ -1399,7 +1399,7 @@ renderTable(struct table *t, int max_width, struct html_feed_environ *h_env)
 #define THR_PADDING 4
 #endif
 
-struct table *
+extern struct table *
 begin_table(BorderMode border, int spacing, int padding, int vspace)
 {
     struct table *t;
