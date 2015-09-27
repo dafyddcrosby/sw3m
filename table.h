@@ -33,9 +33,11 @@ typedef enum _table_attr {
 } table_attr;
 
 /* flag */
-#define TBL_IN_ROW     1
-#define TBL_EXPAND_OK  2
-#define TBL_IN_COL     4
+typedef enum _tablemode {
+  TBL_IN_ROW = 1,
+  TBL_EXPAND_OK = 2,
+  TBL_IN_COL = 4
+} TableMode;
 
 #define MAXCELL 20
 #define MAXROWCELL 1000
@@ -81,7 +83,7 @@ struct table {
     int cellpadding;
     int vcellpadding;
     int vspace;
-    int flag;
+    TableMode flag;
 #ifdef TABLE_EXPAND
     int real_width;
 #endif				/* TABLE_EXPAND */
