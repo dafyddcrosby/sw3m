@@ -3265,9 +3265,9 @@ process_img(struct parsed_tag *tag, int width)
 		i = i0 = image.cache->height;
 	    }
 	    if (w < 0)
-		w = 8 * pixel_per_char;
+		w = (int)(8 * pixel_per_char);
 	    if (i < 0)
-		i = pixel_per_line;
+		i = (int)pixel_per_line;
 	}
 	nw = (w > 3) ? (int)((w - 3) / pixel_per_char + 1) : 1;
 	ni = (i > 3) ? (int)((i - 3) / pixel_per_line + 1) : 1;
@@ -3279,7 +3279,7 @@ process_img(struct parsed_tag *tag, int width)
 #endif
     {
 	if (w < 0)
-	    w = 12 * pixel_per_char;
+	    w = (int)(12 * pixel_per_char);
 	nw = w ? (int)((w - 1) / pixel_per_char + 1) : 1;
 	if (r) {
 	    Strcat_charp(tmp, "<pre_int>");
@@ -3322,7 +3322,7 @@ process_img(struct parsed_tag *tag, int width)
 	default:
 	    top = ni - 1;
 	    bottom = 0;
-	    if (ni == 1 && ni * pixel_per_line > i)
+	    if (ni == 1 && (int)(ni * pixel_per_line) > i)
 		yoffset = 0;
 	    else {
 		yoffset = (int)(ni * pixel_per_line - i);
@@ -3399,7 +3399,7 @@ process_img(struct parsed_tag *tag, int width)
 		Strcat_charp(tmp, "<pre_int>");
 		pre_int = TRUE;
 	    }
-	    w = w / pixel_per_char / symbol_width;
+	    w = (int)(w / pixel_per_char / symbol_width);
 	    if (w <= 0)
 		w = 1;
 	    push_symbol(tmp, HR_SYMBOL, symbol_width, w);
