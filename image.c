@@ -6,6 +6,7 @@
 #include <signal.h>
 #include <errno.h>
 #include <unistd.h>
+#include <math.h>
 
 #ifdef USE_IMAGE
 
@@ -65,9 +66,9 @@ getCharSize()
     if (!(w > 0 && h > 0))
 	return false;
     if (!set_pixel_per_char)
-	pixel_per_char = (int)(1.0 * w / COLS + 0.5);
+	pixel_per_char = floor(1.0 * w / COLS + 0.5);
     if (!set_pixel_per_line)
-	pixel_per_line = (int)(1.0 * h / LINES + 0.5);
+	pixel_per_line = floor(1.0 * h / LINES + 0.5);
     return true;
 }
 
