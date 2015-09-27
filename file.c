@@ -27,7 +27,7 @@
 #endif				/* not min */
 
 #define NOT_REGULAR(m)  (((m) & S_IFMT) != S_IFREG)
-#define MAX_INPUT_SIZE 80 // TODO - max should be screen line length
+#define MAX_INPUT_SIZE 80 /* TODO - max should be screen line length */
 
 static int frame_source = 0;
 

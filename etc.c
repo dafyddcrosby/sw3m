@@ -1287,10 +1287,10 @@ close_all_fds_except(int i, int f)
     switch (i) {
     case 0:
 	dup2(open(DEV_NULL_PATH, O_RDONLY), 0);
-	// fallthrough
+	/* fallthrough */
     case 1:
 	dup2(open(DEV_NULL_PATH, O_WRONLY), 1);
-	// fallthrough
+	/* fallthrough */
     case 2:
 	dup2(open(DEV_NULL_PATH, O_WRONLY), 2);
     }
