@@ -935,8 +935,6 @@ global int migemo_active init(0);
 global char *migemo_command init(DEF_MIGEMO_COMMAND);
 #endif				/* USE_MIGEMO */
 
-global struct auth_cookie *Auth_cookie init(NULL);
-
 global char *mailcap_files init(USER_MAILCAP ", " SYS_MAILCAP);
 global char *mimetypes_files init(USER_MIMETYPES ", " SYS_MIMETYPES);
 #ifdef USE_EXTERNAL_URI_LOADER
@@ -1056,7 +1054,6 @@ global char *ssl_key_file init(NULL);
 global char *ssl_ca_path init(NULL);
 global char *ssl_ca_file init(NULL);
 global bool ssl_path_modified init(false);
-global char *ssl_forbid_method init(NULL);
 #endif
 
 global int is_redisplay init(FALSE);

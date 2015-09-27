@@ -49,7 +49,7 @@ static int tty;
 #include "myctype.h"
 
 char *getenv(const char *);
-MySignalHandler reset_exit(SIGNAL_ARG), reset_error_exit(SIGNAL_ARG), error_dump(SIGNAL_ARG);
+static MySignalHandler reset_exit(SIGNAL_ARG), reset_error_exit(SIGNAL_ARG), error_dump(SIGNAL_ARG);
 void setlinescols(void);
 void flush_tty();
 
@@ -171,7 +171,7 @@ static FILE *ttyf = NULL;
 static
 char bp[1024], funcstr[256];
 
-char *T_cd, *T_ce, *T_kr, *T_kl, *T_cr, *T_bt, *T_ta, *T_sc, *T_rc,
+static char *T_cd, *T_ce, *T_kr, *T_kl, *T_cr, *T_bt, *T_ta, *T_sc, *T_rc,
     *T_so, *T_se, *T_us, *T_ue, *T_cl, *T_cm, *T_al, *T_sr, *T_md, *T_me,
     *T_ti, *T_te, *T_nd, *T_as, *T_ae, *T_eA, *T_ac, *T_op;
 
@@ -277,7 +277,7 @@ set_tty(void)
     return 0;
 }
 
-void
+static void
 ttymode_set(int mode, int imode)
 {
     TerminalMode ioval;
@@ -296,7 +296,7 @@ ttymode_set(int mode, int imode)
     }
 }
 
-void
+static void
 ttymode_reset(int mode, int imode)
 {
     TerminalMode ioval;
@@ -374,19 +374,19 @@ reset_exit_with_value(SIGNAL_ARG, int rval)
     SIGNAL_RETURN;
 }
 
-MySignalHandler
+static MySignalHandler
 reset_error_exit(SIGNAL_ARG)
 {
   reset_exit_with_value(SIGNAL_ARGLIST, 1);
 }
 
-MySignalHandler
+static MySignalHandler
 reset_exit(SIGNAL_ARG)
 {
   reset_exit_with_value(SIGNAL_ARGLIST, 0);
 }
 
-MySignalHandler
+static MySignalHandler
 error_dump(SIGNAL_ARG)
 {
     mySignal(SIGIOT, SIG_DFL);
@@ -1278,7 +1278,7 @@ clrtoeol(void)
 }
 
 #ifdef USE_BG_COLOR
-void
+static void
 clrtoeol_with_bcolor(void)
 {
     int i, cli, cco;
@@ -1312,7 +1312,7 @@ clrtoeolx(void)
 }
 #endif				/* not USE_BG_COLOR */
 
-void
+static void
 clrtobot_eol(void (*clrtoeol) ())
 {
     int l, c;
@@ -1608,7 +1608,7 @@ bell(void)
     write1(7);
 }
 
-void
+static void
 skip_escseq(void)
 {
     int c;

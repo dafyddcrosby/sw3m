@@ -70,7 +70,7 @@ static char *MarkString = NULL;
 static char *SearchString = NULL;
 int (*searchRoutine) (Buffer *, char *);
 
-JMP_BUF IntReturn;
+static JMP_BUF IntReturn;
 
 static void delBuffer(Buffer *buf);
 static void cmd_loadfile(char *path);
@@ -78,19 +78,19 @@ static void cmd_loadURL(char *url, ParsedURL *current, char *referer,
 			FormList *request);
 static void cmd_loadBuffer(Buffer *buf, int prop, int linkid);
 static void keyPressEventProc(int c);
-int show_params_p = 0;
+static int show_params_p = 0;
 void show_params(FILE * fp);
 
 static char *getCurWord(Buffer *buf, int *spos, int *epos);
 
 static int display_ok = FALSE;
 static void do_dump(Buffer *);
-int prec_num = 0;
-int prev_key = -1;
-bool on_target = true;
+static int prec_num = 0;
+static int prev_key = -1;
+static bool on_target = true;
 static bool add_download_list = false;
 
-void set_buffer_environ(Buffer *);
+static void set_buffer_environ(Buffer *);
 static void save_buffer_position(Buffer *buf);
 
 static void _followForm(int);
@@ -310,7 +310,7 @@ sig_chld(int signo)
     return;
 }
 
-Str
+static Str
 make_optional_header_string(char *s)
 {
     char *p;
@@ -1641,7 +1641,7 @@ dispincsrch(int ch, Str buf, Lineprop *prop)
     return -1;
 }
 
-void
+static void
 isrch(int (*func) (Buffer *, char *), char *prompt)
 {
     char *str;
@@ -1657,7 +1657,7 @@ isrch(int (*func) (Buffer *, char *), char *prompt)
     displayBuffer(Currentbuf, B_FORCE_REDRAW);
 }
 
-void
+static void
 srch(int (*func) (Buffer *, char *), char *prompt)
 {
     char *str;
@@ -5467,7 +5467,7 @@ DEFUN(dictwordat, DICT_WORD_AT,
 }
 #endif				/* USE_DICT */
 
-void
+static void
 set_buffer_environ(Buffer *buf)
 {
     static Buffer *prev_buf = NULL;

@@ -298,7 +298,7 @@ getAllImage(Buffer *buf)
     }
 }
 
-void
+static void
 showImageProgress(Buffer *buf)
 {
     AnchorList *al;

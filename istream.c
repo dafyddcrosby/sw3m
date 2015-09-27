@@ -355,15 +355,6 @@ ISfileno(InputStream stream)
     }
 }
 
-int
-ISeos(InputStream stream)
-{
-    BaseStream base = &stream->base;
-    if (!base->iseos && MUST_BE_UPDATED(base))
-	do_update(base);
-    return base->iseos;
-}
-
 #ifdef USE_SSL
 static Str accept_this_site;
 

@@ -8,7 +8,7 @@
 #include "config.h"
 #include "w3mimg/w3mimg.h"
 
-w3mimg_op *w_op;
+static w3mimg_op *w_op;
 static char *background = NULL;
 static int offset_x = 0, offset_y = 0;
 static int defined_bg = 0, defined_x = 0, defined_y = 0, defined_test = 0;
@@ -41,7 +41,7 @@ main(int argc, char **argv)
 	freopen(DEV_NULL_PATH, "w", stderr);
 
 #ifdef W3MIMGDISPLAY_SETUID
-    /* 
+    /*
      * back real and effective
      * run w3mimg_open() in setuid privileges
      */
@@ -117,7 +117,7 @@ main(int argc, char **argv)
 	 *      <n>;<x>;<y>;<w>;<h>;<sx>;<sy>;<sw>;<sh>;<path>
 	 * params(6)
 	 *      <x>;<y>;<w>;<h>
-	 *   
+	 *
 	 */
 	switch (buf[0]) {
 	case '0':

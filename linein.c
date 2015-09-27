@@ -45,7 +45,7 @@ static void next_dcompl(int next);
 static Str doComplete(Str ifn, int *status, int next);
 
 /* *INDENT-OFF* */
-void (*InputKeymap[32]) () = {
+static void (*InputKeymap[32]) () = {
 /*  C-@     C-a     C-b     C-c     C-d     C-e     C-f     C-g     */
     _compl, _mvB,   _mvL,   _inbrk, delC,   _mvE,   _mvR,   _inbrk,
 /*  C-h     C-i     C-j     C-k     C-l     C-m     C-n     C-o     */
@@ -800,7 +800,7 @@ next_dcompl(int next)
 }
 
 
-Str
+static Str
 escape_spaces(Str s)
 {
     Str tmp = NULL;

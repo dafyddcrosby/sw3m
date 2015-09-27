@@ -28,7 +28,7 @@ static void help(TextList *);
 
 /* *INDENT-OFF* */
 /* Table of command functions */
-struct {
+static struct {
     const char *name;
     const char *option_string;
     const char *help;
@@ -53,7 +53,7 @@ static void show_column(TextList *);
 
 /* *INDENT-OFF* */
 /* Table of configuration variables */
-struct {
+static struct {
     const char *name;
     void (*set_func)(TextList*);
     void (*show_func)(TextList*);

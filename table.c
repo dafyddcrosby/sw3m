@@ -126,8 +126,6 @@ floor_at_intervals(int x, int step)
     return x;
 }
 
-#define round(x) ((int)floor((x)+0.5))
-
 static void
 dv2sv(double *dv, short *iv, int size)
 {
@@ -332,7 +330,7 @@ pushdata(struct table *t, int row, int col, char *data)
     pushText(t->tabdata[row][col], data ? data : "");
 }
 
-void
+static void
 suspend_or_pushdata(struct table *tbl, char *line)
 {
     if (tbl->flag & TBL_IN_COL)
@@ -350,7 +348,7 @@ suspend_or_pushdata(struct table *tbl, char *line)
 #define PUSH_TAG(str,n) Strcat_char(tagbuf, *str)
 #endif
 
-int visible_length_offset = 0;
+static int visible_length_offset = 0;
 int
 visible_length(char *str)
 {
@@ -438,7 +436,7 @@ visible_length(char *str)
     return len > max_len ? len : max_len;
 }
 
-int
+static int
 visible_length_plain(char *str)
 {
     int len = 0, max_len = 0;
@@ -561,7 +559,7 @@ typedef enum _TPos {
   T_BOTTOM
 } TPos;
 
-void
+static void
 print_sep(struct table *t, int row, TPos type, int maxcol, Str buf)
 {
     int forbid;
@@ -815,7 +813,7 @@ check_cell_width(short *tabwidth, short *cellwidth,
     }
 }
 
-void
+static void
 check_minimum_width(struct table *t, short *tabwidth)
 {
     int i;
@@ -830,7 +828,7 @@ check_minimum_width(struct table *t, short *tabwidth)
 		     cell->maxcell, cell->index, t->cellspacing, CELL_DIR_HORIZONTAL);
 }
 
-void
+static void
 check_maximum_width(struct table *t)
 {
     struct table_cell *cell = &t->cell;
@@ -840,7 +838,7 @@ check_maximum_width(struct table *t)
 }
 
 
-void
+static void
 set_table_width(struct table *t, short *newwidth, int maxwidth)
 {
     int i, j, k, bcol, ecol;
@@ -960,7 +958,7 @@ set_table_width(struct table *t, short *newwidth, int maxwidth)
     } while (try_again);
 }
 
-void
+static void
 check_table_height(struct table *t)
 {
     int i, j, k;
@@ -1063,7 +1061,7 @@ check_table_height(struct table *t)
 #define CHECK_MINIMUM	1
 #define CHECK_FIXED	2
 
-int
+static int
 get_table_width(struct table *t, short *orgwidth, short *cellwidth, int flag)
 {
 #ifdef __GNUC__
@@ -1117,7 +1115,7 @@ get_table_width(struct table *t, short *orgwidth, short *cellwidth, int flag)
 #define fixed_table_width(t)\
   (get_table_width(t,t->fixed_width,t->cell.fixed_width,CHECK_MINIMUM))
 
-void
+static void
 renderCoTable(struct table *tbl, int maxlimit)
 {
     struct readbuffer obuf;
@@ -1654,7 +1652,7 @@ check_rowcol(struct table *tbl, struct table_mode *mode)
     tbl->flag |= TBL_IN_COL;
 }
 
-int
+static int
 skip_space(struct table *t, char *line, struct table_linfo *linfo,
 	   int checkminimum)
 {

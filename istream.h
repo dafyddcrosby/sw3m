@@ -124,7 +124,6 @@ extern Str StrISgets(InputStream stream);
 extern Str StrmyISgets(InputStream stream);
 extern int ISread(InputStream stream, Str buf, int count);
 extern int ISfileno(InputStream stream);
-extern int ISeos(InputStream stream);
 #ifdef USE_SSL
 extern void ssl_accept_this_site(char *hostname);
 extern Str ssl_get_certificate(SSL * ssl, char *hostname);

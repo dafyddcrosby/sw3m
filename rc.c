@@ -327,7 +327,7 @@ static struct sel_c graphic_char_str[] = {
     {0, NULL, NULL}
 };
 
-struct param_ptr params1[] = {
+static struct param_ptr params1[] = {
     {"tabstop", P_NZINT, PI_TEXT, (void *)&Tabstop, CMT_TABSTOP, NULL},
     {"indent_incr", P_NZINT, PI_TEXT, (void *)&IndentIncr, CMT_INDENT_INCR,
      NULL},
@@ -403,7 +403,7 @@ struct param_ptr params1[] = {
 };
 
 #ifdef USE_COLOR
-struct param_ptr params2[] = {
+static struct param_ptr params2[] = {
     {"color", P_BOOL, PI_ONOFF, (void *)&useColor, CMT_COLOR, NULL},
     {"basic_color", P_COLOR, PI_SEL_C, (void *)&basic_color, CMT_B_COLOR,
      (void *)colorstr},
@@ -432,7 +432,7 @@ struct param_ptr params2[] = {
 #endif				/* USE_COLOR */
 
 
-struct param_ptr params3[] = {
+static struct param_ptr params3[] = {
     {"pagerline", P_NZINT, PI_TEXT, (void *)&PagerMax, CMT_PAGERLINE, NULL},
     {"use_history", P_BOOL, PI_ONOFF, (void *)&UseHistory, CMT_HISTORY, NULL},
     {"history", P_INT, PI_TEXT, (void *)&URLHistSize, CMT_HISTSIZE, NULL},
@@ -485,7 +485,7 @@ struct param_ptr params3[] = {
     {NULL, 0, 0, NULL, NULL, NULL},
 };
 
-struct param_ptr params4[] = {
+static struct param_ptr params4[] = {
     {"use_proxy", P_BOOL, PI_ONOFF, (void *)&use_proxy, CMT_USE_PROXY,
      NULL},
     {"http_proxy", P_STRING, PI_TEXT, (void *)&HTTP_proxy, CMT_HTTP_PROXY,
@@ -507,7 +507,7 @@ struct param_ptr params4[] = {
     {NULL, 0, 0, NULL, NULL, NULL},
 };
 
-struct param_ptr params5[] = {
+static struct param_ptr params5[] = {
     {"document_root", P_STRING, PI_TEXT, (void *)&document_root, CMT_DROOT,
      NULL},
     {"personal_document_root", P_STRING, PI_TEXT,
@@ -517,7 +517,7 @@ struct param_ptr params5[] = {
     {NULL, 0, 0, NULL, NULL, NULL},
 };
 
-struct param_ptr params6[] = {
+static struct param_ptr params6[] = {
     {"mime_types", P_STRING, PI_TEXT, (void *)&mimetypes_files, CMT_MIMETYPES,
      NULL},
     {"mailcap", P_STRING, PI_TEXT, (void *)&mailcap_files, CMT_MAILCAP, NULL},
@@ -542,7 +542,7 @@ struct param_ptr params6[] = {
 };
 
 #ifdef USE_SSL
-struct param_ptr params7[] = {
+static struct param_ptr params7[] = {
     {"ssl_verify_server", P_INT, PI_ONOFF, (void *)&ssl_verify_server,
      CMT_SSL_VERIFY_SERVER, NULL},
     {"ssl_cert_file", P_SSLPATH, PI_TEXT, (void *)&ssl_cert_file,
@@ -557,7 +557,7 @@ struct param_ptr params7[] = {
 };
 #endif				/* USE_SSL */
 
-struct param_ptr params8[] = {
+static struct param_ptr params8[] = {
     {"use_cookie", P_INT, PI_ONOFF, (void *)&use_cookie, CMT_USECOOKIE, NULL},
     {"show_cookie", P_INT, PI_ONOFF, (void *)&show_cookie,
      CMT_SHOWCOOKIE, NULL},
@@ -575,7 +575,7 @@ struct param_ptr params8[] = {
     {NULL, 0, 0, NULL, NULL, NULL},
 };
 
-struct param_ptr params9[] = {
+static struct param_ptr params9[] = {
     {"passwd_file", P_STRING, PI_TEXT, (void *)&passwd_file, CMT_PASSWDFILE,
      NULL},
     {"ftppasswd", P_STRING, PI_TEXT, (void *)&ftppasswd, CMT_FTPPASS, NULL},
@@ -615,7 +615,7 @@ struct param_ptr params9[] = {
 };
 
 #ifdef USE_M17N
-struct param_ptr params10[] = {
+static struct param_ptr params10[] = {
     {"display_charset", P_CODE, PI_CODE, (void *)&DisplayCharset,
      CMT_DISPLAY_CHARSET, (void *)&display_charset_str},
     {"document_charset", P_CODE, PI_CODE, (void *)&DocumentCharset,
@@ -672,7 +672,7 @@ struct param_ptr params10[] = {
 };
 #endif
 
-struct param_section sections[] = {
+static struct param_section sections[] = {
     {N_("Display Settings"), params1},
 #ifdef USE_COLOR
     {N_("Color Settings"), params2},
@@ -745,7 +745,7 @@ create_option_search_table()
     }
 }
 
-struct param_ptr *
+static struct param_ptr *
 search_param(char *name)
 {
     size_t b, e, i;
@@ -1081,7 +1081,7 @@ interpret_rc(FILE * f)
     }
 }
 
-void
+static void
 parse_proxy()
 {
     if (non_null(HTTP_proxy))
@@ -1100,7 +1100,7 @@ parse_proxy()
 	set_no_proxy(NO_proxy);
 }
 
-void
+static void
 parse_cookie()
 {
     if (non_null(cookie_reject_domains))

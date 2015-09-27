@@ -15,8 +15,10 @@ extern FormSelectOption *select_option;
 #include "menu.h"
 #endif				/* MENU_SELECT */
 
+static void updateSelectOption(struct form_item_list *fi, FormSelectOptionItem *item);
+
 /* *INDENT-OFF* */
-struct {
+static struct {
     char *action;
     void (*rout)(struct parsed_tagarg *);
 } internal_action[] = {
@@ -678,7 +680,7 @@ chooseSelectOption(FormItemList *fi, FormSelectOptionItem *item)
     updateSelectOption(fi, item);
 }
 
-void
+static void
 updateSelectOption(FormItemList *fi, FormSelectOptionItem *item)
 {
     int i;

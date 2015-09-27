@@ -138,7 +138,7 @@ static int cur_iseq;
 
 /* This array should be somewhere else */
 /* FIXME: gettextize? */
-char *violations[COO_EMAX] = {
+static char *violations[COO_EMAX] = {
     "internal error",
     "tail match failed",
     "wrong number of dots",
@@ -937,7 +937,7 @@ checkHeader(Buffer *buf, char *field)
     return NULL;
 }
 
-char *
+static char *
 checkContentType(Buffer *buf)
 {
     char *p;
@@ -1413,11 +1413,11 @@ AuthDigestCred(struct http_auth *ha, Str uname, Str pw, ParsedURL *pu,
 #endif
 
 /* *INDENT-OFF* */
-struct auth_param none_auth_param[] = {
+static struct auth_param none_auth_param[] = {
     {NULL, NULL}
 };
 
-struct auth_param basic_auth_param[] = {
+static struct auth_param basic_auth_param[] = {
     {"realm", NULL},
     {NULL, NULL}
 };
@@ -1441,7 +1441,7 @@ struct auth_param basic_auth_param[] = {
  * qop-options       = "qop" "=" <"> 1#qop-value <">
  * qop-value         = "auth" | "auth-int" | token
  */
-struct auth_param digest_auth_param[] = {
+static struct auth_param digest_auth_param[] = {
     {"realm", NULL},
     {"domain", NULL},
     {"nonce", NULL},
@@ -1453,7 +1453,7 @@ struct auth_param digest_auth_param[] = {
 };
 #endif
 /* for RFC2617: HTTP Authentication */
-struct http_auth www_auth[] = {
+static struct http_auth www_auth[] = {
     { 1, "Basic ", basic_auth_param, AuthBasicCred },
 #ifdef USE_DIGEST_AUTH
     { 10, "Digest ", digest_auth_param, AuthDigestCred },
@@ -2636,7 +2636,7 @@ passthrough(struct readbuffer *obuf, char *str, int back)
     }
 }
 
-void
+static void
 fillline(struct readbuffer *obuf, int indent)
 {
     push_spaces(obuf, 1, indent - obuf->pos);
@@ -3932,7 +3932,7 @@ feed_textarea(char *str)
     }
 }
 
-Str
+static Str
 process_hr(struct parsed_tag *tag, int width, int indent_width)
 {
     Str tmp = Strnew_charp("<nobr>");
@@ -5963,7 +5963,7 @@ file_feed()
     return s;
 }
 
-void
+static void
 HTMLlineproc3(Buffer *buf, InputStream stream)
 {
     _file_lp2 = stream;

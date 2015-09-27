@@ -25,7 +25,7 @@ struct auth_pass {
     struct auth_pass *next;
 };
 
-struct auth_pass *passwords = NULL;
+static struct auth_pass *passwords = NULL;
 
 int
 columnSkip(Buffer *buf, int offset)

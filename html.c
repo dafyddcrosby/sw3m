@@ -5,119 +5,119 @@
 
 #define ATTR_CORE	ATTR_ID
 #define MAXA_CORE	1
-unsigned char ALST_A[] = {
+static unsigned char ALST_A[] = {
     ATTR_NAME, ATTR_HREF, ATTR_REL, ATTR_CHARSET, ATTR_TARGET, ATTR_HSEQ,
     ATTR_REFERER,
     ATTR_FRAMENAME, ATTR_TITLE, ATTR_ACCESSKEY, ATTR_CORE
 };
 #define MAXA_A		MAXA_CORE + 10
-unsigned char ALST_P[] = { ATTR_ALIGN, ATTR_CORE };
+static unsigned char ALST_P[] = { ATTR_ALIGN, ATTR_CORE };
 #define MAXA_P		MAXA_CORE + 1
-unsigned char ALST_UL[] = { ATTR_START, ATTR_TYPE, ATTR_CORE };
+static unsigned char ALST_UL[] = { ATTR_START, ATTR_TYPE, ATTR_CORE };
 #define MAXA_UL		MAXA_CORE + 2
-unsigned char ALST_LI[] = { ATTR_TYPE, ATTR_VALUE, ATTR_CORE };
+static unsigned char ALST_LI[] = { ATTR_TYPE, ATTR_VALUE, ATTR_CORE };
 #define MAXA_LI		MAXA_CORE + 2
-unsigned char ALST_HR[] = { ATTR_WIDTH, ATTR_ALIGN, ATTR_CORE };
+static unsigned char ALST_HR[] = { ATTR_WIDTH, ATTR_ALIGN, ATTR_CORE };
 #define MAXA_HR		MAXA_CORE + 2
-unsigned char ALST_LINK[] = { ATTR_HREF, ATTR_HSEQ, ATTR_REL, ATTR_REV,
+static unsigned char ALST_LINK[] = { ATTR_HREF, ATTR_HSEQ, ATTR_REL, ATTR_REV,
     ATTR_TITLE, ATTR_TYPE, ATTR_CORE
 };
 #define MAXA_LINK	MAXA_CORE + sizeof ALST_LINK/sizeof ALST_LINK[0] - 1
-unsigned char ALST_DL[] = { ATTR_COMPACT, ATTR_CORE };
+static unsigned char ALST_DL[] = { ATTR_COMPACT, ATTR_CORE };
 #define MAXA_DL		MAXA_CORE + 1
-unsigned char ALST_PRE[] = { ATTR_FOR_TABLE, ATTR_CORE };
+static unsigned char ALST_PRE[] = { ATTR_FOR_TABLE, ATTR_CORE };
 #define MAXA_PRE	MAXA_CORE + 1
-unsigned char ALST_IMG[] =
+static unsigned char ALST_IMG[] =
     { ATTR_SRC, ATTR_ALT, ATTR_WIDTH, ATTR_HEIGHT, ATTR_ALIGN, ATTR_USEMAP,
     ATTR_ISMAP, ATTR_TITLE, ATTR_PRE_INT, ATTR_CORE
 };
 #define MAXA_IMG	MAXA_CORE + 9
-unsigned char ALST_TABLE[] =
+static unsigned char ALST_TABLE[] =
     { ATTR_BORDER, ATTR_WIDTH, ATTR_HBORDER, ATTR_CELLSPACING,
     ATTR_CELLPADDING, ATTR_VSPACE, ATTR_CORE
 };
 #define MAXA_TABLE	MAXA_CORE + 6
-unsigned char ALST_META[] = { ATTR_HTTP_EQUIV, ATTR_CONTENT, ATTR_CHARSET, ATTR_CORE };
+static unsigned char ALST_META[] = { ATTR_HTTP_EQUIV, ATTR_CONTENT, ATTR_CHARSET, ATTR_CORE };
 #define MAXA_META	MAXA_CORE + 3
-unsigned char ALST_FRAME[] = { ATTR_SRC, ATTR_NAME, ATTR_CORE };
+static unsigned char ALST_FRAME[] = { ATTR_SRC, ATTR_NAME, ATTR_CORE };
 #define MAXA_FRAME	MAXA_CORE + 2
-unsigned char ALST_FRAMESET[] = { ATTR_COLS, ATTR_ROWS, ATTR_CORE };
+static unsigned char ALST_FRAMESET[] = { ATTR_COLS, ATTR_ROWS, ATTR_CORE };
 #define MAXA_FRAMESET	MAXA_CORE + 2
-unsigned char ALST_NOFRAMES[] = { ATTR_CORE };
+static unsigned char ALST_NOFRAMES[] = { ATTR_CORE };
 #define MAXA_NOFRAMES	MAXA_CORE
-unsigned char ALST_FORM[] =
+static unsigned char ALST_FORM[] =
     { ATTR_METHOD, ATTR_ACTION, ATTR_CHARSET, ATTR_ACCEPT_CHARSET,
     ATTR_ENCTYPE, ATTR_TARGET, ATTR_NAME, ATTR_CORE
 };
 #define MAXA_FORM       MAXA_CORE + 7
-unsigned char ALST_INPUT[] =
+static unsigned char ALST_INPUT[] =
     { ATTR_TYPE, ATTR_VALUE, ATTR_NAME, ATTR_CHECKED, ATTR_ACCEPT, ATTR_SIZE,
     ATTR_MAXLENGTH, ATTR_ALT, ATTR_READONLY, ATTR_SRC, ATTR_WIDTH, ATTR_HEIGHT,
     ATTR_CORE
 };
 #define MAXA_INPUT      MAXA_CORE + 12
-unsigned char ALST_TEXTAREA[] =
+static unsigned char ALST_TEXTAREA[] =
     { ATTR_COLS, ATTR_ROWS, ATTR_NAME, ATTR_READONLY, ATTR_CORE };
 #define MAXA_TEXTAREA   MAXA_CORE + 4
-unsigned char ALST_SELECT[] = { ATTR_NAME, ATTR_MULTIPLE, ATTR_CORE };
+static unsigned char ALST_SELECT[] = { ATTR_NAME, ATTR_MULTIPLE, ATTR_CORE };
 #define MAXA_SELECT	MAXA_CORE + 2
-unsigned char ALST_OPTION[] =
+static unsigned char ALST_OPTION[] =
     { ATTR_VALUE, ATTR_LABEL, ATTR_SELECTED, ATTR_CORE };
 #define MAXA_OPTION	MAXA_CORE + 3
-unsigned char ALST_ISINDEX[] = { ATTR_ACTION, ATTR_PROMPT, ATTR_CORE };
+static unsigned char ALST_ISINDEX[] = { ATTR_ACTION, ATTR_PROMPT, ATTR_CORE };
 #define MAXA_ISINDEX	MAXA_CORE + 2
-unsigned char ALST_MAP[] = { ATTR_NAME, ATTR_CORE };
+static unsigned char ALST_MAP[] = { ATTR_NAME, ATTR_CORE };
 #define MAXA_MAP	MAXA_CORE + 1
-unsigned char ALST_AREA[] =
+static unsigned char ALST_AREA[] =
     { ATTR_HREF, ATTR_TARGET, ATTR_ALT, ATTR_SHAPE, ATTR_COORDS, ATTR_CORE };
 #define MAXA_AREA	MAXA_CORE + 5
-unsigned char ALST_BASE[] = { ATTR_HREF, ATTR_TARGET, ATTR_CORE };
+static unsigned char ALST_BASE[] = { ATTR_HREF, ATTR_TARGET, ATTR_CORE };
 #define MAXA_BASE	MAXA_CORE + 2
-unsigned char ALST_BODY[] = { ATTR_BACKGROUND, ATTR_CORE };
+static unsigned char ALST_BODY[] = { ATTR_BACKGROUND, ATTR_CORE };
 #define MAXA_BODY	MAXA_CORE + 1
-unsigned char ALST_TR[] = { ATTR_ALIGN, ATTR_VALIGN, ATTR_CORE };
+static unsigned char ALST_TR[] = { ATTR_ALIGN, ATTR_VALIGN, ATTR_CORE };
 #define MAXA_TR		MAXA_CORE + 2
-unsigned char ALST_TD[] =
+static unsigned char ALST_TD[] =
     { ATTR_COLSPAN, ATTR_ROWSPAN, ATTR_ALIGN, ATTR_VALIGN, ATTR_WIDTH,
     ATTR_NOWRAP, ATTR_CORE
 };
 #define MAXA_TD		MAXA_CORE + 6
-unsigned char ALST_BGSOUND[] = { ATTR_SRC, ATTR_CORE };
+static unsigned char ALST_BGSOUND[] = { ATTR_SRC, ATTR_CORE };
 #define MAX_BGSOUND	MAXA_CORE + 1
-unsigned char ALST_APPLET[] = { ATTR_ARCHIVE, ATTR_CORE };
+static unsigned char ALST_APPLET[] = { ATTR_ARCHIVE, ATTR_CORE };
 #define MAX_APPLET	MAXA_CORE + 1
-unsigned char ALST_EMBED[] = { ATTR_SRC, ATTR_CORE };
+static unsigned char ALST_EMBED[] = { ATTR_SRC, ATTR_CORE };
 #define MAX_EMBED	MAXA_CORE + 1
 
-unsigned char ALST_TEXTAREA_INT[] = { ATTR_TEXTAREANUMBER };
+static unsigned char ALST_TEXTAREA_INT[] = { ATTR_TEXTAREANUMBER };
 #define MAXA_TEXTAREA_INT 1
-unsigned char ALST_SELECT_INT[] = { ATTR_SELECTNUMBER };
+static unsigned char ALST_SELECT_INT[] = { ATTR_SELECTNUMBER };
 #define MAXA_SELECT_INT	1
-unsigned char ALST_TABLE_ALT[] = { ATTR_TID };
+static unsigned char ALST_TABLE_ALT[] = { ATTR_TID };
 #define MAXA_TABLE_ALT	1
-unsigned char ALST_SYMBOL[] = { ATTR_TYPE };
+static unsigned char ALST_SYMBOL[] = { ATTR_TYPE };
 #define MAXA_SYMBOL	1
-unsigned char ALST_TITLE_ALT[] = { ATTR_TITLE };
+static unsigned char ALST_TITLE_ALT[] = { ATTR_TITLE };
 #define MAXA_TITLE_ALT	1
-unsigned char ALST_FORM_INT[] =
+static unsigned char ALST_FORM_INT[] =
     { ATTR_METHOD, ATTR_ACTION, ATTR_CHARSET, ATTR_ACCEPT_CHARSET,
     ATTR_ENCTYPE, ATTR_TARGET, ATTR_NAME, ATTR_FID
 };
 #define MAXA_FORM_INT  8
-unsigned char ALST_INPUT_ALT[] =
+static unsigned char ALST_INPUT_ALT[] =
     { ATTR_HSEQ, ATTR_FID, ATTR_NO_EFFECT, ATTR_TYPE, ATTR_NAME, ATTR_VALUE,
     ATTR_CHECKED, ATTR_ACCEPT, ATTR_SIZE, ATTR_MAXLENGTH, ATTR_READONLY,
     ATTR_TEXTAREANUMBER,
     ATTR_SELECTNUMBER, ATTR_ROWS, ATTR_TOP_MARGIN, ATTR_BOTTOM_MARGIN
 };
 #define MAXA_INPUT_ALT  16
-unsigned char ALST_IMG_ALT[] =
+static unsigned char ALST_IMG_ALT[] =
     { ATTR_SRC, ATTR_WIDTH, ATTR_HEIGHT, ATTR_USEMAP, ATTR_ISMAP, ATTR_HSEQ,
     ATTR_XOFFSET, ATTR_YOFFSET, ATTR_TOP_MARGIN, ATTR_BOTTOM_MARGIN,
     ATTR_TITLE
 };
 #define MAXA_IMG_ALT  11
-unsigned char ALST_NOP[] = { ATTR_CORE };
+static unsigned char ALST_NOP[] = { ATTR_CORE };
 #define MAXA_NOP	MAXA_CORE
 
 TagInfo TagMAP[MAX_HTMLTAG] = {

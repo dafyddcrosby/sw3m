@@ -422,8 +422,6 @@ extern void set_cc(int spec, int val);
 extern void close_tty(void);
 extern char *ttyname_tty(void);
 extern void reset_tty(void);
-extern MySignalHandler reset_exit(SIGNAL_ARG);
-extern MySignalHandler error_dump(SIGNAL_ARG);
 extern void set_int(void);
 extern void getTCstr(void);
 extern void setlinescols(void);

@@ -61,7 +61,7 @@ static int
 #endif				/* USE_SSL */
 };
 
-struct cmdtable schemetable[] = {
+static struct cmdtable schemetable[] = {
     {"http", SCM_HTTP},
     {"gopher", SCM_GOPHER},
     {"ftp", SCM_FTP},
@@ -231,7 +231,7 @@ KeyAbort(SIGNAL_ARG)
 }
 
 #ifdef USE_SSL
-SSL_CTX *ssl_ctx = NULL;
+static SSL_CTX *ssl_ctx = NULL;
 
 void
 free_ssl_ctx()
