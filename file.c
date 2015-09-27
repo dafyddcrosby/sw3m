@@ -4799,14 +4799,14 @@ HTMLtagproc1(struct parsed_tag *tag, struct html_feed_environ *h_env)
 	width = 0;
 	if (parsedtag_exists(tag, ATTR_BORDER)) {
 	    if (parsedtag_get_value(tag, ATTR_BORDER, &w)) {
-		if (w > 2)
+		if (w >= 2) {
 		    bm = BORDER_THICK;
-		else if (w < 0) {	/* weird */
+	    	} else if (w < 0 || w == 1) {
 		    bm = BORDER_THIN;
 		}
-	    }
-	    else
+	    } else {
 		bm = BORDER_THIN;
+	    }
 	}
 	if (parsedtag_get_value(tag, ATTR_WIDTH, &i)) {
 	    if (obuf->table_level == 0)
