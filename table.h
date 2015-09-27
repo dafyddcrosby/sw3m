@@ -1,5 +1,8 @@
 /* $Id: table.h,v 1.12 2003/09/22 21:02:21 ukai Exp $ */
+#ifndef _TABLE_H
+#define _TABLE_H
 #include "Str.h"
+#include "fm.h"
 
 #define MAX_TABLE 20		/* maximum nest level of table */
 #define MAX_TABLE_N 20		/* maximum number of table in same level */
@@ -135,7 +138,7 @@ struct table_mode {
     short anchor_offset;
     unsigned char end_tag;
 };
-
+#endif /* _TABLE_H */
 /* Local Variables:    */
 /* c-basic-offset: 4   */
 /* tab-width: 8        */
