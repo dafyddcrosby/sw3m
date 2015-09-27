@@ -189,17 +189,9 @@ table_rowspan(struct table *t, int row, int col)
 static int
 minimum_cellspacing(BorderMode border_mode)
 {
-    switch (border_mode) {
-    case BORDER_THIN:
-    case BORDER_THICK:
-    case BORDER_NOWIN:
+	if (border_mode == BORDER_NONE)
+		return 1;
 	return RULE_WIDTH;
-    case BORDER_NONE:
-	return 1;
-    default:
-	/* not reached */
-	return 0;
-    }
 }
 
 static int
