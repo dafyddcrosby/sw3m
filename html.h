@@ -7,7 +7,9 @@
 #include <openssl/ssl.h>
 #endif				/* USE_SSL */
 
+#include <stdbool.h>
 #include "istream.h"
+#include "encodings.h"
 
 #define StrUFgets(f) StrISgets((f)->stream)
 #define StrmyUFgets(f) StrmyISgets((f)->stream)
@@ -62,14 +64,22 @@ typedef struct _ParsedURL {
     int is_nocache;
 } ParsedURL;
 
+typedef enum _compression {
+  CMP_NOCOMPRESS,
+  CMP_COMPRESS,
+  CMP_GZIP,
+  CMP_BZIP2,
+  CMP_DEFLATE
+} Compression;
+
 typedef struct {
     unsigned char scheme;
-    char is_cgi;
-    char encoding;
+    bool is_cgi;
+    Encoding encoding;
     InputStream stream;
     char *ext;
-    int compression;
-    int content_encoding;
+    Compression compression;
+    Compression content_encoding;
     char *guess_type;
 #ifdef USE_SSL
     char *ssl_certificate;
@@ -77,17 +87,6 @@ typedef struct {
     char *url;
     time_t modtime;
 } URLFile;
-
-#define CMP_NOCOMPRESS   0
-#define CMP_COMPRESS     1
-#define CMP_GZIP         2
-#define CMP_BZIP2        3
-#define CMP_DEFLATE      4
-
-#define ENC_7BIT	0
-#define ENC_BASE64	1
-#define ENC_QUOTE	2
-#define ENC_UUENCODE	3
 
 #define HTML_UNKNOWN	0
 #define HTML_A		1

@@ -158,7 +158,7 @@ newSSLStream(SSL * ssl, int sock)
 #endif
 
 InputStream
-newEncodedStream(InputStream is, char encoding)
+newEncodedStream(InputStream is, Encoding encoding)
 {
     InputStream stream;
     if (is == NULL || (encoding != ENC_QUOTE && encoding != ENC_BASE64 &&

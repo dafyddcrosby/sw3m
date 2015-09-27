@@ -12,6 +12,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include "encodings.h"
 
 struct stream_buffer {
     unsigned char *buf;
@@ -38,7 +39,7 @@ struct ens_handle {
     union input_stream *is;
     Str s;
     int pos;
-    char encoding;
+    Encoding encoding;
 };
 
 
@@ -115,7 +116,7 @@ extern InputStream newStrStream(Str s);
 #ifdef USE_SSL
 extern InputStream newSSLStream(SSL * ssl, int sock);
 #endif
-extern InputStream newEncodedStream(InputStream is, char encoding);
+extern InputStream newEncodedStream(InputStream is, Encoding encoding);
 extern int ISclose(InputStream stream);
 extern int ISgetc(InputStream stream);
 extern int ISundogetc(InputStream stream);

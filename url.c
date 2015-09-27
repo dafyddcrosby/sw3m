@@ -1279,7 +1279,7 @@ init_stream(URLFile *uf, int scheme, InputStream stream)
     uf->stream = stream;
     uf->scheme = scheme;
     uf->encoding = ENC_7BIT;
-    uf->is_cgi = FALSE;
+    uf->is_cgi = false;
     uf->compression = CMP_NOCOMPRESS;
     uf->content_encoding = CMP_NOCOMPRESS;
     uf->guess_type = NULL;
@@ -1361,7 +1361,7 @@ openURL(char *url, ParsedURL *pu, ParsedURL *current,
 						   option->referer),
 				      (void (*)())fclose);
 	if (uf.stream) {
-	    uf.is_cgi = TRUE;
+	    uf.is_cgi = true;
 	    uf.scheme = pu->scheme = SCM_LOCAL_CGI;
 	    return uf;
 	}
