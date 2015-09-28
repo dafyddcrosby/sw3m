@@ -15,7 +15,7 @@ set_mark(Line *l, int pos, int epos)
 #ifdef USE_MIGEMO
 /* Migemo: romaji --> kana+kanji in regexp */
 static FILE *migemor = NULL, *migemow = NULL;
-static int migemo_running;
+static bool migemo_running;
 static int migemo_pid = 0;
 
 void
@@ -40,13 +40,13 @@ open_migemo(char *migemo_command)
 	goto err0;
     if (migemo_pid == 0) {
 	/* child */
-	setup_child(FALSE, 2, -1);
+	setup_child(false, 2, -1);
 	myExec(migemo_command);
     }
     return true;
   err0:
     migemo_pid = 0;
-    migemo_active = migemo_running = 0;
+    migemo_active = migemo_running = false;
     return false;
 }
 
@@ -75,7 +75,7 @@ migemostr(char *str)
   err:
     /* XXX: backend migemo is not working? */
     init_migemo();
-    migemo_active = migemo_running = 0;
+    migemo_active = migemo_running = false;
     return str;
 }
 #endif				/* USE_MIGEMO */
@@ -101,7 +101,7 @@ forwardSearch(Buffer *buf, char *str)
     int pos;
 
 #ifdef USE_MIGEMO
-    if (migemo_active > 0) {
+    if (migemo_active) {
 	if (((p = regexCompile(migemostr(str), IgnoreCase)) != NULL)
 	    && ((p = regexCompile(str, IgnoreCase)) != NULL)) {
 	    message(p, 0, 0);
@@ -196,7 +196,7 @@ backwardSearch(Buffer *buf, char *str)
     int pos;
 
 #ifdef USE_MIGEMO
-    if (migemo_active > 0) {
+    if (migemo_active) {
 	if (((p = regexCompile(migemostr(str), IgnoreCase)) != NULL)
 	    && ((p = regexCompile(str, IgnoreCase)) != NULL)) {
 	    message(p, 0, 0);

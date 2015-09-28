@@ -72,7 +72,7 @@ news_close(News * news)
     news->host = NULL;
 }
 
-static int
+static bool
 news_open(News * news)
 {
     int sock, status, fd;
@@ -95,10 +95,10 @@ news_open(News * news)
 	if (status != 200 && status != 201)
 	    goto open_err;
     }
-    return TRUE;
+    return true;
   open_err:
     news_close(news);
-    return FALSE;
+    return false;
 }
 
 static void
@@ -439,7 +439,7 @@ loadNewsgroup0(ParsedURL *pu)
 			 &status);
 	    if (status != 221)
 		continue;
-	    readHeader(&f, buf, FALSE, NULL);
+	    readHeader(&f, buf, false, NULL);
 	    if (!(p = checkHeader(buf, "Message-ID:")))
 		continue;
 	    if (*p == '<')

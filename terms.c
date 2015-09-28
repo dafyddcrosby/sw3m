@@ -1630,7 +1630,7 @@ skip_escseq(void)
 }
 
 int
-sleep_till_anykey(int sec, int purge)
+sleep_till_anykey(int sec, bool purge)
 {
     fd_set rfd;
     struct timeval tim;

@@ -125,7 +125,7 @@ internal_get(char *url, bool flag, FormList *request)
 		}
 		print_headers(buf, len);
 		printf("\n");
-		saveBuffer(buf, stdout, TRUE);
+		saveBuffer(buf, stdout, true);
 	    }
 	    else {
 		print_headers(buf, 0);

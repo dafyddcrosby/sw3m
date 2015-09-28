@@ -288,17 +288,17 @@ remove_space(char *str)
     return p;
 }
 
-int
+bool
 non_null(char *s)
 {
     if (s == NULL)
-	return FALSE;
+	return false;
     while (*s) {
 	if (!IS_SPACE(*s))
-	    return TRUE;
+	    return true;
 	s++;
     }
-    return FALSE;
+    return false;
 }
 
 void
@@ -568,7 +568,7 @@ Str_form_quote(Str x)
 
 
 Str
-Str_url_unquote(Str x, int is_form, int safe)
+Str_url_unquote(Str x, bool is_form, bool safe)
 {
     Str tmp = NULL;
     char *p = x->ptr, *ep = x->ptr + x->length, *q;

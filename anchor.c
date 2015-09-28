@@ -50,7 +50,7 @@ putAnchor(AnchorList *al, char *url, char *target, Anchor **anchor_return,
     a->referer = referer;
     a->title = title;
     a->accesskey = key;
-    a->slave = FALSE;
+    a->slave = false;
     a->start = bp;
     a->end = bp;
     al->nanchor++;
@@ -357,7 +357,7 @@ reAnchorAny(Buffer *buf, char *re,
     if (re == NULL || *re == '\0') {
 	return NULL;
     }
-    if ((re = regexCompile(re, 1)) != NULL) {
+    if ((re = regexCompile(re, true)) != NULL) {
 	return re;
     }
     for (l = MarkAllPages ? buf->firstLine : buf->topLine; l != NULL &&
@@ -413,11 +413,11 @@ reAnchorNewsheader(Buffer *buf)
 	return NULL;
     for (i = 0; i <= 1; i++) {
 	if (i == 0) {
-	    regexCompile("<[!-;=?-~]+@[a-zA-Z0-9\\.\\-_]+>", 1);
+	    regexCompile("<[!-;=?-~]+@[a-zA-Z0-9\\.\\-_]+>", true);
 	    header = header_mid;
 	}
 	else {
-	    regexCompile("[a-zA-Z0-9\\.\\-_]+", 1);
+	    regexCompile("[a-zA-Z0-9\\.\\-_]+", true);
 	    header = header_group;
 	}
 	for (l = buf->firstLine; l != NULL && l->real_linenumber == 0;
@@ -611,7 +611,7 @@ addMultirowsImg(Buffer *buf, AnchorList *al)
 	    pos = columnPos(l, col);
 	    a = registerImg(buf, a_img.url, a_img.title, l->linenumber, pos);
 	    a->hseq = -a_img.hseq;
-	    a->slave = TRUE;
+	    a->slave = true;
 	    a->image = img;
 	    a->end.pos = pos + ecol - col;
 	    for (k = pos; k < a->end.pos; k++)
@@ -621,7 +621,7 @@ addMultirowsImg(Buffer *buf, AnchorList *al)
 				 a_href.referer, a_href.title,
 				 a_href.accesskey, l->linenumber, pos);
 		a->hseq = a_href.hseq;
-		a->slave = TRUE;
+		a->slave = true;
 		a->end.pos = pos + ecol - col;
 		for (k = pos; k < a->end.pos; k++)
 		    l->propBuf[k] |= PE_ANCHOR;

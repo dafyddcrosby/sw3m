@@ -309,7 +309,7 @@ localcgi_post(char *uri, char *qstr, FormList *request, char *referer)
 	    fclose(fw);
 	return fr;
     }
-    setup_child(TRUE, 2, fw ? fileno(fw) : -1);
+    setup_child(true, 2, fw ? fileno(fw) : -1);
 
     if (qstr)
 	uri = Strnew_m_charp(uri, "?", qstr, NULL)->ptr;

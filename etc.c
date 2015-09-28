@@ -14,8 +14,8 @@
 #include <stdbool.h>
 
 struct auth_pass {
-    int bad;
-    int is_proxy;
+    bool bad;
+    bool is_proxy;
     Str host;
     int port;
 /*    Str file; */
@@ -72,7 +72,7 @@ columnPos(Line *line, int column)
 }
 
 Line *
-lineSkip(Buffer *buf, Line *line, int offset, int last)
+lineSkip(Buffer *buf, Line *line, int offset, bool last)
 {
     int i;
     Line *l;
@@ -85,7 +85,7 @@ lineSkip(Buffer *buf, Line *line, int offset, int last)
 }
 
 Line *
-currentLineSkip(Buffer *buf, Line *line, int offset, int last)
+currentLineSkip(Buffer *buf, Line *line, int offset, bool last)
 {
     int i, n;
     Line *l = line;
@@ -921,12 +921,12 @@ add_auth_pass_entry(const struct auth_pass *ent, int netrc, int override)
 
 static struct auth_pass *
 find_auth_pass_entry(char *host, int port, char *realm, char *uname,
-		     int is_proxy)
+		     bool is_proxy)
 {
     struct auth_pass *ent;
     for (ent = passwords; ent != NULL; ent = ent->next) {
 	if (ent->is_proxy == is_proxy
-	    && (ent->bad != TRUE)
+	    && (ent->bad != true)
 	    && (!ent->host || !Strcasecmp_charp(ent->host, host))
 	    && (!ent->port || ent->port == port)
 	    && (!ent->uname || !uname || !Strcmp_charp(ent->uname, uname))
@@ -939,7 +939,7 @@ find_auth_pass_entry(char *host, int port, char *realm, char *uname,
 
 int
 find_auth_user_passwd(ParsedURL *pu, char *realm,
-		      Str *uname, Str *pwd, int is_proxy)
+		      Str *uname, Str *pwd, bool is_proxy)
 {
     struct auth_pass *ent;
 
@@ -959,7 +959,7 @@ find_auth_user_passwd(ParsedURL *pu, char *realm,
 
 void
 add_auth_user_passwd(ParsedURL *pu, char *realm, Str uname, Str pwd,
-		     int is_proxy)
+		     bool is_proxy)
 {
     struct auth_pass ent;
     memset(&ent, 0, sizeof(ent));
@@ -975,12 +975,12 @@ add_auth_user_passwd(ParsedURL *pu, char *realm, Str uname, Str pwd,
 
 void
 invalidate_auth_user_passwd(ParsedURL *pu, char *realm, Str uname, Str pwd,
-			    int is_proxy)
+			    bool is_proxy)
 {
     struct auth_pass *ent;
     ent = find_auth_pass_entry(pu->host, pu->port, realm, NULL, is_proxy);
     if (ent) {
-	ent->bad = TRUE;
+	ent->bad = true;
     }
     return;
 }
@@ -1060,7 +1060,7 @@ parsePasswd(FILE * fp, int netrc)
 	    ent.port = atoi(arg->ptr);
 	}
 	else if (!netrc && !strcmp(p, "proxy")) {
-	    ent.is_proxy = 1;
+	    ent.is_proxy = true;
 	    line = arg;
 	}
 	else if (!netrc && !strcmp(p, "path")) {
@@ -1302,7 +1302,7 @@ close_all_fds_except(int i, int f)
 }
 
 void
-setup_child(int child, int i, int f)
+setup_child(bool child, int i, int f)
 {
     reset_signals();
     mySignal(SIGINT, SIG_IGN);
@@ -1387,7 +1387,7 @@ mySystem(char *command, int background)
     if (background) {
 	flush_tty();
 	if (!fork()) {
-	    setup_child(FALSE, 0, -1);
+	    setup_child(false, 0, -1);
 	    myExec(command);
 	}
     }
@@ -1396,7 +1396,7 @@ mySystem(char *command, int background)
 }
 
 Str
-myExtCommand(char *cmd, char *arg, int redirect)
+myExtCommand(char *cmd, char *arg, bool redirect)
 {
     Str tmp = NULL;
     char *p;
@@ -1535,7 +1535,7 @@ url_unquote_conv0(char *url)
     wc_uint8 old_auto_detect = WcOption.auto_detect;
 #endif
     Str tmp;
-    tmp = Str_url_unquote(Strnew_charp(url), FALSE, TRUE);
+    tmp = Str_url_unquote(Strnew_charp(url), false, true);
 #ifdef USE_M17N
     if (!charset || charset == WC_CES_US_ASCII)
 	charset = SystemCharset;

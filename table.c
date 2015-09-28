@@ -690,7 +690,7 @@ do_refill(struct table *tbl, int row, int col, int maxlimit)
 	    int id = -1;
 	    char *p = l->ptr;
 	    struct parsed_tag *tag;
-	    if ((tag = parse_tag(&p, TRUE)) != NULL)
+	    if ((tag = parse_tag(&p, true)) != NULL)
 		parsedtag_get_value(tag, ATTR_TID, &id);
 	    if (id >= 0 && id < tbl->ntable) {
 		int alignment;
@@ -1164,7 +1164,7 @@ make_caption(struct table *t, struct html_feed_environ *h_env)
     init_henv(&henv, &obuf, envs, MAX_ENV_LEVEL, newTextLineList(),
 	      limit, h_env->envs[h_env->envc].indent);
     HTMLlineproc1("<center>", &henv);
-    HTMLlineproc0(t->caption->ptr, &henv, FALSE);
+    HTMLlineproc0(t->caption->ptr, &henv, false);
     HTMLlineproc1("</center>", &henv);
 
     if (t->total_width < henv.maxlimit)
@@ -1172,7 +1172,7 @@ make_caption(struct table *t, struct html_feed_environ *h_env)
     limit = h_env->limit;
     h_env->limit = t->total_width;
     HTMLlineproc1("<center>", h_env);
-    HTMLlineproc0(t->caption->ptr, h_env, FALSE);
+    HTMLlineproc0(t->caption->ptr, h_env, false);
     HTMLlineproc1("</center>", h_env);
     h_env->limit = limit;
 }
@@ -2657,7 +2657,7 @@ feed_table(struct table *tbl, char *line, struct table_mode *mode,
 	/* <pre> mode or something like it */
 	check_rowcol(tbl, mode);
 	while (*line) {
-	    int nl = FALSE;
+	    bool nl = false;
 	    if ((p = strchr(line, '\r')) || (p = strchr(line, '\n'))) {
 		if (*p == '\r' && p[1] == '\n')
 		    p++;
@@ -2671,7 +2671,7 @@ feed_table(struct table *tbl, char *line, struct table_mode *mode,
 		    p = line;
 		    line = "";
 		}
-		nl = TRUE;
+		nl = true;
 	    }
 	    else {
 		p = line;

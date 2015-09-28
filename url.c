@@ -304,7 +304,7 @@ openSSLHandle(int sock, char *hostname, char **p_cert)
     /* FIXME: gettextize? */
     disp_err_message(Sprintf
 		     ("SSL error: %s",
-		      ERR_error_string(ERR_get_error(), NULL))->ptr, FALSE);
+		      ERR_error_string(ERR_get_error(), NULL))->ptr, false);
     return NULL;
 }
 
@@ -468,7 +468,7 @@ openSocket(char *const hostname,
 #endif
 	goto error;
     }
-    regexCompile("^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$", 0);
+    regexCompile("^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$", false);
     if (regexMatch(hostname, -1, 1)) {
 	sscanf(hostname, "%d.%d.%d.%d", &a1, &a2, &a3, &a4);
 	adr = htonl((a1 << 24) | (a2 << 16) | (a3 << 8) | a4);
@@ -983,7 +983,7 @@ parseURL2(char *url, ParsedURL *pu, ParsedURL *current)
 }
 
 static Str
-_parsedURL2Str(ParsedURL *pu, int pass)
+_parsedURL2Str(ParsedURL *pu, bool pass)
 {
     Str tmp;
     static char *scheme_str[] = {
@@ -1069,7 +1069,7 @@ _parsedURL2Str(ParsedURL *pu, int pass)
 Str
 parsedURL2Str(ParsedURL *pu)
 {
-    return _parsedURL2Str(pu, FALSE);
+    return _parsedURL2Str(pu, false);
 }
 
 int
@@ -1189,7 +1189,7 @@ HTTPrequestURI(ParsedURL *pu, HRequest *hr)
     else {
 	char *save_label = pu->label;
 	pu->label = NULL;
-	Strcat(tmp, _parsedURL2Str(pu, TRUE));
+	Strcat(tmp, _parsedURL2Str(pu, true));
 	pu->label = save_label;
     }
     return tmp;
@@ -1340,7 +1340,7 @@ openURL(char *url, ParsedURL *pu, ParsedURL *current,
     uf.scheme = pu->scheme;
     uf.url = parsedURL2Str(pu)->ptr;
     pu->is_nocache = (option->flag & RG_NOCACHE);
-    uf.ext = filename_extension(pu->file, 1);
+    uf.ext = filename_extension(pu->file, true);
 
     hr->command = HR_COMMAND_GET;
     hr->flag = 0;
@@ -1605,7 +1605,7 @@ openURL(char *url, ParsedURL *pu, ParsedURL *current,
 	    uf.encoding = ENC_BASE64;
 	}
 	else
-	    tmp = Str_url_unquote(tmp, FALSE, FALSE);
+	    tmp = Str_url_unquote(tmp, false, false);
 	uf.stream = newStrStream(tmp);
 	uf.guess_type = (*p != '\0') ? p : "text/plain";
 	return uf;
@@ -1840,7 +1840,7 @@ check_no_proxy(char *domain)
 }
 
 char *
-filename_extension(char *path, int is_url)
+filename_extension(char *path, bool is_url)
 {
     char *last_dot = "", *p = path;
     int i;

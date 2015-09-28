@@ -119,7 +119,7 @@ static int match_range_longchar(longchar *, longchar *, longchar *, int);
  * regexCompile: compile regular expression
  */
 char *
-regexCompile(char *ex, int igncase)
+regexCompile(char *ex, bool igncase)
 {
     char *msg;
     newRegex(ex, igncase, &DefaultRegex, &msg);
@@ -127,7 +127,7 @@ regexCompile(char *ex, int igncase)
 }
 
 static Regex *
-newRegex0(char **ex, int igncase, Regex *regex, char **msg, int level)
+newRegex0(char **ex, bool igncase, Regex *regex, char **msg, int level)
 {
     char *p;
     longchar *r;
@@ -283,7 +283,7 @@ newRegex0(char **ex, int igncase, Regex *regex, char **msg, int level)
 }
 
 Regex *
-newRegex(char *ex, int igncase, Regex *regex, char **msg)
+newRegex(char *ex, bool igncase, Regex *regex, char **msg)
 {
     return newRegex0(&ex, igncase, regex, msg, 0);
 }
@@ -846,7 +846,7 @@ main(int argc, char **argv)
 	exit(1);
     }
     while (fscanf(f, "%s%s", buf, buf2) == 2) {
-	re = newRegex(buf, 0, NULL, &msg);
+	re = newRegex(buf, false, NULL, &msg);
 	if (re == NULL) {
 	    printf("Error on regexp /%s/: %s\n", buf, msg);
 	    exit(1);

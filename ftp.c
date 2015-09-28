@@ -113,7 +113,7 @@ ftp_close(FTP ftp)
     return;
 }
 
-static int
+static bool
 ftp_login(FTP ftp)
 {
     int sock, status;
@@ -195,10 +195,10 @@ ftp_login(FTP ftp)
     if (status != 230)
 	goto open_err;
   succeed:
-    return TRUE;
+    return true;
   open_err:
     ftp_close(ftp);
-    return FALSE;
+    return false;
 }
 
 static int
@@ -349,14 +349,14 @@ openFTPStream(ParsedURL *pu, URLFile *uf)
     char *pass = NULL;
     Str uname = NULL;
     Str pwd = NULL;
-    int add_auth_cookie_flag = FALSE;
+    bool add_auth_cookie_flag = false;
     char *realpathname = NULL;
 
     if (!pu->host)
 	return NULL;
 
     if (pu->user == NULL && pu->pass == NULL) {
-	if (find_auth_user_passwd(pu, NULL, &uname, &pwd, 0)) {
+	if (find_auth_user_passwd(pu, NULL, &uname, &pwd, false)) {
 	    if (uname)
 		user = uname->ptr;
 	    if (pwd)
@@ -389,7 +389,7 @@ openFTPStream(ParsedURL *pu, URLFile *uf)
 	pass = pu->pass;
     else if (pu->user) {
 	pwd = NULL;
-	find_auth_user_passwd(pu, NULL, &uname, &pwd, 0);
+	find_auth_user_passwd(pu, NULL, &uname, &pwd, false);
 	if (pwd == NULL) {
 	    if (fmInitialized) {
 		term_raw();
@@ -400,7 +400,7 @@ openFTPStream(ParsedURL *pu, URLFile *uf)
 	    else {
 		pwd = Strnew_charp((char *)getpass("Password: "));
 	    }
-	    add_auth_cookie_flag = TRUE;
+	    add_auth_cookie_flag = true;
 	}
 	pass = pwd->ptr;
     }
@@ -422,7 +422,7 @@ openFTPStream(ParsedURL *pu, URLFile *uf)
 	    return NULL;
     }
     if (add_auth_cookie_flag)
-	add_auth_user_passwd(pu, NULL, uname, pwd, 0);
+	add_auth_user_passwd(pu, NULL, uname, pwd, false);
 
   ftp_read:
     ftp_command(&current_ftp, "TYPE", "I", &status);

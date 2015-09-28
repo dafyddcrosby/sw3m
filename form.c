@@ -100,7 +100,7 @@ formList_addInput(struct form_list *fl, struct parsed_tag *tag)
     item->type = FORM_UNKNOWN;
     item->size = -1;
     item->rows = 0;
-    item->checked = item->init_checked = 0;
+    item->checked = item->init_checked = false;
     item->accept = 0;
     item->name = NULL;
     item->value = item->init_value = NULL;
@@ -211,11 +211,11 @@ formRecheckRadio(Anchor *a, Buffer *buf, FormItemList *fi)
 	f2 = (FormItemList *)a2->url;
 	if (f2->parent == fi->parent && f2 != fi &&
 	    f2->type == FORM_INPUT_RADIO && Strcmp(f2->name, fi->name) == 0) {
-	    f2->checked = 0;
+	    f2->checked = false;
 	    formUpdateBuffer(a2, buf, f2);
 	}
     }
-    fi->checked = 1;
+    fi->checked = true;
     formUpdateBuffer(a, buf, fi);
 }
 
@@ -574,7 +574,7 @@ input_textarea(FormItemList *fi)
     f = fopen(tmpf, "w");
     if (f == NULL) {
 	/* FIXME: gettextize? */
-	disp_err_message("Can't open temporary file", FALSE);
+	disp_err_message("Can't open temporary file", false);
 	return;
     }
     if (fi->value)
@@ -590,7 +590,7 @@ input_textarea(FormItemList *fi)
     f = fopen(tmpf, "r");
     if (f == NULL) {
 	/* FIXME: gettextize? */
-	disp_err_message("Can't open temporary file", FALSE);
+	disp_err_message("Can't open temporary file", false);
 	goto input_end;
     }
     fi->value = Strnew();
@@ -635,7 +635,7 @@ do_internal(char *action, char *data)
 
 #ifdef MENU_SELECT
 void
-addSelectOption(FormSelectOption *fso, Str value, Str label, int chk)
+addSelectOption(FormSelectOption *fso, Str value, Str label, bool chk)
 {
     FormSelectOptionItem *o;
     o = New(FormSelectOptionItem);
@@ -689,9 +689,9 @@ updateSelectOption(FormItemList *fi, FormSelectOptionItem *item)
 	return;
     for (i = 0; item != NULL; i++, item = item->next) {
 	if (i == fi->selected)
-	    item->checked = TRUE;
+	    item->checked = true;
 	else
-	    item->checked = FALSE;
+	    item->checked = false;
     }
 }
 
@@ -793,7 +793,7 @@ add_pre_form(struct pre_form *prev, char *url, char *name, char *action)
 	    new->url = allocStr(url + 1, l - 2);
 	else
 	    new->url = url + 1;
-	new->re_url = newRegex(new->url, FALSE, NULL, NULL);
+	new->re_url = newRegex(new->url, false, NULL, NULL);
 	if (!new->re_url)
 	    new->url = NULL;
     }

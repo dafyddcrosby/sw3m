@@ -54,7 +54,7 @@ static int RC_table_size;
 /* FIXME: gettextize here */
 #ifdef USE_M17N
 static wc_ces OptionCharset = WC_CES_US_ASCII;	/* FIXME: charset of source code */
-static int OptionEncode = FALSE;
+static bool OptionEncode = false;
 #endif
 
 #define CMT_HELPER	 N_("External Viewer Setup")
@@ -350,12 +350,12 @@ static struct param_ptr params1[] = {
     {"decode_url", P_BOOL, PI_ONOFF, (void *)&DecodeURL, CMT_DECODE_URL, NULL},
     {"display_lineinfo", P_BOOL, PI_ONOFF, (void *)&displayLineInfo,
      CMT_DISPLINEINFO, NULL},
-    {"ext_dirlist", P_INT, PI_ONOFF, (void *)&UseExternalDirBuffer,
+    {"ext_dirlist", P_BOOL, PI_ONOFF, (void *)&UseExternalDirBuffer,
      CMT_EXT_DIRLIST, NULL},
     {"dirlist_cmd", P_STRING, PI_TEXT, (void *)&DirBufferCommand,
      CMT_DIRLIST_CMD, NULL},
 #ifdef USE_DICT
-    {"use_dictcommand", P_INT, PI_ONOFF, (void *)&UseDictCommand,
+    {"use_dictcommand", P_BOOL, PI_ONOFF, (void *)&UseDictCommand,
      CMT_USE_DICTCOMMAND, NULL},
     {"dictcommand", P_STRING, PI_TEXT, (void *)&DictCommand,
      CMT_DICTCOMMAND, NULL},
@@ -365,13 +365,13 @@ static struct param_ptr params1[] = {
      NULL},
     {"graphic_char", P_CHARINT, PI_SEL_C, (void *)&UseGraphicChar,
      CMT_GRAPHIC_CHAR, (void *)graphic_char_str},
-    {"fold_textarea", P_CHARINT, PI_ONOFF, (void *)&FoldTextarea,
+    {"fold_textarea", P_BOOL, PI_ONOFF, (void *)&FoldTextarea,
      CMT_FOLD_TEXTAREA, NULL},
     {"display_ins_del", P_INT, PI_SEL_C, (void *)&displayInsDel,
      CMT_DISP_INS_DEL, displayinsdel},
-    {"ignore_null_img_alt", P_INT, PI_ONOFF, (void *)&ignore_null_img_alt,
+    {"ignore_null_img_alt", P_BOOL, PI_ONOFF, (void *)&ignore_null_img_alt,
      CMT_IGNORE_NULL_IMG_ALT, NULL},
-    {"view_unseenobject", P_INT, PI_ONOFF, (void *)&view_unseenobject,
+    {"view_unseenobject", P_BOOL, PI_ONOFF, (void *)&view_unseenobject,
      CMT_VIEW_UNSEENOBJECTS, NULL},
     /* XXX: emacs-w3m force to off display_image even if image options off */
     {"display_image", P_BOOL, PI_ONOFF, (void *)&displayImage, CMT_DISP_IMAGE,
@@ -391,7 +391,7 @@ static struct param_ptr params1[] = {
     {"image_map_list", P_BOOL, PI_ONOFF, (void *)&image_map_list,
      CMT_IMAGE_MAP_LIST, NULL},
 #endif
-    {"fold_line", P_INT, PI_ONOFF, (void *)&FoldLine, CMT_FOLD_LINE, NULL},
+    {"fold_line", P_BOOL, PI_ONOFF, (void *)&FoldLine, CMT_FOLD_LINE, NULL},
     {"show_lnum", P_BOOL, PI_ONOFF, (void *)&showLineNum, CMT_SHOW_NUM, NULL},
     {"show_srch_str", P_BOOL, PI_ONOFF, (void *)&show_srch_str,
      CMT_SHOW_SRCH_STR, NULL},
@@ -448,13 +448,13 @@ static struct param_ptr params3[] = {
      CMT_EMACS_LIKE_LINEEDIT, NULL},
     {"vi_prec_num", P_BOOL, PI_ONOFF, (void *)&vi_prec_num, CMT_VI_PREC_NUM,
      NULL},
-    {"mark_all_pages", P_INT, PI_ONOFF, (void *)&MarkAllPages,
+    {"mark_all_pages", P_BOOL, PI_ONOFF, (void *)&MarkAllPages,
      CMT_MARK_ALL_PAGES, NULL},
-    {"wrap_search", P_INT, PI_ONOFF, (void *)&WrapDefault, CMT_WRAP, NULL},
-    {"ignorecase_search", P_INT, PI_ONOFF, (void *)&IgnoreCase,
+    {"wrap_search", P_BOOL, PI_ONOFF, (void *)&WrapDefault, CMT_WRAP, NULL},
+    {"ignorecase_search", P_BOOL, PI_ONOFF, (void *)&IgnoreCase,
      CMT_IGNORE_CASE, NULL},
 #ifdef USE_MIGEMO
-    {"use_migemo", P_INT, PI_ONOFF, (void *)&use_migemo, CMT_USE_MIGEMO,
+    {"use_migemo", P_BOOL, PI_ONOFF, (void *)&use_migemo, CMT_USE_MIGEMO,
      NULL},
     {"migemo_command", P_STRING, PI_TEXT, (void *)&migemo_command,
      CMT_MIGEMO_COMMAND, NULL},
@@ -472,13 +472,13 @@ static struct param_ptr params3[] = {
      (void *)&fixed_wheel_scroll_count,
      CMT_FIXED_WHEEL_SCROLL_COUNT, NULL},
 #endif				/* USE_MOUSE */
-    {"clear_buffer", P_INT, PI_ONOFF, (void *)&clear_buffer, CMT_CLEAR_BUF,
+    {"clear_buffer", P_BOOL, PI_ONOFF, (void *)&clear_buffer, CMT_CLEAR_BUF,
      NULL},
-    {"decode_cte", P_CHARINT, PI_ONOFF, (void *)&DecodeCTE, CMT_DECODE_CTE,
+    {"decode_cte", P_BOOL, PI_ONOFF, (void *)&DecodeCTE, CMT_DECODE_CTE,
      NULL},
-    {"auto_uncompress", P_CHARINT, PI_ONOFF, (void *)&AutoUncompress,
+    {"auto_uncompress", P_BOOL, PI_ONOFF, (void *)&AutoUncompress,
      CMT_AUTO_UNCOMPRESS, NULL},
-    {"preserve_timestamp", P_CHARINT, PI_ONOFF, (void *)&PreserveTimestamp,
+    {"preserve_timestamp", P_BOOL, PI_ONOFF, (void *)&PreserveTimestamp,
      CMT_PRESERVE_TIMESTAMP, NULL},
     {"keymap_file", P_STRING, PI_TEXT, (void *)&keymap_file, CMT_KEYMAP_FILE,
      NULL},
@@ -500,9 +500,9 @@ static struct param_ptr params4[] = {
 #endif				/* USE_GOPHER */
     {"ftp_proxy", P_STRING, PI_TEXT, (void *)&FTP_proxy, CMT_FTP_PROXY, NULL},
     {"no_proxy", P_STRING, PI_TEXT, (void *)&NO_proxy, CMT_NO_PROXY, NULL},
-    {"noproxy_netaddr", P_INT, PI_ONOFF, (void *)&NOproxy_netaddr,
+    {"noproxy_netaddr", P_BOOL, PI_ONOFF, (void *)&NOproxy_netaddr,
      CMT_NOPROXY_NETADDR, NULL},
-    {"no_cache", P_CHARINT, PI_ONOFF, (void *)&NoCache, CMT_NO_CACHE, NULL},
+    {"no_cache", P_BOOL, PI_ONOFF, (void *)&NoCache, CMT_NO_CACHE, NULL},
 
     {NULL, 0, 0, NULL, NULL, NULL},
 };
@@ -536,7 +536,7 @@ static struct param_ptr params6[] = {
      NULL},
     {"bgextviewer", P_BOOL, PI_ONOFF, (void *)&BackgroundExtViewer,
      CMT_BGEXTVIEW, NULL},
-    {"use_lessopen", P_INT, PI_ONOFF, (void *)&use_lessopen, CMT_USE_LESSOPEN,
+    {"use_lessopen", P_BOOL, PI_ONOFF, (void *)&use_lessopen, CMT_USE_LESSOPEN,
      NULL},
     {NULL, 0, 0, NULL, NULL, NULL},
 };
@@ -558,10 +558,10 @@ static struct param_ptr params7[] = {
 #endif				/* USE_SSL */
 
 static struct param_ptr params8[] = {
-    {"use_cookie", P_INT, PI_ONOFF, (void *)&use_cookie, CMT_USECOOKIE, NULL},
-    {"show_cookie", P_INT, PI_ONOFF, (void *)&show_cookie,
+    {"use_cookie", P_BOOL, PI_ONOFF, (void *)&use_cookie, CMT_USECOOKIE, NULL},
+    {"show_cookie", P_BOOL, PI_ONOFF, (void *)&show_cookie,
      CMT_SHOWCOOKIE, NULL},
-    {"accept_cookie", P_INT, PI_ONOFF, (void *)&accept_cookie,
+    {"accept_cookie", P_BOOL, PI_ONOFF, (void *)&accept_cookie,
      CMT_ACCEPTCOOKIE, NULL},
     {"accept_bad_cookie", P_INT, PI_SEL_C, (void *)&accept_bad_cookie,
      CMT_ACCEPTBADCOOKIE, (void *)badcookiestr},
@@ -579,12 +579,12 @@ static struct param_ptr params9[] = {
     {"passwd_file", P_STRING, PI_TEXT, (void *)&passwd_file, CMT_PASSWDFILE,
      NULL},
     {"ftppasswd", P_STRING, PI_TEXT, (void *)&ftppasswd, CMT_FTPPASS, NULL},
-    {"ftppass_hostnamegen", P_INT, PI_ONOFF, (void *)&ftppass_hostnamegen,
+    {"ftppass_hostnamegen", P_BOOL, PI_ONOFF, (void *)&ftppass_hostnamegen,
      CMT_FTPPASS_HOSTNAMEGEN, NULL},
     {"pre_form_file", P_STRING, PI_TEXT, (void *)&pre_form_file,
      CMT_PRE_FORM_FILE, NULL},
     {"user_agent", P_STRING, PI_TEXT, (void *)&UserAgent, CMT_USERAGENT, NULL},
-    {"no_referer", P_INT, PI_ONOFF, (void *)&NoSendReferer, CMT_NOSENDREFERER,
+    {"no_referer", P_BOOL, PI_ONOFF, (void *)&NoSendReferer, CMT_NOSENDREFERER,
      NULL},
     {"accept_language", P_STRING, PI_TEXT, (void *)&AcceptLang, CMT_ACCEPTLANG,
      NULL},
@@ -593,7 +593,7 @@ static struct param_ptr params9[] = {
      NULL},
     {"accept_media", P_STRING, PI_TEXT, (void *)&AcceptMedia, CMT_ACCEPTMEDIA,
      NULL},
-    {"argv_is_url", P_CHARINT, PI_ONOFF, (void *)&ArgvIsURL, CMT_ARGV_IS_URL,
+    {"argv_is_url", P_BOOL, PI_ONOFF, (void *)&ArgvIsURL, CMT_ARGV_IS_URL,
      NULL},
     {"retry_http", P_INT, PI_ONOFF, (void *)&retryAsHttp, CMT_RETRY_HTTP,
      NULL},
@@ -601,7 +601,7 @@ static struct param_ptr params9[] = {
      CMT_DEFAULT_URL, (void *)defaulturls},
     {"follow_redirection", P_INT, PI_TEXT, &FollowRedirection,
      CMT_FOLLOW_REDIRECTION, NULL},
-    {"meta_refresh", P_CHARINT, PI_ONOFF, (void *)&MetaRefresh,
+    {"meta_refresh", P_BOOL, PI_ONOFF, (void *)&MetaRefresh,
      CMT_META_REFRESH, NULL},
 #ifdef INET6
     {"dns_order", P_INT, PI_SEL_C, (void *)&DNS_order, CMT_DNS_ORDER,
@@ -624,9 +624,9 @@ static struct param_ptr params10[] = {
      CMT_AUTO_DETECT, (void *)auto_detect_str},
     {"system_charset", P_CODE, PI_CODE, (void *)&SystemCharset,
      CMT_SYSTEM_CHARSET, (void *)&system_charset_str},
-    {"follow_locale", P_CHARINT, PI_ONOFF, (void *)&FollowLocale,
+    {"follow_locale", P_BOOL, PI_ONOFF, (void *)&FollowLocale,
      CMT_FOLLOW_LOCALE, NULL},
-    {"ext_halfdump", P_CHARINT, PI_ONOFF, (void *)&ExtHalfdump,
+    {"ext_halfdump", P_BOOL, PI_ONOFF, (void *)&ExtHalfdump,
      CMT_EXT_HALFDUMP, NULL},
     {"use_wide", P_CHARINT, PI_ONOFF, (void *)&WcOption.use_wide, CMT_USE_WIDE,
      NULL},
@@ -642,7 +642,7 @@ static struct param_ptr params10[] = {
 #endif
     {"pre_conv", P_CHARINT, PI_ONOFF, (void *)&WcOption.pre_conv, CMT_PRE_CONV,
      NULL},
-    {"search_conv", P_CHARINT, PI_ONOFF, (void *)&SearchConv, CMT_SEARCH_CONV,
+    {"search_conv", P_BOOL, PI_ONOFF, (void *)&SearchConv, CMT_SEARCH_CONV,
      NULL},
     {"fix_width_conv", P_CHARINT, PI_ONOFF, (void *)&WcOption.fix_width_conv,
      CMT_FIX_WIDTH_CONV, NULL},
@@ -666,7 +666,7 @@ static struct param_ptr params10[] = {
     {"gb18030_as_ucs", P_CHARINT, PI_ONOFF, (void *)&WcOption.gb18030_as_ucs,
      CMT_GB18030_AS_UCS, NULL},
 #endif
-    {"simple_preserve_space", P_CHARINT, PI_ONOFF, (void *)&SimplePreserveSpace,
+    {"simple_preserve_space", P_BOOL, PI_ONOFF, (void *)&SimplePreserveSpace,
      CMT_SIMPLE_PRESERVE_SPACE, NULL},
     {NULL, 0, 0, NULL, NULL, NULL},
 };
@@ -1153,7 +1153,7 @@ sync_with_option(void)
     update_utf8_symbol();
 #endif
     if (fmInitialized) {
-	initKeymap(FALSE);
+	initKeymap(false);
 #ifdef USE_MOUSE
 	initMouseAction();
 #endif				/* MOUSE */
@@ -1340,7 +1340,7 @@ load_option_panel(void)
 	    s->text = wc_conv(_(s->text), OptionCharset,
 			      InnerCharset)->ptr;
 #endif
-	OptionEncode = TRUE;
+	OptionEncode = true;
     }
 #endif
     src = Strdup(optionpanel_str);
@@ -1424,12 +1424,12 @@ panel_set_option(struct parsed_tagarg *arg)
     char *p;
 
     if (config_file == NULL) {
-	disp_message("There's no config file... config not saved", FALSE);
+	disp_message("There's no config file... config not saved", false);
     }
     else {
 	f = fopen(config_file, "wt");
 	if (f == NULL) {
-	    disp_message("Can't write option!", FALSE);
+	    disp_message("Can't write option!", false);
 	}
     }
     while (arg) {

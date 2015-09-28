@@ -64,7 +64,7 @@ typedef struct form_list {
 typedef struct form_select_option_item {
     Str value;
     Str label;
-    int checked;
+    bool checked;
     struct form_select_option_item *next;
 } FormSelectOptionItem;
 
@@ -73,7 +73,7 @@ typedef struct form_select_option {
     FormSelectOptionItem *last;
 } FormSelectOption;
 
-void addSelectOption(FormSelectOption *fso, Str value, Str label, int chk);
+void addSelectOption(FormSelectOption *fso, Str value, Str label, bool chk);
 void chooseSelectOption(struct form_item_list *fi, FormSelectOptionItem *item);
 int formChooseOptionByMenu(struct form_item_list *fi, int x, int y);
 #endif				/* MENU_SELECT */
@@ -82,7 +82,7 @@ typedef struct form_item_list {
     int type;
     Str name;
     Str value, init_value;
-    int checked, init_checked;
+    bool checked, init_checked;
     int accept;
     int size;
     int rows;

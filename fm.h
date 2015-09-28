@@ -363,7 +363,7 @@ typedef struct _anchor {
     BufferPoint start;
     BufferPoint end;
     int hseq;
-    char slave;
+    bool slave;
     short y;
     short rows;
 #ifdef USE_IMAGE
@@ -458,8 +458,8 @@ typedef struct _Buffer {
     char *ssl_certificate;
 #endif
     char image_flag;
-    char image_loaded;
-    char need_reshape;
+    bool image_loaded;
+    bool need_reshape;
     Anchor *submit;
     struct _BufferPos *undo;
 #ifdef USE_ALARM
@@ -728,11 +728,11 @@ global char *DefaultType init(NULL);
 global bool RenderFrame init(false);
 global bool TargetSelf init(false);
 global bool PermitSaveToPipe init(false);
-global char DecodeCTE init(FALSE);
-global char AutoUncompress init(FALSE);
-global char PreserveTimestamp init(TRUE);
-global char ArgvIsURL init(FALSE);
-global char MetaRefresh init(FALSE);
+global bool DecodeCTE init(false);
+global bool AutoUncompress init(false);
+global bool PreserveTimestamp init(true);
+global bool ArgvIsURL init(false);
+global bool MetaRefresh init(false);
 
 global bool fmInitialized init(false);
 global bool QuietMessage init(false);
@@ -772,7 +772,7 @@ global ParsedURL GOPHER_proxy_parsed;
 #endif				/* USE_GOPHER */
 global ParsedURL FTP_proxy_parsed;
 global char *NO_proxy init(NULL);
-global int NOproxy_netaddr init(TRUE);
+global bool NOproxy_netaddr init(true);
 #ifdef INET6
 #define DNS_ORDER_UNSPEC     0
 #define DNS_ORDER_INET_INET6 1
@@ -783,7 +783,7 @@ global int DNS_order init(DNS_ORDER_UNSPEC);
 extern int ai_family_order_table[7][3];	/* XXX */
 #endif				/* INET6 */
 global TextList *NO_proxy_domains;
-global char NoCache init(FALSE);
+global bool NoCache init(false);
 global bool use_proxy init(true);
 global bool Do_not_use_ti_te init(false);
 global char *NNTP_server init(NULL);
@@ -826,7 +826,7 @@ extern char *w3m_version;
 #define DUMP_EXTRA    0x08
 #define DUMP_HALFDUMP 0x10
 #define DUMP_FRAME    0x20
-global int w3m_debug;
+global bool w3m_debug;
 global int w3m_dump init(0);
 #define w3m_halfdump (w3m_dump & DUMP_HALFDUMP)
 global bool w3m_halfload init(false);
@@ -895,43 +895,43 @@ global bool BackgroundExtViewer init(true);
 global char *passwd_file init(PASSWD_FILE);
 global char *pre_form_file init(PRE_FORM_FILE);
 global char *ftppasswd init(NULL);
-global int ftppass_hostnamegen init(TRUE);
+global bool ftppass_hostnamegen init(true);
 global bool do_download init(false);
 #ifdef USE_IMAGE
 global char *image_source init(NULL);
 #endif
 global char *UserAgent init(NULL);
-global int NoSendReferer init(FALSE);
+global bool NoSendReferer init(false);
 global char *AcceptLang init(NULL);
 global char *AcceptEncoding init(NULL);
 global char *AcceptMedia init(NULL);
-global int WrapDefault init(FALSE);
-global int IgnoreCase init(TRUE);
-global int WrapSearch init(FALSE);
-global int squeezeBlankLine init(FALSE);
+global bool WrapDefault init(false);
+global bool IgnoreCase init(true);
+global bool WrapSearch init(false);
+global bool squeezeBlankLine init(false);
 global char *BookmarkFile init(NULL);
-global int UseExternalDirBuffer init(TRUE);
+global bool UseExternalDirBuffer init(true);
 global char *DirBufferCommand init("file:///$LIB/dirlist" CGI_EXTENSION);
 #ifdef USE_DICT
-global int UseDictCommand init(FALSE);
+global bool UseDictCommand init(false);
 global char *DictCommand init("file:///$LIB/w3mdict" CGI_EXTENSION);
 #endif				/* USE_DICT */
-global int ignore_null_img_alt init(TRUE);
+global bool ignore_null_img_alt init(true);
 #define DISPLAY_INS_DEL_SIMPLE	0
 #define DISPLAY_INS_DEL_NORMAL	1
 #define DISPLAY_INS_DEL_FONTIFY	2
 global int displayInsDel init(DISPLAY_INS_DEL_NORMAL);
-global int FoldTextarea init(FALSE);
-global int FoldLine init(FALSE);
+global bool FoldTextarea init(false);
+global bool FoldLine init(false);
 #define DEFAULT_URL_EMPTY	0
 #define DEFAULT_URL_CURRENT	1
 #define DEFAULT_URL_LINK	2
 global int DefaultURLString init(DEFAULT_URL_EMPTY);
-global int MarkAllPages init(FALSE);
+global bool MarkAllPages init(false);
 
 #ifdef USE_MIGEMO
-global int use_migemo init(FALSE);
-global int migemo_active init(0);
+global bool use_migemo init(false);
+global bool migemo_active init(false);
 global char *migemo_command init(DEF_MIGEMO_COMMAND);
 #endif				/* USE_MIGEMO */
 
@@ -959,11 +959,11 @@ global wc_ces DisplayCharset init(DISPLAY_CHARSET);
 global wc_ces DocumentCharset init(DOCUMENT_CHARSET);
 global wc_ces SystemCharset init(SYSTEM_CHARSET);
 global wc_ces BookmarkCharset init(SYSTEM_CHARSET);
-global char ExtHalfdump init(FALSE);
-global char FollowLocale init(TRUE);
-global char UseContentCharset init(TRUE);
-global char SearchConv init(TRUE);
-global char SimplePreserveSpace init(FALSE);
+global bool ExtHalfdump init(false);
+global bool FollowLocale init(true);
+global bool UseContentCharset init(true);
+global bool SearchConv init(true);
+global bool SimplePreserveSpace init(false);
 #define Str_conv_from_system(x) wc_Str_conv((x), SystemCharset, InnerCharset)
 #define Str_conv_to_system(x) wc_Str_conv_strict((x), InnerCharset, SystemCharset)
 #define Str_conv_to_halfdump(x) (ExtHalfdump ? wc_Str_conv((x), InnerCharset, DisplayCharset) : (x))
@@ -1012,7 +1012,7 @@ typedef struct _MouseAction {
     char *lastline_str;
     int menu_width;
     int lastline_width;
-    int in_action;
+    bool in_action;
     int cursorX;
     int cursorY;
     MouseActionMap default_map[3];
@@ -1026,10 +1026,10 @@ global MouseAction mouse_action;
 #define LIMIT_MOUSE_MENU 100
 #endif				/* USE_MOUSE */
 
-global int default_use_cookie init(FALSE);
-global int use_cookie init(FALSE);
-global int show_cookie init(TRUE);
-global int accept_cookie init(FALSE);
+global bool default_use_cookie init(false);
+global bool use_cookie init(false);
+global bool show_cookie init(true);
+global bool accept_cookie init(false);
 #define ACCEPT_BAD_COOKIE_DISCARD	0
 #define ACCEPT_BAD_COOKIE_ACCEPT	1
 #define ACCEPT_BAD_COOKIE_ASK		2
@@ -1042,9 +1042,9 @@ global TextList *Cookie_accept_domains;
 global TextList *Cookie_avoid_wrong_number_of_dots_domains;
 
 #ifdef USE_IMAGE
-global int view_unseenobject init(FALSE);
+global bool view_unseenobject init(false);
 #else
-global int view_unseenobject init(TRUE);
+global bool view_unseenobject init(true);
 #endif
 
 #if defined(USE_SSL)
@@ -1056,16 +1056,16 @@ global char *ssl_ca_file init(NULL);
 global bool ssl_path_modified init(false);
 #endif
 
-global int is_redisplay init(FALSE);
-global int clear_buffer init(TRUE);
+global bool is_redisplay init(false);
+global bool clear_buffer init(true);
 global double pixel_per_char init(DEFAULT_PIXEL_PER_CHAR);
-global int set_pixel_per_char init(FALSE);
+global bool set_pixel_per_char init(false);
 #ifdef USE_IMAGE
 global double pixel_per_line init(DEFAULT_PIXEL_PER_LINE);
-global int set_pixel_per_line init(FALSE);
+global bool set_pixel_per_line init(false);
 global double image_scale init(100);
 #endif
-global int use_lessopen init(FALSE);
+global bool use_lessopen init(false);
 
 global char *keymap_file init(KEYMAP_FILE);
 
@@ -1085,7 +1085,7 @@ global char *keymap_file init(KEYMAP_FILE);
 
 global int FollowRedirection init(10);
 
-global int w3m_backend init(FALSE);
+global bool w3m_backend init(false);
 global TextLineList *backend_halfdump_buf;
 global TextList *backend_batch_commands init(NULL);
 int backend(void);

@@ -40,7 +40,7 @@ do_update(BaseStream base)
     base->stream.cur = base->stream.next = 0;
     len = base->read(base->handle, base->stream.buf, base->stream.size);
     if (len <= 0)
-	base->iseos = TRUE;
+	base->iseos = true;
     else
 	base->stream.next += len;
 }
@@ -72,7 +72,7 @@ init_buffer(BaseStream base, char *buf, int bufsize)
 	sb->buf = NewAtom_N(uchar, bufsize);
 	sb->next = 0;
     }
-    base->iseos = FALSE;
+    base->iseos = false;
 }
 
 static void
@@ -323,7 +323,7 @@ ISread(InputStream stream, Str buf, int count)
     if (MUST_BE_UPDATED(base)) {
 	len = base->read(base->handle, &buf->ptr[len], rest);
 	if (len <= 0) {
-	    base->iseos = TRUE;
+	    base->iseos = true;
 	    len = 0;
 	}
 	rest -= len;
@@ -367,7 +367,7 @@ ssl_accept_this_site(char *hostname)
 	accept_this_site = NULL;
 }
 
-static int
+static bool
 ssl_match_cert_ident(char *ident, int ilen, char *hostname)
 {
     /* RFC2818 3.1.  Server Identity
@@ -381,7 +381,7 @@ ssl_match_cert_ident(char *ident, int ilen, char *hostname)
 
     /* Is this an exact match? */
     if ((ilen == hlen) && strncasecmp(ident, hostname, hlen) == 0)
-	return TRUE;
+	return true;
 
     for (i = 0; i < ilen; i++) {
 	if (ident[i] == '*' && ident[i + 1] == '.') {
@@ -392,7 +392,7 @@ ssl_match_cert_ident(char *ident, int ilen, char *hostname)
 	}
 	else {
 	    if (ident[i] != *hostname++)
-		return FALSE;
+		return false;
 	}
     }
     return *hostname == '\0';
@@ -523,12 +523,12 @@ ssl_get_certificate(SSL * ssl, char *hostname)
 	    /* FIXME: gettextize? */
 	    char *e = "This SSL session was rejected "
 		"to prevent security violation: no peer certificate";
-	    disp_err_message(e, FALSE);
+	    disp_err_message(e, false);
 	    free_ssl_ctx();
 	    return NULL;
 	}
 	if (amsg)
-	    disp_err_message(amsg->ptr, FALSE);
+	    disp_err_message(amsg->ptr, false);
 	ssl_accept_this_site(hostname);
 	/* FIXME: gettextize? */
 	s = amsg ? amsg : Strnew_charp("valid certificate");
@@ -560,7 +560,7 @@ ssl_get_certificate(SSL * ssl, char *hostname)
 		/* FIXME: gettextize? */
 		char *e =
 		    Sprintf("This SSL session was rejected: %s", em)->ptr;
-		disp_err_message(e, FALSE);
+		disp_err_message(e, false);
 		free_ssl_ctx();
 		return NULL;
 	    }
@@ -587,13 +587,13 @@ ssl_get_certificate(SSL * ssl, char *hostname)
 	    /* FIXME: gettextize? */
 	    char *e = "This SSL session was rejected "
 		"to prevent security violation";
-	    disp_err_message(e, FALSE);
+	    disp_err_message(e, false);
 	    free_ssl_ctx();
 	    return NULL;
 	}
     }
     if (amsg)
-	disp_err_message(amsg->ptr, FALSE);
+	disp_err_message(amsg->ptr, false);
     ssl_accept_this_site(hostname);
     /* FIXME: gettextize? */
     s = amsg ? amsg : Strnew_charp("valid certificate");

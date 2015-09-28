@@ -339,7 +339,7 @@ frame_download_source(struct frame_body *b, ParsedURL *currentURL,
     case SCM_LOCAL:
 	b->flags = 0;
     default:
-	is_redisplay = TRUE;
+	is_redisplay = true;
 	w3m_dump |= DUMP_FRAME;
 	buf = loadGeneralFile(b->url,
 			      baseURL ? baseURL : currentURL,
@@ -350,7 +350,7 @@ frame_download_source(struct frame_body *b, ParsedURL *currentURL,
 	    b->ssl_certificate = buf->ssl_certificate;
 #endif
 	w3m_dump &= ~DUMP_FRAME;
-	is_redisplay = FALSE;
+	is_redisplay = false;
 	break;
     }
 
@@ -539,7 +539,7 @@ createFrameFile(struct frameset *f, FILE * f1, Buffer *current, int level,
 		    break;
 		}
 		do {
-		    int is_tag = FALSE;
+		    bool is_tag = false;
 		    char *q;
 		    struct parsed_tag *tag;
 
@@ -561,7 +561,7 @@ createFrameFile(struct frameset *f, FILE * f1, Buffer *current, int level,
 		    if (tok->ptr[0] == '<') {
 			if (tok->ptr[1] &&
 			    REALLY_THE_BEGINNING_OF_A_TAG(tok->ptr))
-			    is_tag = TRUE;
+			    is_tag = true;
 			else if (!(pre_mode & (RB_PLAIN | RB_INTXTA |
 					       RB_SCRIPT | RB_STYLE))) {
 			    p = Strnew_m_charp(tok->ptr + 1, p, NULL)->ptr;
@@ -572,7 +572,7 @@ createFrameFile(struct frameset *f, FILE * f1, Buffer *current, int level,
 			if (pre_mode & (RB_PLAIN | RB_INTXTA | RB_SCRIPT |
 					RB_STYLE)) {
 			    q = tok->ptr;
-			    if ((tag = parse_tag(&q, FALSE)) &&
+			    if ((tag = parse_tag(&q, false)) &&
 				tag->tagid == end_tag) {
 				if (pre_mode & RB_PLAIN) {
 				    fputs("</PRE_PLAIN>", f1);
@@ -590,11 +590,11 @@ createFrameFile(struct frameset *f, FILE * f1, Buffer *current, int level,
 				p = Strnew_m_charp(q, p, NULL)->ptr;
 				status = R_ST_NORMAL;
 			    }
-			    is_tag = FALSE;
+			    is_tag = false;
 			}
 			else if (pre_mode & RB_INSELECT) {
 			    q = tok->ptr;
-			    if ((tag = parse_tag(&q, FALSE))) {
+			    if ((tag = parse_tag(&q, false))) {
 				if ((tag->tagid == end_tag) ||
 				    (tag->tagid == HTML_N_FORM)) {
 				    if (tag->tagid == HTML_N_FORM)
@@ -624,7 +624,7 @@ createFrameFile(struct frameset *f, FILE * f1, Buffer *current, int level,
 			int j, a_target = 0;
 			ParsedURL url;
 
-			if (!(tag = parse_tag(&q, FALSE)))
+			if (!(tag = parse_tag(&q, false)))
 			    goto token_end;
 
 			switch (tag->tagid) {

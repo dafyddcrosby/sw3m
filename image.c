@@ -94,7 +94,7 @@ openImgdisplay()
     if (Imgdisplay_pid == 0) {
 	/* child */
 	char *cmd;
-	setup_child(FALSE, 2, -1);
+	setup_child(false, 2, -1);
 	if (!strchr(Imgdisplay, '/'))
 	    cmd = Strnew_m_charp(w3m_auxbin_dir(), "/", Imgdisplay, NULL)->ptr;
 	else
@@ -283,7 +283,7 @@ getAllImage(Buffer *buf)
     image_buffer = buf;
     if (!buf)
 	return;
-    buf->image_loaded = TRUE;
+    buf->image_loaded = true;
     al = buf->img;
     if (!al)
 	return;
@@ -293,7 +293,7 @@ getAllImage(Buffer *buf)
 	    a->image->cache = getImage(a->image, current, buf->image_flag);
 	    if (a->image->cache &&
 		a->image->cache->loaded == IMG_FLAG_UNLOADED)
-		buf->image_loaded = FALSE;
+		buf->image_loaded = false;
 	}
     }
 }
@@ -356,7 +356,7 @@ loadImage(Buffer *buf, int flag)
 	    cache->loaded = IMG_FLAG_LOADED;
 	    if (getImageSize(cache)) {
 		if (image_buffer)
-		    image_buffer->need_reshape = TRUE;
+		    image_buffer->need_reshape = true;
 	    }
 	    draw = true;
 	}
@@ -419,10 +419,7 @@ loadImage(Buffer *buf, int flag)
 	flush_tty();
 	if ((cache->pid = fork()) == 0) {
 	    Buffer *b;
-	    /*
-	     * setup_child(TRUE, 0, -1);
-	     */
-	    setup_child(FALSE, 0, -1);
+	    setup_child(false, 0, -1);
 	    image_source = cache->file;
 	    b = loadGeneralFile(cache->url, cache->current, NULL, 0, NULL);
 	    if (!b || !b->real_type || strncasecmp(b->real_type, "image/", 6))

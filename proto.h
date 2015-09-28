@@ -151,7 +151,7 @@ extern void undoPos(void);
 extern void redoPos(void);
 
 extern void tmpClearBuffer(Buffer *buf);
-extern char *filename_extension(char *patch, int is_url);
+extern char *filename_extension(char *patch, bool is_url);
 #ifdef USE_EXTERNAL_URI_LOADER
 extern void initURIMethods();
 extern Str searchURIMethods(ParsedURL *pu);
@@ -161,7 +161,7 @@ extern ParsedURL *schemeToProxy(int scheme);
 extern void examineFile(char *path, URLFile *uf);
 extern char *acceptableEncoding();
 extern bool dir_exist(char *path);
-extern int is_html_type(char *type);
+extern bool is_html_type(char *type);
 #ifdef USE_M17N
 extern char **get_symbol(wc_ces charset, int *width);
 extern char **set_symbol(int width);
@@ -216,18 +216,18 @@ extern int HTMLtagproc1(struct parsed_tag *tag,
 			struct html_feed_environ *h_env);
 extern void HTMLlineproc2(Buffer *buf, TextLineList *tl);
 extern void HTMLlineproc0(char *istr, struct html_feed_environ *h_env,
-			  int internal);
-#define HTMLlineproc1(x,y) HTMLlineproc0(x,y,TRUE)
+			  bool internal);
+#define HTMLlineproc1(x,y) HTMLlineproc0(x,y,true)
 extern Buffer *loadHTMLBuffer(URLFile *f, Buffer *newBuf);
-extern char *convert_size(clen_t size, int usefloat);
-extern char *convert_size2(clen_t size1, clen_t size2, int usefloat);
+extern char *convert_size(clen_t size, bool usefloat);
+extern char *convert_size2(clen_t size1, clen_t size2, bool usefloat);
 extern void showProgress(clen_t * linelen, clen_t * trbyte);
 extern void init_henv(struct html_feed_environ *, struct readbuffer *,
 		      struct environment *, int, TextLineList *, int, int);
 extern void completeHTMLstream(struct html_feed_environ *,
 			       struct readbuffer *);
 extern void loadHTMLstream(URLFile *f, Buffer *newBuf, FILE * src,
-			   int internal);
+			   bool internal);
 extern Buffer *loadHTMLString(Str page);
 #ifdef USE_GOPHER
 extern Str loadGopherDir(URLFile *uf, ParsedURL *pu, wc_ces * charset);
@@ -236,8 +236,8 @@ extern Buffer *loadBuffer(URLFile *uf, Buffer *newBuf);
 #ifdef USE_IMAGE
 extern Buffer *loadImageBuffer(URLFile *uf, Buffer *newBuf);
 #endif
-extern void saveBuffer(Buffer *buf, FILE * f, int cont);
-extern void saveBufferBody(Buffer *buf, FILE * f, int cont);
+extern void saveBuffer(Buffer *buf, FILE * f, bool cont);
+extern void saveBufferBody(Buffer *buf, FILE * f, bool cont);
 extern Buffer *getshell(char *cmd);
 extern Buffer *getpipe(char *cmd);
 extern Buffer *openPagerBuffer(InputStream stream, Buffer *buf);
@@ -253,7 +253,7 @@ extern int checkSaveFile(InputStream stream, char *path);
 extern int checkOverWrite(char *path);
 extern char *inputAnswer(char *prompt);
 extern bool matchattr(char *p, char *attr, int len, Str *value);
-extern void readHeader(URLFile *uf, Buffer *newBuf, int thru, ParsedURL *pu);
+extern void readHeader(URLFile *uf, Buffer *newBuf, bool thru, ParsedURL *pu);
 extern char *checkHeader(Buffer *buf, char *field);
 extern TabBuffer *newTab(void);
 extern void calcTabPos(void);
@@ -289,12 +289,12 @@ extern void addMChar(char *c, Lineprop mode, size_t len);
 extern void record_err_message(char *s);
 extern Buffer *message_list_panel(void);
 extern void message(char *s, int return_x, int return_y);
-extern void disp_err_message(char *s, int redraw_current);
-extern void disp_message_nsec(char *s, int redraw_current, int sec, int purge,
-			      int mouse);
-extern void disp_message(char *s, int redraw_current);
+extern void disp_err_message(char *s, bool redraw_current);
+extern void disp_message_nsec(char *s, bool redraw_current, int sec, bool purge,
+			      bool mouse);
+extern void disp_message(char *s, bool redraw_current);
 #ifdef USE_MOUSE
-extern void disp_message_nomouse(char *s, int redraw_current);
+extern void disp_message_nomouse(char *s, bool redraw_current);
 #else
 #define disp_message_nomouse disp_message
 #endif
@@ -314,8 +314,8 @@ extern void restorePosition(Buffer *buf, Buffer *orig);
 extern int columnSkip(Buffer *buf, int offset);
 extern int columnPos(Line *line, int column);
 extern int columnLen(Line *line, int column);
-extern Line *lineSkip(Buffer *buf, Line *line, int offset, int last);
-extern Line *currentLineSkip(Buffer *buf, Line *line, int offset, int last);
+extern Line *lineSkip(Buffer *buf, Line *line, int offset, bool last);
+extern Line *currentLineSkip(Buffer *buf, Line *line, int offset, bool last);
 extern int gethtmlcmd(char **s);
 #ifndef USE_ANSI_COLOR
 #define checkType(a,b,c) _checkType(a,b)
@@ -476,7 +476,7 @@ extern void flush_tty(void);
 extern void toggle_stand(void);
 extern char getch(void);
 extern void bell(void);
-extern int sleep_till_anykey(int sec, int purge);
+extern int sleep_till_anykey(int sec, bool purge);
 #ifdef USE_IMAGE
 extern void touch_cursor();
 #endif
@@ -593,18 +593,18 @@ extern FILE *openSecretFile(char *fname);
 extern void loadPasswd(void);
 extern void loadPreForm(void);
 extern int find_auth_user_passwd(ParsedURL *pu, char *realm,
-				 Str *uname, Str *pwd, int is_proxy);
+				 Str *uname, Str *pwd, bool is_proxy);
 extern void add_auth_user_passwd(ParsedURL *pu, char *realm,
-				 Str uname, Str pwd, int is_proxy);
+				 Str uname, Str pwd, bool is_proxy);
 extern void invalidate_auth_user_passwd(ParsedURL *pu, char *realm,
-					Str uname, Str pwd, int is_proxy);
+					Str uname, Str pwd, bool is_proxy);
 extern char *last_modified(Buffer *buf);
 extern Str romanNumeral(int n);
 extern Str romanAlphabet(int n);
-extern void setup_child(int child, int i, int f);
+extern void setup_child(bool child, int i, int f);
 extern void myExec(char *command);
 extern void mySystem(char *command, int background);
-extern Str myExtCommand(char *cmd, char *arg, int redirect);
+extern Str myExtCommand(char *cmd, char *arg, bool redirect);
 extern Str myEditor(char *cmd, char *file, int line);
 extern char *file_to_url(char *file);
 #ifdef USE_M17N
@@ -686,7 +686,7 @@ extern void clearImage(void);
 extern char *searchKeyData(void);
 
 extern void setKeymap(char *p, int lineno, bool verbose);
-extern void initKeymap(int force);
+extern void initKeymap(bool force);
 extern int getFuncList(char *id);
 extern int getKey(char *s);
 extern char *getKeyData(int key);

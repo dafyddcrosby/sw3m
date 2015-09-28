@@ -47,7 +47,7 @@ struct base_stream {
     struct stream_buffer stream;
     void *handle;
     char type;
-    char iseos;
+    bool iseos;
     int (*read) ();
     void (*close) ();
 };
@@ -56,7 +56,7 @@ struct file_stream {
     struct stream_buffer stream;
     struct io_file_handle *handle;
     char type;
-    char iseos;
+    bool iseos;
     int (*read) ();
     void (*close) ();
 };
@@ -65,7 +65,7 @@ struct str_stream {
     struct stream_buffer stream;
     Str handle;
     char type;
-    char iseos;
+    bool iseos;
     int (*read) ();
     void (*close) ();
 };
@@ -75,7 +75,7 @@ struct ssl_stream {
     struct stream_buffer stream;
     struct ssl_handle *handle;
     char type;
-    char iseos;
+    bool iseos;
     int (*read) ();
     void (*close) ();
 };
@@ -85,7 +85,7 @@ struct encoded_stream {
     struct stream_buffer stream;
     struct ens_handle *handle;
     char type;
-    char iseos;
+    bool iseos;
     int (*read) ();
     void (*close) ();
 };

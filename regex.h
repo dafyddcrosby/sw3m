@@ -28,7 +28,7 @@ typedef struct regex {
 } Regex;
 
 
-Regex *newRegex(char *ex, int igncase, Regex *regex, char **error_msg);
+Regex *newRegex(char *ex, bool igncase, Regex *regex, char **error_msg);
 
 bool RegexMatch(Regex *re, char *str, int len, int firstp);
 
@@ -36,7 +36,7 @@ void MatchedPosition(Regex *re, char **first, char **last);
 
 
 /* backward compatibility */
-char *regexCompile(char *ex, int igncase);
+char *regexCompile(char *ex, bool igncase);
 
 bool regexMatch(char *str, int len, int firstp);
 

@@ -259,7 +259,7 @@ gotoLine(Buffer *buf, int n)
 	set_delayed_message(msg);
 	buf->currentLine = l;
 	buf->topLine = lineSkip(buf, buf->currentLine, -(buf->LINES - 1),
-				FALSE);
+				false);
 	return;
     }
     for (; l != NULL; l = l->next) {
@@ -267,7 +267,7 @@ gotoLine(Buffer *buf, int n)
 	    buf->currentLine = l;
 	    if (n < buf->topLine->linenumber ||
 		buf->topLine->linenumber + buf->LINES <= n)
-		buf->topLine = lineSkip(buf, l, -(buf->LINES + 1) / 2, FALSE);
+		buf->topLine = lineSkip(buf, l, -(buf->LINES + 1) / 2, false);
 	    break;
 	}
     }
@@ -304,7 +304,7 @@ gotoRealLine(Buffer *buf, int n)
 	set_delayed_message(msg);
 	buf->currentLine = l;
 	buf->topLine = lineSkip(buf, buf->currentLine, -(buf->LINES - 1),
-				FALSE);
+				false);
 	return;
     }
     for (; l != NULL; l = l->next) {
@@ -312,7 +312,7 @@ gotoRealLine(Buffer *buf, int n)
 	    buf->currentLine = l;
 	    if (n < buf->topLine->real_linenumber ||
 		buf->topLine->real_linenumber + buf->LINES <= n)
-		buf->topLine = lineSkip(buf, l, -(buf->LINES + 1) / 2, FALSE);
+		buf->topLine = lineSkip(buf, l, -(buf->LINES + 1) / 2, false);
 	    break;
 	}
     }
@@ -492,7 +492,7 @@ reshapeBuffer(Buffer *buf)
 
     if (!buf->need_reshape)
 	return;
-    buf->need_reshape = FALSE;
+    buf->need_reshape = false;
     buf->width = INIT_BUFFER_WIDTH;
     if (buf->sourcefile == NULL)
 	return;
@@ -527,17 +527,17 @@ reshapeBuffer(Buffer *buf)
 	    init_stream(&h, SCM_LOCAL, NULL);
 	    examineFile(buf->header_source, &h);
 	    if (h.stream) {
-		readHeader(&h, buf, TRUE, NULL);
+		readHeader(&h, buf, true, NULL);
 		UFclose(&h);
 	    }
 	}
 	else if (buf->search_header)	/* -m option */
-	    readHeader(&f, buf, TRUE, NULL);
+	    readHeader(&f, buf, true, NULL);
     }
 
 #ifdef USE_M17N
     WcOption.auto_detect = WC_OPT_DETECT_OFF;
-    UseContentCharset = FALSE;
+    UseContentCharset = false;
 #endif
     if (is_html_type(buf->type))
 	loadHTMLBuffer(&f, buf);
@@ -546,7 +546,7 @@ reshapeBuffer(Buffer *buf)
     UFclose(&f);
 #ifdef USE_M17N
     WcOption.auto_detect = old_auto_detect;
-    UseContentCharset = TRUE;
+    UseContentCharset = true;
 #endif
 
     buf->height = LASTLINE + 1;
@@ -564,7 +564,7 @@ reshapeBuffer(Buffer *buf)
 	n = (buf->currentLine->linenumber - buf->topLine->linenumber)
 	    - (cur->linenumber - sbuf.topLine->linenumber);
 	if (n) {
-	    buf->topLine = lineSkip(buf, buf->topLine, n, FALSE);
+	    buf->topLine = lineSkip(buf, buf->topLine, n, false);
 	    if (cur->real_linenumber > 0)
 		gotoRealLine(buf, cur->real_linenumber);
 	    else
