@@ -701,7 +701,7 @@ extern void initMouseAction(void);
 
 #ifdef USE_MENU
 extern void new_menu(Menu *menu, MenuItem *item);
-extern void geom_menu(Menu *menu, int x, int y, int mselect);
+extern void geom_menu(Menu *menu, int mselect);
 extern void draw_all_menu(Menu *menu);
 extern void draw_menu(Menu *menu);
 extern void draw_menu_item(Menu *menu, int mselect);
