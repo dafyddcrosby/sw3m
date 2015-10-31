@@ -1557,7 +1557,7 @@ check_minimum0(struct table *t, int min)
 }
 
 static int
-setwidth0(struct table *t, struct table_mode *mode)
+setwidth0(struct table *t)
 {
     int w;
     int width = t->tabcontentssize;
@@ -1585,7 +1585,7 @@ setwidth0(struct table *t, struct table_mode *mode)
 static void
 setwidth(struct table *t, struct table_mode *mode)
 {
-    int width = setwidth0(t, mode);
+    int width = setwidth0(t);
     if (width < 0)
 	return;
 #ifdef NOWRAP
@@ -2495,7 +2495,7 @@ feed_table_tag(struct table *tbl, char *line, struct table_mode *mode,
 		    tbl->fixed_width[tbl->col] = w;
 	    }
 #endif
-	    setwidth0(tbl, mode);
+	    setwidth0(tbl);
 	    clearcontentssize(tbl, mode);
 	}
 	break;
