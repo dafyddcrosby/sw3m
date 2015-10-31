@@ -710,7 +710,7 @@ do_refill(struct table *tbl, int row, int col, int maxlimit)
     if (h_env.limit > maxlimit)
 	h_env.limit = maxlimit;
     if (tbl->border_mode != BORDER_NONE && tbl->vcellpadding > 0)
-	do_blankline(&h_env, &obuf, 0, 0, h_env.limit);
+	do_blankline(&h_env, &obuf, 0, h_env.limit);
     for (l = orgdata->first; l != NULL; l = l->next) {
 	if (TAG_IS(l->ptr, "<table_alt", 10)) {
 	    int id = -1;
@@ -727,7 +727,7 @@ do_refill(struct table *tbl, int row, int col, int maxlimit)
 		save_fonteffect(&h_env, h_env.obuf);
 		flushline(&h_env, &obuf, 0, 2, h_env.limit);
 		if (t->vspace > 0 && !(obuf.flag & RB_IGNORE_P))
-		    do_blankline(&h_env, &obuf, 0, 0, h_env.limit);
+		    do_blankline(&h_env, &obuf, 0, h_env.limit);
 		if (RB_GET_ALIGN(h_env.obuf) == RB_CENTER)
 		    alignment = ALIGN_CENTER;
 		else if (RB_GET_ALIGN(h_env.obuf) == RB_RIGHT)
@@ -747,7 +747,7 @@ do_refill(struct table *tbl, int row, int col, int maxlimit)
 		obuf.flag &= ~RB_IGNORE_P;
 		h_env.blank_lines = 0;
 		if (t->vspace > 0) {
-		    do_blankline(&h_env, &obuf, 0, 0, h_env.limit);
+		    do_blankline(&h_env, &obuf, 0, h_env.limit);
 		    obuf.flag |= RB_IGNORE_P;
 		}
 	    }
@@ -765,7 +765,7 @@ do_refill(struct table *tbl, int row, int col, int maxlimit)
 	int rowspan = table_rowspan(tbl, row, col);
 	if (row + rowspan <= tbl->maxrow) {
 	    if (tbl->vcellpadding > 0 && !(obuf.flag & RB_IGNORE_P))
-		do_blankline(&h_env, &obuf, 0, 0, h_env.limit);
+		do_blankline(&h_env, &obuf, 0, h_env.limit);
 	}
 	else {
 	    if (tbl->vspace > 0)
@@ -775,7 +775,7 @@ do_refill(struct table *tbl, int row, int col, int maxlimit)
     else {
 	if (tbl->vcellpadding > 0) {
 	    if (!(obuf.flag & RB_IGNORE_P))
-		do_blankline(&h_env, &obuf, 0, 0, h_env.limit);
+		do_blankline(&h_env, &obuf, 0, h_env.limit);
 	}
 	else
 	    purgeline(&h_env);

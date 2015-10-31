@@ -184,7 +184,7 @@ extern void push_render_image(Str str, int width, int limit,
 extern void flushline(struct html_feed_environ *h_env, struct readbuffer *obuf,
 		      int indent, int force, int width);
 extern void do_blankline(struct html_feed_environ *h_env,
-			 struct readbuffer *obuf, int indent, int indent_incr,
+			 struct readbuffer *obuf, int indent,
 			 int width);
 extern void purgeline(struct html_feed_environ *h_env);
 extern void save_fonteffect(struct html_feed_environ *h_env,
