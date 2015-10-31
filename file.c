@@ -3103,7 +3103,7 @@ process_title()
 }
 
 static Str
-process_n_title(struct parsed_tag *tag)
+process_n_title()
 {
     Str tmp;
 
@@ -4544,7 +4544,7 @@ HTMLtagproc1(struct parsed_tag *tag, struct html_feed_environ *h_env)
 	    return 1;
 	obuf->flag &= ~RB_TITLE;
 	obuf->end_tag = 0;
-	tmp = process_n_title(tag);
+	tmp = process_n_title();
 	if (tmp)
 	    HTMLlineproc1(tmp->ptr, h_env);
 	return 1;
