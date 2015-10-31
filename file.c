@@ -8178,8 +8178,7 @@ uncompress_stream(URLFile *uf, char **src)
 	    if (tmpf)
 		f = fopen(tmpf, "wb");
 	    while (UFread(uf, buf, SAVE_BUF_SIZE)) {
-		if (Strfputs(buf, stdout) < 0)
-		    break;
+		Strfputs(buf, stdout);
 		if (f)
 		    Strfputs(buf, f);
 	    }
