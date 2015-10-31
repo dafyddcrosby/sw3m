@@ -3096,7 +3096,7 @@ restore_fonteffect(struct html_feed_environ *h_env, struct readbuffer *obuf)
 }
 
 static Str
-process_title(struct parsed_tag *tag)
+process_title()
 {
     cur_title = Strnew();
     return NULL;
@@ -4535,7 +4535,7 @@ HTMLtagproc1(struct parsed_tag *tag, struct html_feed_environ *h_env)
 	return 1;
     case HTML_TITLE:
 	close_anchor(h_env, obuf);
-	process_title(tag);
+	process_title();
 	obuf->flag |= RB_TITLE;
 	obuf->end_tag = HTML_N_TITLE;
 	return 1;
