@@ -49,3 +49,4 @@ entity.h
 libindep.a
 libwc/libwc.a
 w3mimg/w3mimg.a
+autom4te.cache
