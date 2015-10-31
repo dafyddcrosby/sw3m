@@ -974,8 +974,7 @@ add_auth_user_passwd(ParsedURL *pu, char *realm, Str uname, Str pwd,
 }
 
 void
-invalidate_auth_user_passwd(ParsedURL *pu, char *realm, Str uname, Str pwd,
-			    int is_proxy)
+invalidate_auth_user_passwd(ParsedURL *pu, char *realm, int is_proxy)
 {
     struct auth_pass *ent;
     ent = find_auth_pass_entry(pu->host, pu->port, realm, NULL, is_proxy);

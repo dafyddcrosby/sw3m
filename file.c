@@ -1549,7 +1549,7 @@ getAuthCookie(struct http_auth *hauth, char *auth_header,
 	sleep(1);
 	/* delete Authenticate: header from extra_header */
 	delText(extra_header, i);
-	invalidate_auth_user_passwd(pu, realm, *uname, *pwd, proxy);
+	invalidate_auth_user_passwd(pu, realm, proxy);
     }
     *uname = NULL;
     *pwd = NULL;

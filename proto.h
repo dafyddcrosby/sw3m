@@ -600,7 +600,7 @@ extern int find_auth_user_passwd(ParsedURL *pu, char *realm,
 extern void add_auth_user_passwd(ParsedURL *pu, char *realm,
 				 Str uname, Str pwd, int is_proxy);
 extern void invalidate_auth_user_passwd(ParsedURL *pu, char *realm,
-					Str uname, Str pwd, int is_proxy);
+					int is_proxy);
 extern char *last_modified(Buffer *buf);
 extern Str romanNumeral(int n);
 extern Str romanAlphabet(int n);
